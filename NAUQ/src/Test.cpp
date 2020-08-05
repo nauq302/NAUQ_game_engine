@@ -4,7 +4,7 @@
 
 #include "NAUQ/Test.hpp"
 
-#include <iostream>
+
 
 namespace nauq {
     void print()

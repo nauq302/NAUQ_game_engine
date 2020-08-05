@@ -16,3 +16,9 @@ target_include_directories(
         PRIVATE
         ${NAUQ_INCLUDE_DIR}
 )
+
+target_precompile_headers(
+        ${NAUQ_LIB}
+        PRIVATE
+        [["NAUQ/nauq_pch.hpp"]]
+)
