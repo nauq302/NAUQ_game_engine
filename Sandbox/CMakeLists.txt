@@ -4,7 +4,7 @@ project(NAUQ_game_engine_Sandbox)
 
 
 
-add_executable(demo main.cpp)
+add_executable(demo SandboxApp.cpp)
 target_include_directories(demo PRIVATE ${NAUQ_INCLUDE_DIR})
 target_link_directories(demo PRIVATE ${NAUQ_LIB_DIR})
 target_link_libraries(demo PRIVATE ${NAUQ_LIB})
