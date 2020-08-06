@@ -8,6 +8,10 @@
 
 int main(int argc, const char* argv[])
 {
+    nauq::Log::init();
+    NAUQ_CORE_INFO("Initialized Log!");
+    NAUQ_INFO("Initialized Log!");
+
     auto* app = nauq::createApp();
 
     app->run();

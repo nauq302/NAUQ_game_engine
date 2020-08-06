@@ -5,11 +5,12 @@
 #ifndef NAUQ_GAME_ENGINE_NAUQ_HPP
 #define NAUQ_GAME_ENGINE_NAUQ_HPP
 
-#include "NAUQ/Core.hpp"
-#include "NAUQ/Application.hpp"
+#include "nauq/Core.hpp"
+#include "nauq/Application.hpp"
+#include "nauq/Log.hpp"
 
 /*-------- Entry point ----------*/
-#include "NAUQ/EntryPoint.hpp"
+#include "nauq/EntryPoint.hpp"
 /*-------------------------------*/
 
 #endif //NAUQ_GAME_ENGINE_NAUQ_HPP

@@ -5,11 +5,15 @@ set(NAUQ_LIB nauq CACHE INTERNAL "Name of NAUQ library file")
 set(NAUQ_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include CACHE INTERNAL "Directory of NAUQ header files")
 set(NAUQ_LIB_DIR ${PROJECT_BINARY_DIR} CACHE INTERNAL "Directory of NAUQ library files")
 
+find_package(spdlog CONFIG REQUIRED)
+find_package(glfw3 CONFIG REQUIRED)
+
 add_library(
         ${NAUQ_LIB}
         SHARED
         src/Application.cpp
-        include/nauq.hpp include/NAUQ/EntryPoint.hpp)
+        src/Log.cpp
+)
 
 target_include_directories(
         ${NAUQ_LIB}
@@ -17,10 +21,18 @@ target_include_directories(
         ${NAUQ_INCLUDE_DIR}
 )
 
+target_link_libraries(
+        ${NAUQ_LIB}
+        PRIVATE
+        spdlog::spdlog
+        spdlog::spdlog_header_only
+        glfw
+)
+
 target_precompile_headers(
         ${NAUQ_LIB}
         PRIVATE
-        [["NAUQ/nauq_pch.hpp"]]
+        [["nauq/nauq_pch.hpp"]]
 )
 
 if (MSVC)

@@ -6,5 +6,8 @@
 #define NAUQ_GAME_ENGINE_NAUQ_PCH_HPP
 
 #include <iostream>
+#include <memory>
+
+
 
 #endif //NAUQ_GAME_ENGINE_NAUQ_PCH_HPP

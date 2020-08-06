@@ -2,7 +2,7 @@
 // Created by nauq302 on 05/08/2020.
 //
 
-#include "NAUQ/Application.hpp"
+#include "nauq/Application.hpp"
 
 namespace nauq {
 
