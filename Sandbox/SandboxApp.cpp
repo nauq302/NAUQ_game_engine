@@ -1,6 +1,9 @@
+
+#include <sstream>
 #include <nauq.hpp>
 
 #include <iostream>
+
 
 
 class Sandbox :

@@ -7,7 +7,9 @@
 
 #include <iostream>
 #include <memory>
-
+#include <string>
+#include <sstream>
+#include <functional>
 
 
 #endif //NAUQ_GAME_ENGINE_NAUQ_PCH_HPP

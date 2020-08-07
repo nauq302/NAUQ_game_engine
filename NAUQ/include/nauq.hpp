@@ -8,6 +8,10 @@
 #include "nauq/Core.hpp"
 #include "nauq/Application.hpp"
 #include "nauq/Log.hpp"
+#include "nauq/events/Event.hpp"
+#include "nauq/events/ApplicationEvent.hpp"
+#include "nauq/events/KeyEvent.hpp"
+#include "nauq/events/MouseEvent.hpp"
 
 /*-------- Entry point ----------*/
 #include "nauq/EntryPoint.hpp"

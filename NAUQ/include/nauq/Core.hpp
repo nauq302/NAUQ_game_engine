@@ -12,7 +12,11 @@
         #define NAUQ_API __declspec(dllimport)
     #endif
 
-#endif
+#else
     #define NAUQ_API
+#endif
+
+
+#define BIT(v) (1u << (v))
 
 #endif //NAUQ_GAME_ENGINE_CORE_HPP
