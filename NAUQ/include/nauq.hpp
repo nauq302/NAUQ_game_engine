@@ -12,6 +12,7 @@
 #include "nauq/events/ApplicationEvent.hpp"
 #include "nauq/events/KeyEvent.hpp"
 #include "nauq/events/MouseEvent.hpp"
+#include "nauq/Window.hpp"
 
 /*-------- Entry point ----------*/
 #include "nauq/EntryPoint.hpp"

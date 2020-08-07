@@ -3,19 +3,22 @@
 //
 
 #include "nauq/Application.hpp"
-#include "nauq/events/ApplicationEvent.hpp"
 #include "nauq/Log.hpp"
+
+#include <GLFW/glfw3.h>
 
 namespace nauq {
 
-    Application::Application() = default;
+    Application::Application() : window(Window::create()), running(true) {}
 
     Application::~Application() = default;
 
     void Application::run()
     {
-        WindowResizeEvent e(1280, 720);
-        NAUQ_TRACE(e.toString());
-        while (true);
+        while (running) {
+            glClearColor(1, 0, 1, 1);
+            glClear(GL_COLOR_BUFFER_BIT);
+            window->onUpdate();
+        }
     }
 }

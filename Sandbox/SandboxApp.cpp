@@ -1,10 +1,6 @@
 
-#include <sstream>
+
 #include <nauq.hpp>
-
-#include <iostream>
-
-
 
 class Sandbox :
         public nauq::Application

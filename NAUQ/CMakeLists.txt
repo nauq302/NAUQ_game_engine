@@ -9,11 +9,16 @@ find_package(spdlog CONFIG REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 
+set(WINDOW_SOURCE $<IF:$<CXX_COMPILER_ID:MSVC>,Windows_Window.cpp,Linux_Window.cpp>)
+
+message(STATUS ${WINDOW_SOURCE})
+
 add_library(
         ${NAUQ_LIB}
         SHARED
         src/Application.cpp
         src/Log.cpp
+        src/platform/${WINDOW_SOURCE}
 )
 
 target_include_directories(
@@ -27,6 +32,7 @@ target_link_libraries(
         PRIVATE
         spdlog::spdlog
         spdlog::spdlog_header_only
+        GL
         glfw
         glm
 )

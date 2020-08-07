@@ -6,11 +6,16 @@
 #define NAUQ_GAME_ENGINE_APPLICATION_HPP
 
 #include "Core.hpp"
+#include "Window.hpp"
 
 namespace nauq {
 
     class NAUQ_API Application
     {
+    private:
+        std::unique_ptr<Window> window;
+        bool running;
+
     public:
         explicit Application();
         virtual ~Application();

@@ -7,7 +7,10 @@
 
 #include <iostream>
 #include <memory>
+
 #include <string>
+#include <tuple>
+
 #include <sstream>
 #include <functional>
 
