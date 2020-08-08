@@ -25,4 +25,14 @@
     #define NAUQ_CORE_ASSERT(x,...)
 #endif
 
+namespace nauq {
+    /**
+     *
+     * @param c
+     * @return
+     */
+    constexpr unsigned char bit(unsigned char index) { return 1u << index; }
+}
+
+
 #endif //NAUQ_GAME_ENGINE_CORE_HPP

@@ -9,6 +9,9 @@
 
 namespace nauq {
 
+    /**
+     *
+     */
     class NAUQ_API KeyEvent :
             public Event
     {
@@ -23,7 +26,9 @@ namespace nauq {
         EVENT_CLASS_CATEGORY(EVENT_CATEGORY_KEYBOARD | EVENT_CATEGORY_INPUT)
     };
 
-
+    /**
+     *
+     */
     class NAUQ_API KeyPressEvent :
             public KeyEvent
     {
@@ -44,10 +49,12 @@ namespace nauq {
         EVENT_CLASS_TYPE(KEY_PRESS)
     };
 
+    /**
+     *
+     */
     class NAUQ_API KeyReleaseEvent :
             public KeyEvent
     {
-
     public:
         explicit KeyReleaseEvent(int keycode) : KeyEvent(keycode) {}
 

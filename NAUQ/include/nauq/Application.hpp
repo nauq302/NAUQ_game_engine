@@ -7,9 +7,13 @@
 
 #include "Core.hpp"
 #include "Window.hpp"
+#include "events/ApplicationEvent.hpp"
 
 namespace nauq {
 
+    /**
+     *
+     */
     class NAUQ_API Application
     {
     private:
@@ -22,7 +26,10 @@ namespace nauq {
 
     public:
         virtual void run();
+        void onEvent(Event& event);
 
+    private:
+        bool onWindowClosed(WindowCloseEvent& event);
     };
 
     Application* createApp();

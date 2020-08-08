@@ -14,5 +14,11 @@
 #include <sstream>
 #include <functional>
 
+#if __GNUC__
+
+#elif __MSC_VER
+    #include <windows.h>
+#endif
+
 
 #endif //NAUQ_GAME_ENGINE_NAUQ_PCH_HPP

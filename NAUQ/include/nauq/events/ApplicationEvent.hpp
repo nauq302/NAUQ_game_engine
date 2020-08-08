@@ -10,6 +10,9 @@
 
 namespace nauq {
 
+    /**
+     *
+     */
     class NAUQ_API WindowResizeEvent :
             public Event
     {
@@ -34,20 +37,23 @@ namespace nauq {
         EVENT_CLASS_CATEGORY(EVENT_CATEGORY_APPLICATION)
     };
 
+    /**
+     *
+     */
     class NAUQ_API WindowCloseEvent :
             public Event
     {
-    private:
-        unsigned int width, height;
-
     public:
-        explicit inline WindowCloseEvent(unsigned width, unsigned height) : width(width), height(height) {}
+        explicit inline WindowCloseEvent() = default;
 
     public:
         EVENT_CLASS_TYPE(WINDOW_CLOSE)
         EVENT_CLASS_CATEGORY(EVENT_CATEGORY_APPLICATION)
     };
 
+    /**
+     *
+     */
     class NAUQ_API AppTickEvent :
             public Event
     {
@@ -59,6 +65,9 @@ namespace nauq {
         EVENT_CLASS_CATEGORY(EVENT_CATEGORY_APPLICATION)
     };
 
+    /**
+     *
+     */
     class NAUQ_API AppUpdateEvent :
             public Event
     {
@@ -70,6 +79,9 @@ namespace nauq {
         EVENT_CLASS_CATEGORY(EVENT_CATEGORY_APPLICATION)
     };
 
+    /**
+     *
+     */
     class NAUQ_API AppRenderEvent :
             public Event
     {

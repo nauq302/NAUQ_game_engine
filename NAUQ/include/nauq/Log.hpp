@@ -12,6 +12,9 @@
 
 namespace nauq {
 
+    /**
+     *
+     */
     class NAUQ_API Log
     {
     private:

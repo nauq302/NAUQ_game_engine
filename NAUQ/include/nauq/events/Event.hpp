@@ -6,15 +6,9 @@
 #define NAUQ_GAME_ENGINE_EVENT_HPP
 
 #include "../Core.hpp"
+#include "../Log.hpp"
 
 namespace nauq {
-
-    /**
-     *
-     * @param c
-     * @return
-     */
-    constexpr unsigned char bit(unsigned char c) { return 1u << c; }
 
     /**
      *
@@ -42,11 +36,17 @@ namespace nauq {
     };
 
 
+    /**
+     *
+     */
 #define EVENT_CLASS_TYPE(type) \
     static inline EventType getStaticType() { return EventType::type; } \
-    inline EventType getEventType() const override { return getEventType(); } \
+    inline EventType getEventType() const override { return getStaticType(); } \
     inline const char* getName() const override { return #type; }
 
+    /**
+     *
+     */
 #define EVENT_CLASS_CATEGORY(category) \
     virtual inline unsigned int getCategoryFlag() const override { return category; }
 
@@ -68,6 +68,8 @@ namespace nauq {
         [[nodiscard]] virtual std::string toString() const { return getName(); }
         [[nodiscard]] inline bool isInCategory(EventCategory category) const { return category & getCategoryFlag(); }
     };
+
+    inline std::ostream& operator <<(std::ostream& os, const Event& e) { return os << e.toString(); }
 
     /**
      *

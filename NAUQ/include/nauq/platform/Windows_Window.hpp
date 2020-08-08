@@ -5,11 +5,15 @@
 #ifndef NAUQ_GAME_ENGINE_WINDOWS_WINDOW_HPP
 #define NAUQ_GAME_ENGINE_WINDOWS_WINDOW_HPP
 
+#include "../Window.hpp"
 
-class Windows_Window
-{
+namespace nauq {
+    class Windows_Window
+    {
 
-};
+    };
+}
+
 
 
 #endif //NAUQ_GAME_ENGINE_WINDOWS_WINDOW_HPP

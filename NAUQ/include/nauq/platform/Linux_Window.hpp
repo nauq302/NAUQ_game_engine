@@ -10,17 +10,27 @@
 #include <GLFW/glfw3.h>
 
 namespace nauq {
+
+    /**
+     * @class Linux_Window
+     *
+     * @inherit Window
+     *
+     * @brief Window object for Linux Platform
+     */
     class Linux_Window :
             public Window
     {
     private:
-        GLFWwindow* window = nullptr;
         struct WindowData {
             std::string title;
             unsigned width, height;
             bool vSync;
-            EventCallbackFn eventCallbackFn;
-        } data;
+            EventCallbackFn eventCallback;
+        };
+
+        GLFWwindow* window;
+        WindowData data;
 
     public:
         explicit Linux_Window(const WindowProps& props);
@@ -31,7 +41,7 @@ namespace nauq {
         [[nodiscard]] inline unsigned int getWidth() const override { return data.width; }
         [[nodiscard]] inline unsigned int getHeight() const override { return data.height; }
 
-        inline void setEventCallback(const EventCallbackFn& callback) override { data.eventCallbackFn = callback; }
+        inline void setEventCallback(const EventCallbackFn& callback) override { data.eventCallback = callback; }
         void setVSync(bool enable) override;
         [[nodiscard]] bool isVSync() const override;
 
