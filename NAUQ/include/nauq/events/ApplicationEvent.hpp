@@ -8,6 +8,8 @@
 #include "../Core.hpp"
 #include "Event.hpp"
 
+#include <sstream>
+
 namespace nauq {
 
     /**

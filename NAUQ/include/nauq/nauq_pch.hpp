@@ -10,9 +10,15 @@
 
 #include <string>
 #include <tuple>
+#include <list>
 
 #include <sstream>
 #include <functional>
+
+#include <spdlog/spdlog.h>
+#include <spdlog/sinks/stdout_color_sinks.h>
+
+#include <GLFW/glfw3.h>
 
 #if __GNUC__
 

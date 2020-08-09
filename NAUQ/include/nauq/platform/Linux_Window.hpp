@@ -47,8 +47,9 @@ namespace nauq {
 
     private:
         void init(const WindowProps& props);
-        virtual void shutdown();
+        void shutdown();
     };
+
 
 }
 

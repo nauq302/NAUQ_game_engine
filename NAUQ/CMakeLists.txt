@@ -9,9 +9,8 @@ find_package(spdlog CONFIG REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 
-set(WINDOW_SOURCE $<IF:$<CXX_COMPILER_ID:MSVC>,Windows_Window.cpp,Linux_Window.cpp>)
 
-message(STATUS ${WINDOW_SOURCE})
+set(WINDOW_SOURCE $<IF:${UNIX},Linux_Window.cpp,Windows_Window.cpp>)
 
 add_library(
         ${NAUQ_LIB}
@@ -19,6 +18,8 @@ add_library(
         src/Application.cpp
         src/Log.cpp
         src/platform/${WINDOW_SOURCE}
+        src/Layer.cpp
+        src/LayerStack.cpp
 )
 
 target_include_directories(

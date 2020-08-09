@@ -5,9 +5,11 @@
 
 #include "nauq/Log.hpp"
 
-
-#include <spdlog/sinks/stdout_color_sinks.h>
 namespace nauq {
+
+    /**
+     *
+     */
     std::shared_ptr<spdlog::logger> Log::coreLogger;
     std::shared_ptr<spdlog::logger> Log::clientLogger;
 

@@ -11,28 +11,53 @@
 
 namespace nauq {
 
-    static bool glfwInitialized = false;
+    /**
+     *
+     */
+    static bool glfw_Initialized = false;
 
+    /**
+     *
+     * @param error
+     * @param description
+     */
     static void glfw_errorCallback(int error, const char* description)
     {
         NAUQ_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
     }
 
+    /**
+     *
+     * @param props
+     * @return
+     */
     Window* Window::create(const WindowProps& props)
     {
         return new Linux_Window(props);
     }
 
-    Linux_Window::Linux_Window(const nauq::WindowProps& props) : window(nullptr)
+    /**
+     *
+     * @param props
+     */
+    Linux_Window::Linux_Window(const nauq::WindowProps& props) :
+        window(nullptr)
     {
         init(props);
     }
 
+    /**
+     *
+     */
     Linux_Window::~Linux_Window()
     {
         shutdown();
     }
 
+    /**
+     *
+     * @param props
+     */
     void Linux_Window::init(const WindowProps& props)
     {
         data.title = props.title;
@@ -41,24 +66,32 @@ namespace nauq {
 
         NAUQ_CORE_INFO("Create window {0} ({1}, {2})", props.title, props.width, props.height);
 
-        if (!glfwInitialized) {
+        if (!glfw_Initialized) {
             // TODO: glfwTerminate on system shutdown
             int success = glfwInit();
             NAUQ_CORE_ASSERT(success, "Could not initialize GLFW");
 
             glfwSetErrorCallback(glfw_errorCallback);
 
-            glfwInitialized = true;
+            glfw_Initialized = true;
         }
 
-        window = glfwCreateWindow(static_cast<int>(data.width), static_cast<int>(data.height), data.title.c_str(), nullptr, nullptr);
+        /// Create a window
+        window = glfwCreateWindow(
+                static_cast<int>(data.width),
+                static_cast<int>(data.height),
+                data.title.c_str(),
+                nullptr,
+                nullptr
+        );
+
         glfwMakeContextCurrent(window);
         glfwSetWindowUserPointer(window, &data);
         setVSync(true);
 
-        /*-------------------------- Set GLFW callbacks -------------------------------*/
+        ///-------------------------- Set GLFW callbacks -----------------------------///
 
-        // Set Window Resize callback
+        /// Set Window Resize callback
         glfwSetWindowSizeCallback(window, [](GLFWwindow* wd, int width, int height) {
             WindowData& dat = *static_cast<WindowData*>(glfwGetWindowUserPointer(wd));
             dat.width = width;
@@ -68,7 +101,7 @@ namespace nauq {
             dat.eventCallback(event);
         });
 
-        // Set Window Close callback
+        /// Set Window Close callback
         glfwSetWindowCloseCallback(window, [](GLFWwindow* wd) {
             WindowData& dat = *static_cast<WindowData*>(glfwGetWindowUserPointer(wd));
 
@@ -76,7 +109,7 @@ namespace nauq {
             dat.eventCallback(event);
         });
 
-        // Set Key callback
+        /// Set Key callback
         glfwSetKeyCallback(window, [](GLFWwindow* wd, int key, int scancode, int action, int mods) {
             WindowData& dat = *static_cast<WindowData*>(glfwGetWindowUserPointer(wd));
 
@@ -103,7 +136,7 @@ namespace nauq {
             }
         });
 
-        // Set Mouse Button Callback
+        /// Set Mouse Button Callback
         glfwSetMouseButtonCallback(window, [](GLFWwindow* wd, int button, int action, int mods) {
             WindowData& dat = *static_cast<WindowData*>(glfwGetWindowUserPointer(wd));
 
@@ -124,7 +157,7 @@ namespace nauq {
             }
         });
 
-        // Set Mouse Scroll Callback
+        /// Set Mouse Scroll Callback
         glfwSetScrollCallback(window, [](GLFWwindow* wd, double xOffset, double yOffset) {
             WindowData& dat = *static_cast<WindowData*>(glfwGetWindowUserPointer(wd));
 
@@ -132,6 +165,7 @@ namespace nauq {
             dat.eventCallback(event);
         });
 
+        /// Set Mouse Move Callback
         glfwSetCursorPosCallback(window, [](GLFWwindow* wd, double xPos, double yPos) {
             WindowData& dat = *static_cast<WindowData*>(glfwGetWindowUserPointer(wd));
 
@@ -140,12 +174,19 @@ namespace nauq {
         });
     }
 
+    /**
+     *
+     */
     void Linux_Window::onUpdate()
     {
         glfwPollEvents();
         glfwSwapBuffers(window);
     }
 
+    /**
+     *
+     * @param enable
+     */
     void Linux_Window::setVSync(bool enable)
     {
         if (enable) {
@@ -157,13 +198,18 @@ namespace nauq {
         data.vSync = enable;
     }
 
+    /**
+     *
+     * @return
+     */
     bool Linux_Window::isVSync() const
     {
         return data.vSync;
     }
 
-
-
+    /**
+     *
+     */
     void Linux_Window::shutdown()
     {
         glfwDestroyWindow(window);

@@ -5,7 +5,7 @@
 #include "nauq/Application.hpp"
 #include "nauq/Log.hpp"
 
-#include <GLFW/glfw3.h>
+
 
 namespace nauq {
 
@@ -34,6 +34,11 @@ namespace nauq {
         while (running) {
             glClearColor(1, 0, 1, 1);
             glClear(GL_COLOR_BUFFER_BIT);
+
+            for (Layer* layer : layerStack) {
+                layer->onUpdate();
+            }
+
             window->onUpdate();
         }
     }
@@ -48,7 +53,30 @@ namespace nauq {
 
         dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(onWindowClosed));
 
-        NAUQ_CORE_INFO("{0}", event.toString());
+        for (auto rit = layerStack.rbegin(); rit != layerStack.rend(); ++rit) {
+            (*rit)->onEvent(event);
+            if (event.isHandled()) {
+                break;
+            }
+        }
+    }
+
+    /**
+     *
+     * @param layer
+     */
+    void Application::pushLayer(Layer* layer)
+    {
+        layerStack.pushLayer(layer);
+    }
+
+    /**
+     *
+     * @param layer
+     */
+    void Application::pushOverlay(Layer* layer)
+    {
+        layerStack.popOverlay(layer);
     }
 
     /**
@@ -61,4 +89,8 @@ namespace nauq {
         running = false;
         return true;
     }
+
+
+
+
 }
