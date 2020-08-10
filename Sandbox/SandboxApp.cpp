@@ -31,6 +31,7 @@ public:
     explicit Sandbox()
     {
         pushLayer(new ExampleLayer);
+        pushOverlay(new nauq::ImGuiLayer);
     }
     ~Sandbox() override = default;
 };

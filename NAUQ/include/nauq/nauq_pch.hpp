@@ -18,7 +18,11 @@
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
+
+#include <imgui.h>
+
 
 #if __GNUC__
 

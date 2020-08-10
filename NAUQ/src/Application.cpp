@@ -5,11 +5,7 @@
 #include "nauq/Application.hpp"
 #include "nauq/Log.hpp"
 
-
-
 namespace nauq {
-
-#define BIND_EVENT_FN(fn) std::bind_front(&Application::fn, this)
 
     /**
      *
@@ -18,7 +14,9 @@ namespace nauq {
         window(Window::create()),
         running(true)
     {
-        window->setEventCallback(BIND_EVENT_FN(onEvent));
+        NAUQ_CORE_ASSERT(instance == nullptr, "Application already exists");
+        instance = this;
+        window->setEventCallback(NAUQ_BIND_EVENT_FN(Application::onEvent));
     }
 
     /**
@@ -51,7 +49,7 @@ namespace nauq {
     {
         EventDispatcher dispatcher(event);
 
-        dispatcher.dispatch<WindowCloseEvent>(BIND_EVENT_FN(onWindowClosed));
+        dispatcher.dispatch<WindowCloseEvent>(NAUQ_BIND_EVENT_FN(Application::onWindowClosed));
 
         for (auto rit = layerStack.rbegin(); rit != layerStack.rend(); ++rit) {
             (*rit)->onEvent(event);
@@ -68,6 +66,7 @@ namespace nauq {
     void Application::pushLayer(Layer* layer)
     {
         layerStack.pushLayer(layer);
+        layer->onAttach();
     }
 
     /**
@@ -76,7 +75,8 @@ namespace nauq {
      */
     void Application::pushOverlay(Layer* layer)
     {
-        layerStack.popOverlay(layer);
+        layerStack.pushOverlay(layer);
+        layer->onAttach();
     }
 
     /**

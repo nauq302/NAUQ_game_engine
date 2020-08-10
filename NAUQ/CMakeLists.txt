@@ -5,9 +5,13 @@ set(NAUQ_LIB nauq CACHE INTERNAL "Name of NAUQ library file")
 set(NAUQ_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include CACHE INTERNAL "Directory of NAUQ header files")
 set(NAUQ_LIB_DIR ${PROJECT_BINARY_DIR} CACHE INTERNAL "Directory of NAUQ library files")
 
+set(DEPEDENCE_IMGUI ${PROJECT_SOURCE_DIR}/dependence/imgui)
+
 find_package(spdlog CONFIG REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
+find_package(glad)
+find_package(imgui CONFIG REQUIRED)
 
 
 set(WINDOW_SOURCE $<IF:${UNIX},Linux_Window.cpp,Windows_Window.cpp>)
@@ -20,12 +24,16 @@ add_library(
         src/platform/${WINDOW_SOURCE}
         src/Layer.cpp
         src/LayerStack.cpp
+        src/imGui/ImGuiLayer.cpp
+        dependence/imgui/imgui_impl_opengl3.cpp
+        dependence/imgui/imgui_impl_glfw.cpp
 )
 
 target_include_directories(
         ${NAUQ_LIB}
         PRIVATE
         ${NAUQ_INCLUDE_DIR}
+        ${DEPEDENCE_IMGUI}
 )
 
 target_link_libraries(
@@ -36,12 +44,21 @@ target_link_libraries(
         GL
         glfw
         glm
+        glad::glad
+        imgui::imgui
 )
 
 target_precompile_headers(
         ${NAUQ_LIB}
         PRIVATE
         [["nauq/nauq_pch.hpp"]]
+)
+
+target_compile_definitions(
+        ${NAUQ_LIB}
+        PUBLIC
+        NAUQ_ENABLE_ASSERTS
+        GLFW_INCLUDE_NONE
 )
 
 get_target_property(NAUQ_INCLUDE_DIR ${NAUQ_LIB} INCLUDE_DIRECTORIES)

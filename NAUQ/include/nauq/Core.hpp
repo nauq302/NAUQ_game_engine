@@ -25,6 +25,8 @@
     #define NAUQ_CORE_ASSERT(x,...)
 #endif
 
+#define NAUQ_BIND_EVENT_FN(fn) std::bind_front(&fn, this)
+
 namespace nauq {
     /**
      *

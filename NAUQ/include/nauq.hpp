@@ -18,6 +18,8 @@
 #include "nauq/Layer.hpp"
 #include "nauq/LayerStack.hpp"
 
+#include "nauq/imGui/ImGuiLayer.hpp"
+
 #include "nauq/Application.hpp"
 
 /*-------- Entry point ----------*/

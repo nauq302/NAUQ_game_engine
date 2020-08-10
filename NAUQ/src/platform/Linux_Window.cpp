@@ -86,6 +86,10 @@ namespace nauq {
         );
 
         glfwMakeContextCurrent(window);
+
+        int status = gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
+        NAUQ_CORE_ASSERT(status, "Failed to initialize Glad!");
+
         glfwSetWindowUserPointer(window, &data);
         setVSync(true);
 

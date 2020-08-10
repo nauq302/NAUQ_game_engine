@@ -19,6 +19,8 @@ namespace nauq {
     class NAUQ_API Application
     {
     private:
+        static inline Application* instance = nullptr;
+
         std::unique_ptr<Window> window;
         LayerStack layerStack;
         bool running;
@@ -28,11 +30,15 @@ namespace nauq {
         virtual ~Application();
 
     public:
+        static inline Application& get() { return *instance; }
+
         virtual void run();
         void onEvent(Event& event);
 
         void pushLayer(Layer* layer);
         void pushOverlay(Layer* layer);
+
+        inline Window& getWindow() { return *window; }
 
     private:
         bool onWindowClosed(WindowCloseEvent& event);

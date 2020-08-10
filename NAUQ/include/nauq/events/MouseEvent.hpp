@@ -6,7 +6,7 @@
 #define NAUQ_GAME_ENGINE_MOUSEEVENT_HPP
 
 #include "Event.hpp"
-#include <glm/vec2.hpp>
+#include "glm/vec2.hpp"
 
 namespace nauq {
 
