@@ -26,6 +26,7 @@ namespace nauq {
         EVENT_CLASS_CATEGORY(EVENT_CATEGORY_KEYBOARD | EVENT_CATEGORY_INPUT)
     };
 
+
     /**
      *
      */
@@ -49,6 +50,7 @@ namespace nauq {
         EVENT_CLASS_TYPE(KEY_PRESS)
     };
 
+
     /**
      *
      */
@@ -65,7 +67,29 @@ namespace nauq {
             ss << getName() << ": " << keycode;
             return ss.str();
         }
+
         EVENT_CLASS_TYPE(KEY_RELEASE)
+    };
+
+
+    /**
+     *
+     */
+    class NAUQ_API KeyTypeEvent :
+            public KeyEvent
+    {
+    public:
+        explicit KeyTypeEvent(int keycode) : KeyEvent(keycode) {}
+
+    public:
+        [[nodiscard]] std::string toString() const override
+        {
+            std::stringstream ss;
+            ss << getName() << ": " << keycode;
+            return ss.str();
+        }
+
+        EVENT_CLASS_TYPE(KEY_TYPE)
     };
 }
 
