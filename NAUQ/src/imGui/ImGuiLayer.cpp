@@ -12,22 +12,20 @@
 namespace nauq {
 
     ImGuiLayer::ImGuiLayer() :
-        Layer("ImGuiLayer")
+        Layer("ImGuiLayer"),
+        time(0.0f)
     {
 
     }
 
-    ImGuiLayer::~ImGuiLayer()
-    {
-
-    }
+    ImGuiLayer::~ImGuiLayer() = default;
 
     void ImGuiLayer::onAttach()
     {
         ImGui::CreateContext();
         ImGui::StyleColorsDark();
 
-        ImGuiIO& io = ImGui::GetIO();
+        ImGuiIO& io = getIO();
 
         io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
         io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
@@ -63,7 +61,7 @@ namespace nauq {
 
     void ImGuiLayer::onUpdate()
     {
-        ImGuiIO& io = ImGui::GetIO();
+        ImGuiIO& io = getIO();
 
         Application& app = Application::get();
         io.DisplaySize = ImVec2(
@@ -79,9 +77,6 @@ namespace nauq {
         ImGui::NewFrame();
 
 
-
-
-
         static bool show = true;
         ImGui::ShowDemoWindow(&show);
 
@@ -91,7 +86,91 @@ namespace nauq {
 
     void ImGuiLayer::onEvent(Event& event)
     {
+        EventDispatcher dispatcher(event);
+        dispatcher.dispatch<WindowResizeEvent>(NAUQ_BIND_EVENT_FN(ImGuiLayer::onWindowResize));
+        dispatcher.dispatch<MouseButtonPressEvent>(NAUQ_BIND_EVENT_FN(ImGuiLayer::onMouseButtonPress));
+        dispatcher.dispatch<MouseButtonReleaseEvent>(NAUQ_BIND_EVENT_FN(ImGuiLayer::onMouseButtonRelease));
+        dispatcher.dispatch<MouseMoveEvent>(NAUQ_BIND_EVENT_FN(ImGuiLayer::onMouseMove));
+        dispatcher.dispatch<MouseScrollEvent>(NAUQ_BIND_EVENT_FN(ImGuiLayer::onMouseScroll));
+        dispatcher.dispatch<KeyPressEvent>(NAUQ_BIND_EVENT_FN(ImGuiLayer::onKeyPress));
+        dispatcher.dispatch<KeyReleaseEvent>(NAUQ_BIND_EVENT_FN(ImGuiLayer::onKeyRelease));
+        dispatcher.dispatch<KeyTypeEvent>(NAUQ_BIND_EVENT_FN(ImGuiLayer::onKeyType));
 
+    }
+
+    bool ImGuiLayer::onMouseButtonPress(MouseButtonPressEvent& event)
+    {
+        getIO().MouseDown[event.getMouseButton()] = true;
+
+        return false;
+    }
+
+    bool ImGuiLayer::onMouseButtonRelease(MouseButtonReleaseEvent& event)
+    {
+        getIO().MouseDown[event.getMouseButton()] = false;
+
+        return false;
+    }
+
+    bool ImGuiLayer::onMouseMove(MouseMoveEvent& event)
+    {
+        getIO().MousePos = ImVec2(event.getX(), event.getY());
+        return false;
+    }
+
+    bool ImGuiLayer::onMouseScroll(MouseScrollEvent& event)
+    {
+        ImGuiIO& io = getIO();
+
+        io.MouseWheelH += event.getXOffset();
+        io.MouseWheel += event.getYOffset();
+
+        return false;
+    }
+
+    bool ImGuiLayer::onKeyPress(KeyPressEvent& event)
+    {
+        ImGuiIO& io = getIO();
+
+        io.KeysDown[event.getKeyCode()] = true;
+
+        io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL] || io.KeysDown[GLFW_KEY_RIGHT_CONTROL];
+        io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT] || io.KeysDown[GLFW_KEY_RIGHT_SHIFT];
+        io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT] || io.KeysDown[GLFW_KEY_RIGHT_ALT];
+        io.KeySuper = io.KeysDown[GLFW_KEY_LEFT_SUPER] || io.KeysDown[GLFW_KEY_RIGHT_SUPER];
+
+        return false;
+    }
+
+    bool ImGuiLayer::onKeyRelease(KeyReleaseEvent& event)
+    {
+        ImGuiIO& io = getIO();
+
+        io.KeysDown[event.getKeyCode()] = false;
+
+        return false;
+    }
+
+    bool ImGuiLayer::onKeyType(KeyTypeEvent& event)
+    {
+        int keycode = event.getKeyCode();
+
+        if (keycode > 0 && keycode < 0x10000) {
+            getIO().AddInputCharacter(static_cast<unsigned short>(keycode));
+        }
+
+        return false;
+    }
+
+    bool ImGuiLayer::onWindowResize(WindowResizeEvent& event)
+    {
+        ImGuiIO& io = getIO();
+
+        io.DisplaySize = ImVec2(static_cast<float>(event.getWidth()), static_cast<float>(event.getHeight()));
+        io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
+        glViewport(0, 0, event.getWidth(), event.getHeight());
+
+        return false;
     }
 
 

@@ -2,4 +2,7 @@
 My version of Cherno's game engine
 
 - Dependency:
-    + spdlog: Logging library. Use for logging.
+    + Spdlog: Logging library. Use for logging.
+    + GLFW: Multi-platform library for OpenGL, OpenGL ES, ... Use for create Window and event handling.
+    + GLAD.
+    + ImGui: Use for Graphical User Interface

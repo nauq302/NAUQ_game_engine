@@ -140,6 +140,14 @@ namespace nauq {
             }
         });
 
+        /// Set Key Type Callback
+        glfwSetCharCallback(window, [](GLFWwindow* wd, unsigned int inputChar) {
+            WindowData& dat = *static_cast<WindowData*>(glfwGetWindowUserPointer(wd));
+
+            KeyTypeEvent event(static_cast<int>(inputChar));
+            dat.eventCallback(event);
+        });
+
         /// Set Mouse Button Callback
         glfwSetMouseButtonCallback(window, [](GLFWwindow* wd, int button, int action, int mods) {
             WindowData& dat = *static_cast<WindowData*>(glfwGetWindowUserPointer(wd));
