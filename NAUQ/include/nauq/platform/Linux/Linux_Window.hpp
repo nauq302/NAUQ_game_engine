@@ -41,6 +41,8 @@ namespace nauq {
         [[nodiscard]] inline unsigned int getWidth() const override { return data.width; }
         [[nodiscard]] inline unsigned int getHeight() const override { return data.height; }
 
+        [[nodiscard]] inline void* getNativeWindow() const override { return window; }
+
         inline void setEventCallback(const EventCallbackFn& callback) override { data.eventCallback = callback; }
         void setVSync(bool enable) override;
         [[nodiscard]] bool isVSync() const override;

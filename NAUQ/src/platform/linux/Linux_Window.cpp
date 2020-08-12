@@ -2,7 +2,7 @@
 // Created by nauq302 on 07/08/2020.
 //
 
-#include "nauq/platform/Linux_Window.hpp"
+#include "nauq/platform/Linux/Linux_Window.hpp"
 
 #include "nauq/Log.hpp"
 #include "nauq/events/ApplicationEvent.hpp"
@@ -226,5 +226,6 @@ namespace nauq {
     {
         glfwDestroyWindow(window);
     }
+
 }
 

@@ -5,6 +5,8 @@
 #include "nauq/Application.hpp"
 #include "nauq/Log.hpp"
 
+#include "nauq/Input.hpp"
+
 namespace nauq {
 
     /**
@@ -36,6 +38,9 @@ namespace nauq {
             for (Layer* layer : layerStack) {
                 layer->onUpdate();
             }
+
+            glm::vec2 mousePos = Input::getMousePosition();
+            NAUQ_CORE_TRACE("{0}, {1}", mousePos.x, mousePos.y);
 
             window->onUpdate();
         }

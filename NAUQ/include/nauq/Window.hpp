@@ -39,6 +39,8 @@ namespace nauq {
         [[nodiscard]] virtual unsigned int getWidth() const = 0;
         [[nodiscard]] virtual unsigned int getHeight() const = 0;
 
+        [[nodiscard]] virtual void* getNativeWindow() const = 0;
+
         // Window attribute
         virtual void setEventCallback(const EventCallbackFn& callback) = 0;
         virtual void setVSync(bool enable) = 0;
