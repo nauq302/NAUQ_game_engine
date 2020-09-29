@@ -17,7 +17,6 @@ public:
 
     void onEvent(nauq::Event& event) override
     {
-        NAUQ_TRACE("{0}", event.toString());
     }
 };
 

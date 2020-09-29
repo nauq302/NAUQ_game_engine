@@ -16,7 +16,7 @@ namespace nauq {
      *
      * @inherit Window
      *
-     * @brief Window object for Linux Platform
+     * @brief Window object for glfw3 Platform
      */
     class Linux_Window :
             public Window

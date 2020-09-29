@@ -18,8 +18,8 @@ add_library(
         SHARED
         Application.cpp
         Log.cpp
-        platform/linux/${WINDOW_SOURCE}
-        platform/linux/Linux_Input.cpp
+        platform/glfw3/${WINDOW_SOURCE}
+        platform/glfw3/Glfw3_Input.cpp
         Layer.cpp
         LayerStack.cpp
         imGui/ImGuiLayer.cpp
