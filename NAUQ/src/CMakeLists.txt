@@ -11,7 +11,7 @@ find_package(glm CONFIG REQUIRED)
 find_package(glad)
 find_package(imgui CONFIG REQUIRED)
 
-set(WINDOW_SOURCE $<IF:${UNIX},Linux_Window.cpp,Windows_Window.cpp>)
+set(WINDOW_SOURCE $<IF:${UNIX},Glfw3_Window.cpp,Windows_Window.cpp>)
 
 add_library(
         ${NAUQ_LIB}
