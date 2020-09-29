@@ -25,7 +25,7 @@ add_library(
         imGui/ImGuiLayer.cpp
         ${DEPEDENCE_IMGUI}/imgui_impl_opengl3.cpp
         ${DEPEDENCE_IMGUI}/imgui_impl_glfw.cpp
-        )
+        ../include/nauq/KeyCodes.hpp)
 
 target_include_directories(
         ${NAUQ_LIB}
@@ -49,7 +49,7 @@ target_link_libraries(
 target_precompile_headers(
         ${NAUQ_LIB}
         PRIVATE
-        [["nauq/nauq_pch.hpp"]]
+        "nauq_pch.hpp"
 )
 
 target_compile_definitions(

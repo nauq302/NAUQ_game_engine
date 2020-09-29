@@ -2,7 +2,7 @@
 // Created by nauq302 on 12/08/2020.
 //
 
-#include "nauq/platform/Linux/Linux_Input.hpp"
+#include "nauq/platform/glfw3/Glfw3_Input.hpp"
 
 #include "nauq/Application.hpp"
 
