@@ -13,6 +13,9 @@
 #include "nauq/events/KeyEvent.hpp"
 #include "nauq/events/MouseEvent.hpp"
 
+#include "nauq/KeyCodes.hpp"
+#include "nauq/MouseButtonCodes.hpp"
+
 #include "nauq/Window.hpp"
 
 #include "nauq/Layer.hpp"

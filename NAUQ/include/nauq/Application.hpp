@@ -7,6 +7,7 @@
 
 #include "Window.hpp"
 #include "LayerStack.hpp"
+#include "imGui/ImGuiLayer.hpp"
 #include "events/ApplicationEvent.hpp"
 
 #include <memory>
@@ -22,6 +23,7 @@ namespace nauq {
         static inline Application* instance = nullptr;
 
         std::unique_ptr<Window> window;
+        ImGuiLayer* imGuiLayer;
         LayerStack layerStack;
         bool running;
 

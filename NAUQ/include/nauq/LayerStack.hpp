@@ -17,13 +17,13 @@ namespace nauq {
     class NAUQ_API LayerStack
     {
     public:
-        using Container = std::list<Layer*>;
+        using Container = std::vector<Layer*>;
         using Iterator = Container::iterator;
         using ReverseIterator = Container::reverse_iterator;
 
     private:
         Container layers;
-        Iterator layerInsertIt;
+        unsigned int layerInsertIndex;
 
     public:
         explicit LayerStack();

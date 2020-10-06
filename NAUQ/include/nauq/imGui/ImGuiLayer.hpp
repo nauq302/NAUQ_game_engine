@@ -28,20 +28,13 @@ namespace nauq {
     public:
         void onAttach() override;
         void onDetach() override;
-        void onUpdate() override;
-        void onEvent(Event& event) override;
+        void onImGuiRender() override;
 
-        bool onMouseButtonPress(MouseButtonPressEvent& event);
-        bool onMouseButtonRelease(MouseButtonReleaseEvent& event);
-        bool onMouseMove(MouseMoveEvent& event);
-        bool onMouseScroll(MouseScrollEvent& event);
-        bool onKeyPress(KeyPressEvent& event);
-        bool onKeyRelease(KeyReleaseEvent& event);
-        bool onKeyType(KeyTypeEvent& event);
-        bool onWindowResize(WindowResizeEvent& event);
+        void begin();
+        void end();
 
     private:
-        inline ImGuiIO& getIO() { return ImGui::GetIO(); }
+        static inline ImGuiIO& getIO() { return ImGui::GetIO(); }
     };
 }
 

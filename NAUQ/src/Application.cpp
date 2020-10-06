@@ -4,6 +4,7 @@
 
 #include "nauq/Application.hpp"
 #include "nauq/Log.hpp"
+#include "nauq/imGui/ImGuiLayer.hpp"
 
 #include "nauq/Input.hpp"
 
@@ -19,6 +20,9 @@ namespace nauq {
         NAUQ_CORE_ASSERT(instance == nullptr, "Application already exists");
         instance = this;
         window->setEventCallback(NAUQ_BIND_EVENT_FN(Application::onEvent));
+
+        imGuiLayer = new ImGuiLayer();
+        pushOverlay(imGuiLayer);
     }
 
     /**
@@ -39,8 +43,16 @@ namespace nauq {
                 layer->onUpdate();
             }
 
+            imGuiLayer->begin();
+            for (Layer* layer : layerStack) {
+                layer->onImGuiRender();
+            }
+            imGuiLayer->end();
+
+#ifdef NAUQ_DEBUG
             glm::vec2 mousePos = Input::getMousePosition();
             NAUQ_CORE_TRACE("{0}, {1}", mousePos.x, mousePos.y);
+#endif
 
             window->onUpdate();
         }

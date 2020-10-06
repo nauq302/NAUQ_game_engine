@@ -8,9 +8,9 @@
 
 namespace nauq {
 
-    Input* Input::instance = new Linux_Input;
+    Input* Input::instance = new GLfw3_Input;
 
-    bool Linux_Input::isKeyPressImpl(int keycode)
+    bool GLfw3_Input::isKeyPressImpl(int keycode)
     {
         auto* window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
 
@@ -19,7 +19,7 @@ namespace nauq {
         return state == GLFW_PRESS || state == GLFW_REPEAT;
     }
 
-    bool Linux_Input::isMouseButtonPressImpl(int button)
+    bool GLfw3_Input::isMouseButtonPressImpl(int button)
     {
         auto* window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
 
@@ -28,7 +28,7 @@ namespace nauq {
         return state == GLFW_PRESS;
     }
 
-    glm::vec2 Linux_Input::getMousePositionImpl()
+    glm::vec2 GLfw3_Input::getMousePositionImpl()
     {
         auto* window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
         double x,y;

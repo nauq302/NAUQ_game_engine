@@ -6,8 +6,9 @@
 #define NAUQ_GAME_ENGINE_LINUX_INPUT_HPP
 
 #include "../../Input.hpp"
+
 namespace nauq {
-    class Linux_Input :
+    class GLfw3_Input :
             public Input
     {
     protected:

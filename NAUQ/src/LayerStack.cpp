@@ -9,7 +9,7 @@ namespace nauq {
     /**
      *
      */
-    LayerStack::LayerStack() : layerInsertIt(layers.begin()) {}
+    LayerStack::LayerStack() : layerInsertIndex(0) {}
 
     /**
      *
@@ -27,7 +27,8 @@ namespace nauq {
      */
     void LayerStack::pushLayer(Layer* layer)
     {
-        layerInsertIt = layers.emplace(layerInsertIt, layer);
+        layers.emplace(layers.begin() + layerInsertIndex, layer);
+        ++layerInsertIndex;
     }
 
     /**
@@ -49,7 +50,7 @@ namespace nauq {
 
         if (it != layers.end()) {
             layers.erase(it);
-            --layerInsertIt;
+            --layerInsertIndex;
         }
     }
 

@@ -1,15 +1,16 @@
 
 set(NAUQ_LIB nauq CACHE INTERNAL "Name of NAUQ library file")
-set(NAUQ_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include CACHE INTERNAL "Directory of NAUQ header files")
+set(DEPEDENCE_IMGUI ${PROJECT_SOURCE_DIR}/dependence/imgui-docking)
+set(NAUQ_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include ${DEPEDENCE_IMGUI} CACHE INTERNAL "Directory of NAUQ header files")
 set(NAUQ_LIB_DIR ${PROJECT_BINARY_DIR} CACHE INTERNAL "Directory of NAUQ library files")
 
-set(DEPEDENCE_IMGUI ${PROJECT_SOURCE_DIR}/dependence/imgui)
+
 
 find_package(spdlog CONFIG REQUIRED)
 find_package(glfw3 CONFIG REQUIRED)
 find_package(glm CONFIG REQUIRED)
 find_package(glad)
-find_package(imgui CONFIG REQUIRED)
+#find_package(imgui CONFIG REQUIRED)
 
 set(WINDOW_SOURCE $<IF:${UNIX},Glfw3_Window.cpp,Windows_Window.cpp>)
 
@@ -23,9 +24,8 @@ add_library(
         Layer.cpp
         LayerStack.cpp
         imGui/ImGuiLayer.cpp
-        ${DEPEDENCE_IMGUI}/imgui_impl_opengl3.cpp
-        ${DEPEDENCE_IMGUI}/imgui_impl_glfw.cpp
-        ../include/nauq/KeyCodes.hpp)
+        imGui/ImGuiBuild.cpp
+        ../include/nauq/imGui/ImGuiImpl.hpp)
 
 target_include_directories(
         ${NAUQ_LIB}
@@ -33,6 +33,14 @@ target_include_directories(
         ${NAUQ_INCLUDE_DIR}
         ${DEPEDENCE_IMGUI}
 )
+
+#target_link_directories(
+#        ${NAUQ_LIB}
+#        PRIVATE
+#        ${IMGUI_DOCKING_LIB_DIR}
+#)
+
+message(STATUS ${IMGUI_DOCKING_LIB_DIR})
 
 target_link_libraries(
         ${NAUQ_LIB}
@@ -43,7 +51,8 @@ target_link_libraries(
         glfw
         glm
         glad::glad
-        imgui::imgui
+        imgui-docking
+#        imgui::imgui
 )
 
 target_precompile_headers(
@@ -59,9 +68,12 @@ target_compile_definitions(
         GLFW_INCLUDE_NONE
 )
 
-get_target_property(NAUQ_INCLUDE_DIR ${NAUQ_LIB} INCLUDE_DIRECTORIES)
+target_compile_options(
+        ${NAUQ_LIB}
+        PRIVATE
+        -fpic
+)
 
-message(STATUS ${NAUQ_INCLUDE_DIR})
 
 if (MSVC)
     target_compile_definitions(

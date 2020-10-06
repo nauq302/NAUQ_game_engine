@@ -3,7 +3,6 @@ project(NAUQ_game_engine_Sandbox)
 
 
 find_package(spdlog CONFIG REQUIRED)
-
 add_executable(demo SandboxApp.cpp Sandbox_pch.hpp)
 target_include_directories(demo PRIVATE ${NAUQ_INCLUDE_DIR})
 target_link_directories(demo PRIVATE ${NAUQ_LIB_DIR})
