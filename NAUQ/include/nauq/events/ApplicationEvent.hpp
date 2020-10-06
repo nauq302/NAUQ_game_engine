@@ -5,7 +5,7 @@
 #ifndef NAUQ_GAME_ENGINE_APPLICATIONEVENT_HPP
 #define NAUQ_GAME_ENGINE_APPLICATIONEVENT_HPP
 
-#include "../Core.hpp"
+#include "nauq/Core.hpp"
 #include "Event.hpp"
 
 #include <sstream>

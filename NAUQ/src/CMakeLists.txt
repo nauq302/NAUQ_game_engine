@@ -12,20 +12,20 @@ find_package(glm CONFIG REQUIRED)
 find_package(glad)
 #find_package(imgui CONFIG REQUIRED)
 
-set(WINDOW_SOURCE $<IF:${UNIX},Glfw3_Window.cpp,Windows_Window.cpp>)
+set(WINDOW_SOURCE $<IF:${UNIX},OpenGL_Window.cpp,Windows_Window.cpp>)
 
 add_library(
         ${NAUQ_LIB}
         SHARED
         Application.cpp
         Log.cpp
-        platform/glfw3/${WINDOW_SOURCE}
-        platform/glfw3/Glfw3_Input.cpp
+        platform/openGL/${WINDOW_SOURCE}
+        platform/openGL/OpenGL_Input.cpp
         Layer.cpp
         LayerStack.cpp
         imGui/ImGuiLayer.cpp
         imGui/ImGuiBuild.cpp
-        ../include/nauq/imGui/ImGuiImpl.hpp)
+        platform/openGL/OpenGL_Context.cpp)
 
 target_include_directories(
         ${NAUQ_LIB}

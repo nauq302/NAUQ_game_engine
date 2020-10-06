@@ -2,12 +2,14 @@
 // Created by nauq302 on 07/08/2020.
 //
 
-#include "nauq/platform/glfw3/Glfw3_Window.hpp"
+#include "nauq/platform/openGL/OpenGL_Window.hpp"
 
 #include "nauq/Log.hpp"
 #include "nauq/events/ApplicationEvent.hpp"
 #include "nauq/events/KeyEvent.hpp"
 #include "nauq/events/MouseEvent.hpp"
+
+#include "nauq/platform/openGL/OpenGL_Context.hpp"
 
 namespace nauq {
 
@@ -33,14 +35,14 @@ namespace nauq {
      */
     Window* Window::create(const WindowProps& props)
     {
-        return new Linux_Window(props);
+        return new OpenGL_Window(props);
     }
 
     /**
      *
      * @param props
      */
-    Linux_Window::Linux_Window(const nauq::WindowProps& props) :
+    OpenGL_Window::OpenGL_Window(const nauq::WindowProps& props) :
         window(nullptr)
     {
         init(props);
@@ -49,7 +51,7 @@ namespace nauq {
     /**
      *
      */
-    Linux_Window::~Linux_Window()
+    OpenGL_Window::~OpenGL_Window()
     {
         shutdown();
     }
@@ -58,7 +60,7 @@ namespace nauq {
      *
      * @param props
      */
-    void Linux_Window::init(const WindowProps& props)
+    void OpenGL_Window::init(const WindowProps& props)
     {
         data.title = props.title;
         data.width = props.width;
@@ -85,10 +87,8 @@ namespace nauq {
                 nullptr
         );
 
-        glfwMakeContextCurrent(window);
-
-        int status = gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
-        NAUQ_CORE_ASSERT(status, "Failed to initialize Glad!");
+        context = new OpenGL_Context(window);
+        context->init();
 
         glfwSetWindowUserPointer(window, &data);
         setVSync(true);
@@ -189,17 +189,17 @@ namespace nauq {
     /**
      *
      */
-    void Linux_Window::onUpdate()
+    void OpenGL_Window::onUpdate()
     {
         glfwPollEvents();
-        glfwSwapBuffers(window);
+        context->swapBuffers();
     }
 
     /**
      *
      * @param enable
      */
-    void Linux_Window::setVSync(bool enable)
+    void OpenGL_Window::setVSync(bool enable)
     {
         if (enable) {
             glfwSwapInterval(1);
@@ -214,7 +214,7 @@ namespace nauq {
      *
      * @return
      */
-    bool Linux_Window::isVSync() const
+    bool OpenGL_Window::isVSync() const
     {
         return data.vSync;
     }
@@ -222,7 +222,7 @@ namespace nauq {
     /**
      *
      */
-    void Linux_Window::shutdown()
+    void OpenGL_Window::shutdown()
     {
         glfwDestroyWindow(window);
     }

@@ -6,19 +6,19 @@
 #define NAUQ_GAME_ENGINE_LINUX_WINDOW_HPP
 
 #include "nauq/Window.hpp"
-
+#include "nauq/renderer/GraphicsContext.hpp"
 #include "GLFW/glfw3.h"
 
 namespace nauq {
 
     /**
-     * @class Linux_Window
+     * @class OpenGL_Window
      *
      * @inherit Window
      *
-     * @brief Window object for glfw3 Platform
+     * @brief Window object for OpenGL Platform
      */
-    class Linux_Window :
+    class OpenGL_Window :
             public Window
     {
     private:
@@ -31,10 +31,11 @@ namespace nauq {
 
         GLFWwindow* window;
         WindowData data;
+        GraphicsContext* context;
 
     public:
-        explicit Linux_Window(const WindowProps& props);
-        ~Linux_Window() override;
+        explicit OpenGL_Window(const WindowProps& props);
+        ~OpenGL_Window() override;
 
     public:
         void onUpdate() override;

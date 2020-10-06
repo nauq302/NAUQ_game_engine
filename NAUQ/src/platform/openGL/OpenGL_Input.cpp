@@ -2,15 +2,15 @@
 // Created by nauq302 on 12/08/2020.
 //
 
-#include "nauq/platform/glfw3/Glfw3_Input.hpp"
+#include "nauq/platform/openGL/OpenGL_Input.hpp"
 
 #include "nauq/Application.hpp"
 
 namespace nauq {
 
-    Input* Input::instance = new GLfw3_Input;
+    Input* Input::instance = new OpenGL_Input;
 
-    bool GLfw3_Input::isKeyPressImpl(int keycode)
+    bool OpenGL_Input::isKeyPressImpl(int keycode)
     {
         auto* window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
 
@@ -19,7 +19,7 @@ namespace nauq {
         return state == GLFW_PRESS || state == GLFW_REPEAT;
     }
 
-    bool GLfw3_Input::isMouseButtonPressImpl(int button)
+    bool OpenGL_Input::isMouseButtonPressImpl(int button)
     {
         auto* window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
 
@@ -28,7 +28,7 @@ namespace nauq {
         return state == GLFW_PRESS;
     }
 
-    glm::vec2 GLfw3_Input::getMousePositionImpl()
+    glm::vec2 OpenGL_Input::getMousePositionImpl()
     {
         auto* window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
         double x,y;
