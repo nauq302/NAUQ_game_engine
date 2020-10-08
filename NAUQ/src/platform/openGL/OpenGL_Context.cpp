@@ -18,6 +18,11 @@ namespace nauq {
 
         int status = gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
         NAUQ_CORE_ASSERT(status, "Failed to initialize Glad!");
+
+        NAUQ_CORE_INFO("OpenGL Info:");
+        NAUQ_CORE_INFO("\tVendor: {0}", glGetString(GL_VENDOR));
+        NAUQ_CORE_INFO("\tRenderer: {0}", glGetString(GL_RENDERER));
+        NAUQ_CORE_INFO("\tVersion: {0}", glGetString(GL_VERSION));
     }
 
     void OpenGL_Context::swapBuffers()

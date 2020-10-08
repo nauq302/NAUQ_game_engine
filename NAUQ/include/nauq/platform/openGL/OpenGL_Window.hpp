@@ -2,8 +2,8 @@
 // Created by nauq302 on 07/08/2020.
 //
 
-#ifndef NAUQ_GAME_ENGINE_LINUX_WINDOW_HPP
-#define NAUQ_GAME_ENGINE_LINUX_WINDOW_HPP
+#ifndef NAUQ_GAME_ENGINE_OPENGL_WINDOW_HPP
+#define NAUQ_GAME_ENGINE_OPENGL_WINDOW_HPP
 
 #include "nauq/Window.hpp"
 #include "nauq/renderer/GraphicsContext.hpp"
@@ -57,4 +57,4 @@ namespace nauq {
 }
 
 
-#endif //NAUQ_GAME_ENGINE_LINUX_WINDOW_HPP
+#endif //NAUQ_GAME_ENGINE_OPENGL_WINDOW_HPP

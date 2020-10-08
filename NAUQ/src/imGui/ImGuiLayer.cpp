@@ -6,8 +6,6 @@
 
 #include "imgui.h"
 
-#define IMGUI_IMPL_API
-
 #include "nauq/imGui/ImGuiImpl.hpp"
 #include "nauq/Application.hpp"
 

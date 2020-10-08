@@ -25,6 +25,9 @@ namespace nauq {
         std::unique_ptr<Window> window;
         ImGuiLayer* imGuiLayer;
         LayerStack layerStack;
+        unsigned int vertexArray;
+        unsigned int vertexBuffer;
+        unsigned int indexBuffer;
         bool running;
 
     public:
