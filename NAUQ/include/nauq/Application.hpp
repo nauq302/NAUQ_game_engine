@@ -9,7 +9,8 @@
 #include "LayerStack.hpp"
 #include "imGui/ImGuiLayer.hpp"
 #include "events/ApplicationEvent.hpp"
-
+#include "nauq/renderer/Shader.hpp"
+#include "nauq/renderer/Buffer.hpp"
 #include <memory>
 
 namespace nauq {
@@ -25,9 +26,10 @@ namespace nauq {
         std::unique_ptr<Window> window;
         ImGuiLayer* imGuiLayer;
         LayerStack layerStack;
+        std::unique_ptr<Shader> shader;
+        std::unique_ptr<VertexBuffer> vertexBuffer;
+        std::unique_ptr<IndexBuffer> indexBuffer;
         unsigned int vertexArray;
-        unsigned int vertexBuffer;
-        unsigned int indexBuffer;
         bool running;
 
     public:
