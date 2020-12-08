@@ -17,6 +17,7 @@ namespace nauq {
     {
     private:
         std::uint32_t rendererID;
+        BufferLayout layout;
 
     public:
         explicit OpenGLVertexBuffer(float* vertices, std::size_t size);
@@ -25,9 +26,15 @@ namespace nauq {
     public:
         void bind() const override;
         void unbind() const override;
+
+        const BufferLayout& getLayout() override { return layout; }
+        void setLayout(const BufferLayout& layout) override { this->layout = layout; }
+
     };
 
-
+    /**
+     *
+     */
     class OpenGLIndexBuffer :
             public IndexBuffer
     {

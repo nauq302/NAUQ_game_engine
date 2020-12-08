@@ -11,6 +11,7 @@
 #include "events/ApplicationEvent.hpp"
 #include "nauq/renderer/Shader.hpp"
 #include "nauq/renderer/Buffer.hpp"
+#include "nauq/renderer/VertexArray.hpp"
 #include <memory>
 
 namespace nauq {
@@ -27,9 +28,11 @@ namespace nauq {
         ImGuiLayer* imGuiLayer;
         LayerStack layerStack;
         std::unique_ptr<Shader> shader;
-        std::unique_ptr<VertexBuffer> vertexBuffer;
-        std::unique_ptr<IndexBuffer> indexBuffer;
-        unsigned int vertexArray;
+        std::shared_ptr<VertexArray> vertexArray;
+
+        std::shared_ptr<VertexArray> squareVA;
+        std::unique_ptr<Shader> blueShader;
+
         bool running;
 
     public:

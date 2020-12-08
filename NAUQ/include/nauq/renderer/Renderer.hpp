@@ -5,22 +5,21 @@
 #ifndef NAUQ_GAME_ENGINE_RENDERER_HPP
 #define NAUQ_GAME_ENGINE_RENDERER_HPP
 
+#include "RendererAPI.hpp"
+
 namespace nauq {
-
-    enum class RendererAPI
-    {
-        NONE = 0,
-        OPEN_GL = 1,
-    };
-
 
     class Renderer
     {
     private:
-        inline static RendererAPI api = RendererAPI::OPEN_GL;
+
 
     public:
-        inline static RendererAPI getAPI() { return api; }
+        static inline RendererAPI::API getAPI() { return RendererAPI::getAPI(); }
+
+        static void beginScene();
+        static void submit(const std::shared_ptr<VertexArray>& vertexArray);
+        static void endScene();
     };
 }
 

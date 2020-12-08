@@ -25,7 +25,7 @@ add_library(
         LayerStack.cpp
         imGui/ImGuiLayer.cpp
         imGui/ImGuiBuild.cpp
-        platform/openGL/OpenGL_Context.cpp ../include/nauq/renderer/Shader.hpp renderer/Shader.cpp ../include/nauq/renderer/Buffer.hpp platform/openGL/OpenGL_Buffer.cpp ../include/nauq/platform/openGL/OpenGL_Buffer.hpp renderer/Buffer.cpp ../include/nauq/renderer/Renderer.hpp)
+        platform/openGL/OpenGL_Context.cpp ../include/nauq/renderer/Shader.hpp renderer/Shader.cpp ../include/nauq/renderer/Buffer.hpp platform/openGL/OpenGL_Buffer.cpp ../include/nauq/platform/openGL/OpenGL_Buffer.hpp renderer/Buffer.cpp ../include/nauq/renderer/Renderer.hpp renderer/VertexArray.cpp ../include/nauq/renderer/VertexArray.hpp platform/openGL/OpenGLVertexArray.cpp ../include/nauq/platform/openGL/OpenGLVertexArray.hpp ../include/nauq/renderer/RendererAPI.hpp renderer/RenderCommand.cpp ../include/nauq/renderer/RenderCommand.hpp renderer/Renderer.cpp ../include/nauq/renderer/OpenGLRenderAPI.cpp ../include/nauq/renderer/OpenGLRenderAPI.hpp)
 
 target_include_directories(
         ${NAUQ_LIB}

@@ -19,10 +19,10 @@ namespace nauq {
     VertexBuffer* VertexBuffer::create(float* vertices, std::size_t size)
     {
         switch (Renderer::getAPI()) {
-            case RendererAPI::NONE:
+            case RendererAPI::API::NONE:
                 NAUQ_CORE_ASSERT(false, "RendererAPI::NONE is not current supported!");
 
-            case RendererAPI::OPEN_GL:
+            case RendererAPI::API::OPEN_GL:
                 return new OpenGLVertexBuffer(vertices, size);
 
             default:
@@ -41,10 +41,10 @@ namespace nauq {
     IndexBuffer* IndexBuffer::create(std::uint32_t* indices, std::size_t size)
     {
         switch (Renderer::getAPI()) {
-            case RendererAPI::NONE:
+            case RendererAPI::API::NONE:
                 NAUQ_CORE_ASSERT(false, "RendererAPI::NONE is not current supported!");
 
-            case RendererAPI::OPEN_GL:
+            case RendererAPI::API::OPEN_GL:
                 return new OpenGLIndexBuffer(indices, size);
 
             default:
