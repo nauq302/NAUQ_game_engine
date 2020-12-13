@@ -12,6 +12,8 @@
 #include "nauq/renderer/Shader.hpp"
 #include "nauq/renderer/Buffer.hpp"
 #include "nauq/renderer/VertexArray.hpp"
+#include "nauq/renderer/OrthographicCamera.hpp"
+
 #include <memory>
 
 namespace nauq {
@@ -27,11 +29,13 @@ namespace nauq {
         std::unique_ptr<Window> window;
         ImGuiLayer* imGuiLayer;
         LayerStack layerStack;
-        std::unique_ptr<Shader> shader;
+        std::shared_ptr<Shader> shader;
         std::shared_ptr<VertexArray> vertexArray;
 
         std::shared_ptr<VertexArray> squareVA;
-        std::unique_ptr<Shader> blueShader;
+        std::shared_ptr<Shader> blueShader;
+
+        OrthographicCamera camera;
 
         bool running;
 

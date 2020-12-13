@@ -17,8 +17,8 @@ namespace nauq {
         std::string debugName;
 
     public:
-        explicit Layer(std::string_view name = "Layer");
-        virtual ~Layer();
+        explicit Layer(std::string_view name = "Layer") : debugName(name) {}
+        virtual ~Layer() = default;
 
     public:
         [[nodiscard]] inline const std::string& getName() const { return debugName; }

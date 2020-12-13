@@ -12,47 +12,20 @@
 #include "nauq/renderer/RenderCommand.hpp"
 #include "nauq/Input.hpp"
 
+
 namespace nauq {
-
-    static GLenum ShaderDataTypeToOpenGLDataType(ShaderDataType type)
-    {
-        switch (type) {
-            case ShaderDataType::FLOAT:
-            case ShaderDataType::VEC2F:
-            case ShaderDataType::VEC3F:
-            case ShaderDataType::VEC4F:
-            case ShaderDataType::MAT22F:
-            case ShaderDataType::MAT33F:
-            case ShaderDataType::MAT44F:
-                return GL_FLOAT;
-
-            case ShaderDataType::INT:
-            case ShaderDataType::VEC2I:
-            case ShaderDataType::VEC3I:
-            case ShaderDataType::VEC4I:
-            case ShaderDataType::MAT22I:
-            case ShaderDataType::MAT33I:
-            case ShaderDataType::MAT44I:
-                return GL_INT;
-
-            case ShaderDataType::BOOL:
-                return GL_BOOL;
-
-            default:
-                NAUQ_CORE_ASSERT(false, "Unknown ShaderDataType!");
-                return 0;
-        }
-    }
 
     /**
      *
      */
     Application::Application() :
-        window(Window::create()),
+        camera(-2.0f, 2.0f, -1.5f, 1.5f),
         running(true)
     {
         NAUQ_CORE_ASSERT(instance == nullptr, "Application already exists");
         instance = this;
+
+        window.reset(Window::create());
         window->setEventCallback(NAUQ_BIND_EVENT_FN(Application::onEvent));
 
         imGuiLayer = new ImGuiLayer();
@@ -86,8 +59,8 @@ namespace nauq {
 
         float sq[] = {
                 -0.75f, -0.75f, 0.0f,
-                0.75f, -0.75f, 0.0f,
-                0.75f,  0.7f, 0.0f,
+                 0.75f, -0.75f, 0.0f,
+                 0.75f,  0.75f, 0.0f,
                 -0.75f,  0.75f, 0.0f,
         };
 
@@ -110,12 +83,14 @@ namespace nauq {
             layout(location = 0) in vec3 a_pos;
             layout(location = 1) in vec4 a_color;
 
+            uniform mat4 u_vp;
+
             out vec3 v_pos;
             out vec4 v_color;
 
             void main() {
                 v_pos = a_pos * 0.5 + 0.5;
-                gl_Position = vec4(a_pos, 1.0);
+                gl_Position = u_vp * vec4(a_pos, 1.0);
                 v_color = a_color;
             }
         )glsl";
@@ -124,6 +99,7 @@ namespace nauq {
             #version 330 core
 
             layout(location = 0) out vec4 color;
+
             in vec3 v_pos;
             in vec4 v_color;
 
@@ -139,11 +115,13 @@ namespace nauq {
 
             layout(location = 0) in vec3 a_pos;
 
+            uniform mat4 u_vp;
+
             out vec3 v_pos;
 
             void main() {
                 v_pos = a_pos;
-                gl_Position = vec4(a_pos,1.0);
+                gl_Position = u_vp * vec4(a_pos,1.0);
             }
         )glsl";
 
@@ -176,13 +154,13 @@ namespace nauq {
             RenderCommand::setClearColor(0.1f, 0.1f, 0.1f, 1.0f);
             RenderCommand::clear();
 
-            Renderer::beginScene();
+            camera.setPosition({0.5f, 0.5f, 0.0f});
+            camera.setRotation(45.f);
 
-            blueShader->bind();
-            Renderer::submit(squareVA);
+            Renderer::beginScene(camera);
 
-            shader->bind();
-            Renderer::submit(vertexArray);
+            Renderer::submit(blueShader, squareVA);
+            Renderer::submit(shader, vertexArray);
 
             Renderer::endScene();
 

@@ -6,6 +6,7 @@
 #include "nauq/Log.hpp"
 
 namespace nauq {
+
     OpenGL_Context::OpenGL_Context(GLFWwindow* glfwWindow) :
         windowHandle(glfwWindow)
     {

@@ -5,7 +5,7 @@
 #ifndef NAUQ_GAME_ENGINE_OPENGLRENDERAPI_HPP
 #define NAUQ_GAME_ENGINE_OPENGLRENDERAPI_HPP
 
-#include "RendererAPI.hpp"
+#include "nauq/renderer/RendererAPI.hpp"
 
 namespace nauq {
 

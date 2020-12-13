@@ -2,7 +2,7 @@
 // Created by nauq302 on 06/12/2020.
 //
 
-#include "OpenGLRenderAPI.hpp"
+#include "nauq/platform/openGL/OpenGLRenderAPI.hpp"
 
 namespace nauq {
 
