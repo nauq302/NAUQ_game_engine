@@ -15,6 +15,7 @@
 #include "nauq/renderer/OrthographicCamera.hpp"
 
 #include <memory>
+#include <nauq/core/TimeStep.hpp>
 
 namespace nauq {
 
@@ -29,14 +30,7 @@ namespace nauq {
         std::unique_ptr<Window> window;
         ImGuiLayer* imGuiLayer;
         LayerStack layerStack;
-        std::shared_ptr<Shader> shader;
-        std::shared_ptr<VertexArray> vertexArray;
-
-        std::shared_ptr<VertexArray> squareVA;
-        std::shared_ptr<Shader> blueShader;
-
-        OrthographicCamera camera;
-
+        float lastFrameTime;
         bool running;
 
     public:

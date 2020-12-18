@@ -32,7 +32,7 @@ namespace nauq {
                 return GL_BOOL;
 
             default:
-                NAUQ_CORE_ASSERT(false, "Unknown ShaderDataType!");
+                NQ_CORE_ASSERT(false, "Unknown ShaderDataType!");
                 return 0;
         }
     }
@@ -57,7 +57,7 @@ namespace nauq {
         glBindVertexArray(rendererID);
         vb->bind();
 
-        NAUQ_CORE_ASSERT(!vb->getLayout().getElements().empty(), "Vertex Buffer has no layout");
+        NQ_CORE_ASSERT(!vb->getLayout().getElements().empty(), "Vertex Buffer has no layout");
 
         std::uint32_t index = 0;
         const auto& layout = vb->getLayout();

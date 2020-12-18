@@ -30,8 +30,8 @@ namespace nauq {
 
             glDeleteShader(vertexShader);
 
-            NAUQ_CORE_ERROR("{0}", static_cast<const char*>(infoLog));
-            NAUQ_CORE_ASSERT(false, "Vertex Shader compilation failed");
+            NQ_CORE_ERROR("{0}", static_cast<const char*>(infoLog));
+            NQ_CORE_ASSERT(false, "Vertex Shader compilation failed");
         }
 
         GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
@@ -51,8 +51,8 @@ namespace nauq {
 
             glDeleteShader(fragmentShader);
             std::cout << "f" <<'\n';
-            NAUQ_CORE_ERROR("{0}", static_cast<const char*>(infoLog));
-            NAUQ_CORE_ASSERT(false, "Fragment Shader compilation failed");
+            NQ_CORE_ERROR("{0}", static_cast<const char*>(infoLog));
+            NQ_CORE_ASSERT(false, "Fragment Shader compilation failed");
         }
 
         rendererID = glCreateProgram();
@@ -76,8 +76,8 @@ namespace nauq {
             glDeleteShader(vertexShader);
             glDeleteShader(fragmentShader);
 
-            NAUQ_CORE_ERROR("{0}", static_cast<const char*>(infoLog));
-            NAUQ_CORE_ASSERT(false, "Shader link failed");
+            NQ_CORE_ERROR("{0}", static_cast<const char*>(infoLog));
+            NQ_CORE_ASSERT(false, "Shader link failed");
         }
 
         glDetachShader(rendererID, vertexShader);

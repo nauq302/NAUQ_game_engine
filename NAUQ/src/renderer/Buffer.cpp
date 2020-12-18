@@ -20,7 +20,7 @@ namespace nauq {
     {
         switch (Renderer::getAPI()) {
             case RendererAPI::API::NONE:
-                NAUQ_CORE_ASSERT(false, "RendererAPI::NONE is not current supported!");
+                NQ_CORE_ASSERT(false, "RendererAPI::NONE is not current supported!");
 
             case RendererAPI::API::OPEN_GL:
                 return new OpenGLVertexBuffer(vertices, size);
@@ -29,7 +29,7 @@ namespace nauq {
                 return nullptr;
         }
 
-        NAUQ_CORE_ASSERT(false, "Unknown RendererAPI!");
+        NQ_CORE_ASSERT(false, "Unknown RendererAPI!");
     }
 
     /**
@@ -42,7 +42,7 @@ namespace nauq {
     {
         switch (Renderer::getAPI()) {
             case RendererAPI::API::NONE:
-                NAUQ_CORE_ASSERT(false, "RendererAPI::NONE is not current supported!");
+                NQ_CORE_ASSERT(false, "RendererAPI::NONE is not current supported!");
 
             case RendererAPI::API::OPEN_GL:
                 return new OpenGLIndexBuffer(indices, size);
@@ -51,6 +51,6 @@ namespace nauq {
                 return nullptr;
         }
 
-        NAUQ_CORE_ASSERT(false, "Unknown RendererAPI!");
+        NQ_CORE_ASSERT(false, "Unknown RendererAPI!");
     }
 }

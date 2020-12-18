@@ -10,7 +10,7 @@ namespace nauq {
     OpenGL_Context::OpenGL_Context(GLFWwindow* glfwWindow) :
         windowHandle(glfwWindow)
     {
-        NAUQ_CORE_ASSERT(windowHandle, "Window handle is null");
+        NQ_CORE_ASSERT(windowHandle, "Window handle is null");
     }
 
     void OpenGL_Context::init()
@@ -18,12 +18,12 @@ namespace nauq {
         glfwMakeContextCurrent(windowHandle);
 
         int status = gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
-        NAUQ_CORE_ASSERT(status, "Failed to initialize Glad!");
+        NQ_CORE_ASSERT(status, "Failed to initialize Glad!");
 
-        NAUQ_CORE_INFO("OpenGL Info:");
-        NAUQ_CORE_INFO("\tVendor: {0}", glGetString(GL_VENDOR));
-        NAUQ_CORE_INFO("\tRenderer: {0}", glGetString(GL_RENDERER));
-        NAUQ_CORE_INFO("\tVersion: {0}", glGetString(GL_VERSION));
+        NQ_CORE_INFO("OpenGL Info:");
+        NQ_CORE_INFO("\tVendor: {0}", glGetString(GL_VENDOR));
+        NQ_CORE_INFO("\tRenderer: {0}", glGetString(GL_RENDERER));
+        NQ_CORE_INFO("\tVersion: {0}", glGetString(GL_VERSION));
     }
 
     void OpenGL_Context::swapBuffers()

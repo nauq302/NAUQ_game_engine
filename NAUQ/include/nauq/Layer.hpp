@@ -9,6 +9,7 @@
 #include "events/Event.hpp"
 
 #include <string>
+#include <nauq/core/TimeStep.hpp>
 
 namespace nauq {
     class NAUQ_API Layer
@@ -25,7 +26,7 @@ namespace nauq {
 
         virtual void onAttach() {}
         virtual void onDetach() {}
-        virtual void onUpdate() {}
+        virtual void onUpdate(TimeStep ts) {}
         virtual void onImGuiRender() {}
         virtual void onEvent(Event& event) {}
     };

@@ -24,7 +24,9 @@ namespace nauq {
         static inline RendererAPI::API getAPI() { return RendererAPI::getAPI(); }
 
         static void beginScene(OrthographicCamera& camera);
-        static void submit(const std::shared_ptr<Shader>& shader, const std::shared_ptr<VertexArray>& vertexArray);
+        static void submit(const std::shared_ptr<Shader>& shader,
+                           const std::shared_ptr<VertexArray>& vertexArray,
+                           const glm::mat4& transform = glm::mat4(1.f));
         static void endScene();
     };
 }

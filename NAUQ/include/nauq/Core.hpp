@@ -17,15 +17,15 @@
 #endif
 
 
-#ifdef NAUQ_ENABLE_ASSERTS
-    #define NAUQ_ASSERT(x,...) !(x) ? (NAUQ_ERROR("Assert Failed: {0}", __VA_ARGS__), std::exit(1)) : (void)0
-    #define NAUQ_CORE_ASSERT(x,...) !(x) ? (NAUQ_CORE_ERROR("Assert Failed: {0}", __VA_ARGS__), std::exit(1)) : (void)0
+#ifdef NQ_ENABLE_ASSERTS
+    #define NQ_ASSERT(x,...) !(x) ? (NQ_ERROR("Assert Failed: {0}", __VA_ARGS__), std::exit(1)) : (void)0
+    #define NQ_CORE_ASSERT(x,...) !(x) ? (NQ_CORE_ERROR("Assert Failed: {0}", __VA_ARGS__), std::exit(1)) : (void)0
 #else
-    #define NAUQ_ASSERT(x,...)
-    #define NAUQ_CORE_ASSERT(x,...)
+    #define NQ_ASSERT(x,...)
+    #define NQ_CORE_ASSERT(x,...)
 #endif
 
-#define NAUQ_BIND_EVENT_FN(fn) std::bind_front(&fn, this)
+#define NQ_BIND_EVENT_FN(fn) std::bind_front(&fn, this)
 
 namespace nauq {
     /**

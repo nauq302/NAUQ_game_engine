@@ -43,7 +43,7 @@ namespace nauq {
             case ShaderDataType::BOOL: return sizeof(bool);
 
             default:
-                NAUQ_CORE_ASSERT(false, "Unknown ShaderDataType!");
+                NQ_CORE_ASSERT(false, "Unknown ShaderDataType!");
                 return 0;
         }
     }
@@ -84,7 +84,7 @@ namespace nauq {
                 case ShaderDataType::BOOL: return 1;
 
                 default:
-                    NAUQ_CORE_ASSERT(false, "Unknown ShaderDataType!");
+                    NQ_CORE_ASSERT(false, "Unknown ShaderDataType!");
                     return 0;
             }
         }

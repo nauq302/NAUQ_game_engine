@@ -25,7 +25,7 @@ namespace nauq {
      */
     static void glfw_errorCallback(int error, const char* description)
     {
-        NAUQ_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
+        NQ_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
     }
 
     /**
@@ -66,12 +66,12 @@ namespace nauq {
         data.width = props.width;
         data.height = props.height;
 
-        NAUQ_CORE_INFO("Create window {0} ({1}, {2})", props.title, props.width, props.height);
+        NQ_CORE_INFO("Create window {0} ({1}, {2})", props.title, props.width, props.height);
 
         if (!glfw_Initialized) {
             // TODO: glfwTerminate on system shutdown
             int success = glfwInit();
-            NAUQ_CORE_ASSERT(success, "Could not initialize GLFW");
+            NQ_CORE_ASSERT(success, "Could not initialize GLFW");
 
             glfwSetErrorCallback(glfw_errorCallback);
 

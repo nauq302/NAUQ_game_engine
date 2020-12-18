@@ -12,11 +12,11 @@ namespace nauq {
     VertexArray* VertexArray::create()
     {
         switch (Renderer::getAPI()) {
-            case RendererAPI::API::NONE: NAUQ_CORE_ASSERT(false, "RendererAPI::NONE is not currently supported!"); return nullptr;
+            case RendererAPI::API::NONE: NQ_CORE_ASSERT(false, "RendererAPI::NONE is not currently supported!"); return nullptr;
             case RendererAPI::API::OPEN_GL: return new OpenGLVertexArray;
         }
 
-        NAUQ_CORE_ASSERT(false, "Unknown RendererAPI!");
+        NQ_CORE_ASSERT(false, "Unknown RendererAPI!");
         return nullptr;
     }
 }
