@@ -2,6 +2,8 @@
 
 #include <nauq.hpp>
 #include <glm/ext/matrix_transform.hpp>
+#include <nauq/platform/openGL/OpenGLShader.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 namespace nq = nauq;
 
@@ -12,11 +14,11 @@ class ExampleLayer :
         public nauq::Layer
 {
 private:
-    std::shared_ptr<nq::Shader> shader;
-    std::shared_ptr<nq::VertexArray> vertexArray;
+    nq::Ref<nq::Shader> shader;
+    nq::Ref<nq::VertexArray> vertexArray;
 
-    std::shared_ptr<nq::VertexArray> squareVA;
-    std::shared_ptr<nq::Shader> blueShader;
+    nq::Ref<nq::VertexArray> squareVA;
+    nq::Ref<nq::Shader> flatColor;
     nq::OrthographicCamera camera;
 
     glm::vec3 camPos;
@@ -25,8 +27,9 @@ private:
     float camRot = 0.0f;
     float camRotSpeed = 180.0f;
 
-    glm::vec3 sqPos;
-    float sqSpeed = 0.5f;
+    glm::vec3 sqColor = { 0.2f, 0.3f, 0.8f };
+
+
 
 
 public:
@@ -34,8 +37,7 @@ public:
         nq::Layer("Example"),
         camera(-2.0f, 2.0f, -1.5f, 1.5f),
         camPos(0.0f),
-        camRot(0.0f),
-        sqPos(0.0f)
+        camRot(0.0f)
     {
         vertexArray.reset(nq::VertexArray::create());
 
@@ -45,7 +47,7 @@ public:
                 0.0f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
         };
 
-        std::shared_ptr<nq::VertexBuffer> vertexBuffer(nq::VertexBuffer::create(vertices, sizeof(vertices)));
+        nq::Ref<nq::VertexBuffer> vertexBuffer(nq::VertexBuffer::create(vertices, sizeof(vertices)));
 
         vertexBuffer->setLayout({
                 { nq::ShaderDataType::VEC3F, "a_pos" },
@@ -58,7 +60,7 @@ public:
                 0, 1, 2
         };
 
-        std::shared_ptr<nq::IndexBuffer> indexBuffer(nq::IndexBuffer::create(indices, 3));
+        nq::Ref<nq::IndexBuffer> indexBuffer(nq::IndexBuffer::create(indices, 3));
         vertexArray->setIndexBuffer(indexBuffer);
 
         squareVA.reset(nq::VertexArray::create());
@@ -70,7 +72,7 @@ public:
                 -0.5f,  0.5f, 0.0f,
         };
 
-        std::shared_ptr<nq::VertexBuffer> squareVB(nq::VertexBuffer::create(sq, sizeof(sq)));
+        nq::Ref<nq::VertexBuffer> squareVB(nq::VertexBuffer::create(sq, sizeof(sq)));
         squareVB->setLayout({
             { nq::ShaderDataType::VEC3F, "a_pos" }
         });
@@ -79,7 +81,7 @@ public:
         unsigned int sqi[] = {
                 0, 1, 2, 2, 3, 0
         };
-        std::shared_ptr<nq::IndexBuffer> squareIB(nq::IndexBuffer::create(sqi, 6));
+        nq::Ref<nq::IndexBuffer> squareIB(nq::IndexBuffer::create(sqi, 6));
         squareVA->setIndexBuffer(squareIB);
 
         std::string vertexSrc = R"glsl(
@@ -133,19 +135,21 @@ public:
             }
         )glsl";
 
-        std::string fragmentBlue = R"glsl(
+        std::string fragmentFlat = R"glsl(
             #version 330 core
+
+            uniform vec3 u_color;
 
             layout(location = 0) out vec4 color;
             in vec3 v_pos;
 
             void main() {
-                color = vec4(0.2,0.3,0.8,1.0);
+                color = vec4(u_color,1.0);
             }
         )glsl";
 
-        shader = std::make_unique<nq::Shader>(vertexSrc, fragmentSrc);
-        blueShader = std::make_unique<nq::Shader>(vertexBlue, fragmentBlue);
+        shader.reset(nq::Shader::create(vertexSrc, fragmentSrc));
+        flatColor.reset(nq::Shader::create(vertexBlue, fragmentFlat));
     }
 
 public:
@@ -180,11 +184,19 @@ public:
         static const glm::mat4 eyes(1.0f);
         static glm::mat4 scale = glm::scale(eyes, glm::vec3(0.1f));
 
-        for (int i = 0; i < 5; ++i) {
-            for (int j = 0; j < 5; ++j) {
-                glm::vec3 pos(0.11f * i, 0.11f * j, 0.0f);
+//        nq::MaterialRef material = new nq::Material(flatColor);
+//        material->set("u_color", red);
+//        squareMesh->setMaterial(material);
+
+        auto fc = std::dynamic_pointer_cast<nq::OpenGLShader>(flatColor);
+        fc->bind();
+        fc->uploadUniform("u_color", sqColor);
+
+        for (int y = 0; y < 20; ++y) {
+            for (int x = 0; x < 20; ++x) {
+                glm::vec3 pos(0.11f * x, 0.11f * y, 0.0f);
                 glm::mat4 transform = glm::translate(eyes, pos) * scale;
-                nq::Renderer::submit(blueShader, squareVA, transform);
+                nq::Renderer::submit(flatColor, squareVA, transform);
             }
         }
 
@@ -202,6 +214,9 @@ public:
 
     void onImGuiRender() override
     {
+        ImGui::Begin("Setting");
+        ImGui::ColorEdit3("Square Color", glm::value_ptr(sqColor));
+        ImGui::End();
     }
 };
 

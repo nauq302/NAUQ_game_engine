@@ -2,7 +2,7 @@
 // Created by nauq302 on 14/10/2020.
 //
 
-#include "nauq/platform/openGL/OpenGL_Buffer.hpp"
+#include "nauq/platform/openGL/OpenGLBuffer.hpp"
 
 namespace nauq {
 

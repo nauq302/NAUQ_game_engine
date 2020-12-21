@@ -14,18 +14,14 @@ namespace nauq {
 
     class Shader
     {
-    private:
-        std::uint32_t rendererID;
+    public:
+        virtual ~Shader() = default;
 
     public:
-        explicit Shader(const std::string& vertexSrc, const std::string& fragmentSrc);
-        ~Shader();
+        static Shader* create(const std::string& vertexSrc, const std::string& fragmentSrc);
 
-    public:
-        void bind() const;
-        void unbind() const;
-
-        void uploadUniform(const std::string& name, const glm::mat4& matrix);
+        virtual void bind() const = 0;
+        virtual void unbind() const = 0;
     };
 
 }

@@ -5,6 +5,8 @@
 #include <nauq/renderer/RenderCommand.hpp>
 #include "nauq/renderer/Renderer.hpp"
 
+#include "nauq/platform/openGL/OpenGLShader.hpp"
+
 namespace nauq {
 
     Renderer::SceneData Renderer::sceneData;
@@ -14,13 +16,13 @@ namespace nauq {
         sceneData.viewProjectionMatrix = camera.getViewProjection();
     }
 
-    void Renderer::submit(const std::shared_ptr<Shader>& shader,
-                          const std::shared_ptr<VertexArray>& vertexArray,
-                          const glm::mat4& transform)
+    void Renderer::submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform)
     {
         shader->bind();
-        shader->uploadUniform("u_vp", sceneData.viewProjectionMatrix);
-        shader->uploadUniform("u_transform", transform);
+        auto sd = std::dynamic_pointer_cast<OpenGLShader>(shader);
+
+        sd->uploadUniform("u_vp", sceneData.viewProjectionMatrix);
+        sd->uploadUniform("u_transform", transform);
         vertexArray->bind();
         RenderCommand::drawIndexed(vertexArray);
     }

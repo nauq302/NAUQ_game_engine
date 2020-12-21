@@ -52,7 +52,7 @@ namespace nauq {
         glBindVertexArray(0);
     }
 
-    void OpenGLVertexArray::addVertexBuffer(const std::shared_ptr<VertexBuffer>& vb)
+    void OpenGLVertexArray::addVertexBuffer(const Ref<VertexBuffer>& vb)
     {
         glBindVertexArray(rendererID);
         vb->bind();
@@ -78,7 +78,7 @@ namespace nauq {
         vertexBuffers.push_back(vb);
     }
 
-    void OpenGLVertexArray::setIndexBuffer(const std::shared_ptr<IndexBuffer>& ib)
+    void OpenGLVertexArray::setIndexBuffer(const Ref<IndexBuffer>& ib)
     {
         glBindVertexArray(rendererID);
         ib->bind();
@@ -86,7 +86,7 @@ namespace nauq {
         indexBuffer = ib;
     }
 
-    const std::shared_ptr<IndexBuffer>& OpenGLVertexArray::getIndexBuffer() const
+    const Ref<IndexBuffer>& OpenGLVertexArray::getIndexBuffer() const
     {
         return indexBuffer;
     }

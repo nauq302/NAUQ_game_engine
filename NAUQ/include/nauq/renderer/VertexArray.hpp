@@ -18,10 +18,10 @@ namespace nauq {
         virtual void bind() = 0;
         virtual void unbind() = 0;
 
-        virtual void addVertexBuffer(const std::shared_ptr<VertexBuffer>& vertexBuffer) = 0;
-        virtual void setIndexBuffer(const std::shared_ptr<IndexBuffer>& indexBuffer) = 0;
+        virtual void addVertexBuffer(const Ref<VertexBuffer>& vertexBuffer) = 0;
+        virtual void setIndexBuffer(const Ref<IndexBuffer>& indexBuffer) = 0;
 
-        [[nodiscard]] virtual const std::shared_ptr<IndexBuffer>& getIndexBuffer() const = 0;
+        [[nodiscard]] virtual const Ref<IndexBuffer>& getIndexBuffer() const = 0;
 
         static VertexArray* create();
     };

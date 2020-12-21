@@ -2,8 +2,8 @@
 // Created by nauq302 on 14/10/2020.
 //
 
-#ifndef NAUQ_GAME_ENGINE_OPENGL_BUFFER_HPP
-#define NAUQ_GAME_ENGINE_OPENGL_BUFFER_HPP
+#ifndef NAUQ_GAME_ENGINE_OPENGLBUFFER_HPP
+#define NAUQ_GAME_ENGINE_OPENGLBUFFER_HPP
 
 #include "nauq/renderer/Buffer.hpp"
 
@@ -56,4 +56,4 @@ namespace nauq {
 
 
 
-#endif //NAUQ_GAME_ENGINE_OPENGL_BUFFER_HPP
+#endif //NAUQ_GAME_ENGINE_OPENGLBUFFER_HPP

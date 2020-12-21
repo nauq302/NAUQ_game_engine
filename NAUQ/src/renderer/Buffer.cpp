@@ -6,7 +6,7 @@
 #include "nauq/renderer/Buffer.hpp"
 #include "nauq/renderer/Renderer.hpp"
 
-#include "nauq/platform/openGL/OpenGL_Buffer.hpp"
+#include "nauq/platform/openGL/OpenGLBuffer.hpp"
 
 namespace nauq {
 

@@ -2,7 +2,7 @@
 // Created by nauq302 on 12/12/2020.
 //
 
-#include "OrthographicCamera.hpp"
+#include "nauq/renderer/OrthographicCamera.hpp"
 
 #include <glm/gtc/matrix_transform.hpp>
 

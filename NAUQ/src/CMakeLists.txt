@@ -12,7 +12,7 @@ find_package(glm CONFIG REQUIRED)
 find_package(glad)
 #find_package(imgui CONFIG REQUIRED)
 
-set(WINDOW_SOURCE $<IF:${UNIX},OpenGL_Window.cpp,Windows_Window.cpp>)
+set(WINDOW_SOURCE $<IF:${UNIX},OpenGLWindow.cpp,Windows_Window.cpp>)
 
 add_library(
         ${NAUQ_LIB}
@@ -20,11 +20,22 @@ add_library(
         Application.cpp
         Log.cpp
         platform/openGL/${WINDOW_SOURCE}
-        platform/openGL/OpenGL_Input.cpp
+        platform/openGL/OpenGLInput.cpp
         LayerStack.cpp
         imGui/ImGuiLayer.cpp
         imGui/ImGuiBuild.cpp
-        platform/openGL/OpenGL_Context.cpp ../include/nauq/renderer/Shader.hpp renderer/Shader.cpp ../include/nauq/renderer/Buffer.hpp platform/openGL/OpenGL_Buffer.cpp ../include/nauq/platform/openGL/OpenGL_Buffer.hpp renderer/Buffer.cpp ../include/nauq/renderer/Renderer.hpp renderer/VertexArray.cpp ../include/nauq/renderer/VertexArray.hpp platform/openGL/OpenGLVertexArray.cpp ../include/nauq/platform/openGL/OpenGLVertexArray.hpp ../include/nauq/renderer/RendererAPI.hpp renderer/RenderCommand.cpp ../include/nauq/renderer/RenderCommand.hpp renderer/Renderer.cpp platform/openGL/OpenGLRenderAPI.cpp ../include/nauq/platform/openGL/OpenGLRenderAPI.hpp ../include/nauq/renderer/OrthographicCamera.cpp ../include/nauq/renderer/OrthographicCamera.hpp ../include/nauq/core/TimeStep.hpp)
+        renderer/RenderCommand.cpp
+        renderer/Renderer.cpp
+        renderer/Buffer.cpp
+        renderer/VertexArray.cpp
+        renderer/Shader.cpp
+        renderer/OrthographicCamera.cpp
+        platform/openGL/OpenGLContext.cpp
+        platform/openGL/OpenGLBuffer.cpp
+        platform/openGL/OpenGLVertexArray.cpp
+        platform/openGL/OpenGLRenderAPI.cpp
+        platform/openGL/OpenGLShader.cpp
+)
 
 target_include_directories(
         ${NAUQ_LIB}

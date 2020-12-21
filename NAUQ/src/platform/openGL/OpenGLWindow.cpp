@@ -2,14 +2,14 @@
 // Created by nauq302 on 07/08/2020.
 //
 
-#include "nauq/platform/openGL/OpenGL_Window.hpp"
+#include "nauq/platform/openGL/OpenGLWindow.hpp"
 
 #include "nauq/Log.hpp"
 #include "nauq/events/ApplicationEvent.hpp"
 #include "nauq/events/KeyEvent.hpp"
 #include "nauq/events/MouseEvent.hpp"
 
-#include "nauq/platform/openGL/OpenGL_Context.hpp"
+#include "nauq/platform/openGL/OpenGLContext.hpp"
 
 namespace nauq {
 
@@ -35,14 +35,14 @@ namespace nauq {
      */
     Window* Window::create(const WindowProps& props)
     {
-        return new OpenGL_Window(props);
+        return new OpenGLWindow(props);
     }
 
     /**
      *
      * @param props
      */
-    OpenGL_Window::OpenGL_Window(const nauq::WindowProps& props) :
+    OpenGLWindow::OpenGLWindow(const nauq::WindowProps& props) :
         window(nullptr)
     {
         init(props);
@@ -51,7 +51,7 @@ namespace nauq {
     /**
      *
      */
-    OpenGL_Window::~OpenGL_Window()
+    OpenGLWindow::~OpenGLWindow()
     {
         shutdown();
     }
@@ -60,7 +60,7 @@ namespace nauq {
      *
      * @param props
      */
-    void OpenGL_Window::init(const WindowProps& props)
+    void OpenGLWindow::init(const WindowProps& props)
     {
         data.title = props.title;
         data.width = props.width;
@@ -87,7 +87,7 @@ namespace nauq {
                 nullptr
         );
 
-        context = new OpenGL_Context(window);
+        context = new OpenGLContext(window);
         context->init();
 
         glfwSetWindowUserPointer(window, &data);
@@ -189,7 +189,7 @@ namespace nauq {
     /**
      *
      */
-    void OpenGL_Window::onUpdate()
+    void OpenGLWindow::onUpdate()
     {
         glfwPollEvents();
         context->swapBuffers();
@@ -199,7 +199,7 @@ namespace nauq {
      *
      * @param enable
      */
-    void OpenGL_Window::setVSync(bool enable)
+    void OpenGLWindow::setVSync(bool enable)
     {
         if (enable) {
             glfwSwapInterval(1);
@@ -214,7 +214,7 @@ namespace nauq {
      *
      * @return
      */
-    bool OpenGL_Window::isVSync() const
+    bool OpenGLWindow::isVSync() const
     {
         return data.vSync;
     }
@@ -222,7 +222,7 @@ namespace nauq {
     /**
      *
      */
-    void OpenGL_Window::shutdown()
+    void OpenGLWindow::shutdown()
     {
         glfwDestroyWindow(window);
     }

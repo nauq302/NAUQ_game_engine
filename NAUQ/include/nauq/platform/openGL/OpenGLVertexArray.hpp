@@ -14,8 +14,8 @@ namespace nauq {
     {
     private:
         std::uint32_t rendererID = 0;
-        std::vector<std::shared_ptr<VertexBuffer>> vertexBuffers;
-        std::shared_ptr<IndexBuffer> indexBuffer;
+        std::vector<Ref<VertexBuffer>> vertexBuffers;
+        Ref<IndexBuffer> indexBuffer;
     public:
         explicit OpenGLVertexArray();
         ~OpenGLVertexArray() override = default;
@@ -23,10 +23,10 @@ namespace nauq {
     public:
         void bind() override;
         void unbind() override;
-        void addVertexBuffer(const std::shared_ptr<VertexBuffer>& vb) override;
-        void setIndexBuffer(const std::shared_ptr<IndexBuffer>& ib) override;
+        void addVertexBuffer(const Ref<VertexBuffer>& vb) override;
+        void setIndexBuffer(const Ref<IndexBuffer>& ib) override;
 
-        virtual const std::shared_ptr<IndexBuffer>& getIndexBuffer() const override;
+        [[nodiscard]] const Ref<IndexBuffer>& getIndexBuffer() const override;
     };
 }
 

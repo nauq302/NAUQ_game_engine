@@ -2,8 +2,8 @@
 // Created by nauq302 on 07/08/2020.
 //
 
-#ifndef NAUQ_GAME_ENGINE_OPENGL_WINDOW_HPP
-#define NAUQ_GAME_ENGINE_OPENGL_WINDOW_HPP
+#ifndef NAUQ_GAME_ENGINE_OPENGLWINDOW_HPP
+#define NAUQ_GAME_ENGINE_OPENGLWINDOW_HPP
 
 #include "nauq/Window.hpp"
 #include "nauq/renderer/GraphicsContext.hpp"
@@ -12,13 +12,13 @@
 namespace nauq {
 
     /**
-     * @class OpenGL_Window
+     * @class OpenGLWindow
      *
      * @inherit Window
      *
      * @brief Window object for OpenGL Platform
      */
-    class OpenGL_Window :
+    class OpenGLWindow :
             public Window
     {
     private:
@@ -34,8 +34,8 @@ namespace nauq {
         GraphicsContext* context;
 
     public:
-        explicit OpenGL_Window(const WindowProps& props);
-        ~OpenGL_Window() override;
+        explicit OpenGLWindow(const WindowProps& props);
+        ~OpenGLWindow() override;
 
     public:
         void onUpdate() override;
@@ -57,4 +57,4 @@ namespace nauq {
 }
 
 
-#endif //NAUQ_GAME_ENGINE_OPENGL_WINDOW_HPP
+#endif //NAUQ_GAME_ENGINE_OPENGLWINDOW_HPP

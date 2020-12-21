@@ -2,8 +2,8 @@
 // Created by nauq302 on 06/10/2020.
 //
 
-#ifndef NAUQ_GAME_ENGINE_OPENGL_CONTEXT_HPP
-#define NAUQ_GAME_ENGINE_OPENGL_CONTEXT_HPP
+#ifndef NAUQ_GAME_ENGINE_OPENGLCONTEXT_HPP
+#define NAUQ_GAME_ENGINE_OPENGLCONTEXT_HPP
 
 #include "nauq/renderer/GraphicsContext.hpp"
 
@@ -11,14 +11,14 @@ struct GLFWwindow;
 
 namespace nauq {
 
-    class OpenGL_Context :
+    class OpenGLContext :
             public GraphicsContext
     {
     private:
         GLFWwindow* windowHandle;
 
     public:
-        explicit OpenGL_Context(GLFWwindow* glfwWindow);
+        explicit OpenGLContext(GLFWwindow* glfwWindow);
 
     public:
         void init() override;
@@ -28,4 +28,4 @@ namespace nauq {
 
 
 
-#endif //NAUQ_GAME_ENGINE_OPENGL_CONTEXT_HPP
+#endif //NAUQ_GAME_ENGINE_OPENGLCONTEXT_HPP

@@ -5,6 +5,8 @@
 #ifndef NAUQ_GAME_ENGINE_CORE_HPP
 #define NAUQ_GAME_ENGINE_CORE_HPP
 
+#include <memory>
+
 #ifdef NAUQ_PLATFORM_WINDOWS
     #ifdef NAUQ_BUILD_DLL
         #define NAUQ_API __declspec(dllexport)
@@ -34,6 +36,12 @@ namespace nauq {
      * @return
      */
     constexpr unsigned char bit(unsigned char index) { return 1u << index; }
+
+    template <typename T>
+    using Ref = std::shared_ptr<T>;
+
+    template <typename T>
+    using Scope = std::unique_ptr<T>;
 }
 
 
