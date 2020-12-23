@@ -35,6 +35,7 @@
 #include "nauq/renderer/VertexArray.hpp"
 #include "nauq/renderer/OrthographicCamera.hpp"
 #include "nauq/renderer/RenderCommand.hpp"
+#include "nauq/renderer/Texture.hpp"
 
 #include "nauq/Application.hpp"
 

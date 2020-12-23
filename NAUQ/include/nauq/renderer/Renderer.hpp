@@ -23,6 +23,7 @@ namespace nauq {
     public:
         static inline RendererAPI::API getAPI() { return RendererAPI::getAPI(); }
 
+        static void init();
         static void beginScene(OrthographicCamera& camera);
         static void submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform = glm::mat4(1.f));
         static void endScene();

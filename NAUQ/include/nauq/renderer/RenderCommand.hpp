@@ -16,6 +16,8 @@ namespace nauq {
         static RendererAPI* rendererAPI;
 
     public:
+        static inline void init() { rendererAPI->init(); }
+
         static inline void drawIndexed(const Ref<VertexArray>& vertexArray) { rendererAPI->drawIndexed(vertexArray); }
 
         static inline void setClearColor(const glm::vec4& color) { rendererAPI->setClearColor(color); }

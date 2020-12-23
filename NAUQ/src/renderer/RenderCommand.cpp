@@ -9,4 +9,6 @@
 namespace nauq {
 
     RendererAPI* RenderCommand::rendererAPI = new OpenGLRenderAPI;
+
+
 }

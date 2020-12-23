@@ -11,6 +11,11 @@ namespace nauq {
 
     Renderer::SceneData Renderer::sceneData;
 
+    void Renderer::init()
+    {
+        RenderCommand::init();
+    }
+
     void Renderer::beginScene(OrthographicCamera& camera)
     {
         sceneData.viewProjectionMatrix = camera.getViewProjection();
@@ -31,4 +36,6 @@ namespace nauq {
     {
 
     }
+
+
 }

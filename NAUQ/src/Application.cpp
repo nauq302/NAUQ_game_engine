@@ -8,6 +8,7 @@
 #include "nauq/Log.hpp"
 #include "nauq/imGui/ImGuiLayer.hpp"
 #include "nauq/Input.hpp"
+#include "nauq/renderer/Renderer.hpp"
 
 
 namespace nauq {
@@ -24,6 +25,8 @@ namespace nauq {
 
         window.reset(Window::create());
         window->setEventCallback(NQ_BIND_EVENT_FN(Application::onEvent));
+
+        Renderer::init();
 
         imGuiLayer = new ImGuiLayer();
         pushOverlay(imGuiLayer);

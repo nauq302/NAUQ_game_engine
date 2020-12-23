@@ -5,6 +5,8 @@
 #include <nauq/platform/openGL/OpenGLShader.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <string_view>
+
 namespace nq = nauq;
 
 /**
@@ -18,8 +20,10 @@ private:
     nq::Ref<nq::VertexArray> vertexArray;
 
     nq::Ref<nq::VertexArray> squareVA;
-    nq::Ref<nq::Shader> flatColor;
+    nq::Ref<nq::Shader> flatColorShader, textureShader;
     nq::OrthographicCamera camera;
+
+    nq::Ref<nq::Texture2D> texture, moon;
 
     glm::vec3 camPos;
     float camSpeed = 0.5f;
@@ -43,8 +47,8 @@ public:
 
         float vertices[] = {
                 -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-                0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
-                0.0f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+                 0.5f, -0.5f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f,
+                 0.0f,  0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f,
         };
 
         nq::Ref<nq::VertexBuffer> vertexBuffer(nq::VertexBuffer::create(vertices, sizeof(vertices)));
@@ -66,15 +70,16 @@ public:
         squareVA.reset(nq::VertexArray::create());
 
         float sq[] = {
-                -0.5f, -0.5f, 0.0f,
-                 0.5f, -0.5f, 0.0f,
-                 0.5f,  0.5f, 0.0f,
-                -0.5f,  0.5f, 0.0f,
+                -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+                 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+                 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+                -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
         };
 
         nq::Ref<nq::VertexBuffer> squareVB(nq::VertexBuffer::create(sq, sizeof(sq)));
         squareVB->setLayout({
-            { nq::ShaderDataType::VEC3F, "a_pos" }
+            { nq::ShaderDataType::VEC3F, "a_pos" },
+            { nq::ShaderDataType::VEC2F, "a_textCoord" }
         });
         squareVA->addVertexBuffer(squareVB);
 
@@ -118,7 +123,9 @@ public:
             }
         )glsl";
 
-        std::string vertexBlue = R"glsl(
+        shader.reset(nq::Shader::create(vertexSrc, fragmentSrc));
+
+        std::string vertexFlat = R"glsl(
             #version 330 core
             #extension GL_ARB_separate_shader_objects: enable
 
@@ -141,6 +148,7 @@ public:
             uniform vec3 u_color;
 
             layout(location = 0) out vec4 color;
+
             in vec3 v_pos;
 
             void main() {
@@ -148,8 +156,51 @@ public:
             }
         )glsl";
 
-        shader.reset(nq::Shader::create(vertexSrc, fragmentSrc));
-        flatColor.reset(nq::Shader::create(vertexBlue, fragmentFlat));
+        flatColorShader.reset(nq::Shader::create(vertexFlat, fragmentFlat));
+
+        std::string vertexTexture = R"glsl(
+            #version 330 core
+            #extension GL_ARB_separate_shader_objects: enable
+
+            layout(location = 0) in vec3 a_pos;
+            layout(location = 1) in vec2 a_texCoord;
+
+            uniform mat4 u_vp;
+            uniform mat4 u_transform;
+
+            out vec2 v_texCoord;
+
+            void main() {
+                v_texCoord = a_texCoord;
+                gl_Position = u_vp * u_transform * vec4(a_pos,1.0);
+            }
+        )glsl";
+
+        std::string fragmentTexture = R"glsl(
+            #version 330 core
+
+            uniform vec3 u_color;
+            uniform sampler2D u_texture;
+
+            layout(location = 0) out vec4 color;
+
+            in vec2 v_texCoord;
+
+            void main() {
+                color = texture(u_texture, v_texCoord);
+            }
+        )glsl";
+
+        textureShader.reset(nq::Shader::create(vertexTexture, fragmentTexture));
+
+
+        texture = nq::Texture2D::create("../../Sandbox/res/hv.jpeg");
+        moon = nq::Texture2D::create("../../Sandbox/res/moon.png");
+
+
+        auto t = std::dynamic_pointer_cast<nq::OpenGLShader>(textureShader);
+        t->bind();
+        t->uploadUniform("u_texture", 0);
     }
 
 public:
@@ -184,11 +235,11 @@ public:
         static const glm::mat4 eyes(1.0f);
         static glm::mat4 scale = glm::scale(eyes, glm::vec3(0.1f));
 
-//        nq::MaterialRef material = new nq::Material(flatColor);
+//        nq::MaterialRef material = new nq::Material(flatColorShader);
 //        material->set("u_color", red);
 //        squareMesh->setMaterial(material);
 
-        auto fc = std::dynamic_pointer_cast<nq::OpenGLShader>(flatColor);
+        auto fc = std::dynamic_pointer_cast<nq::OpenGLShader>(flatColorShader);
         fc->bind();
         fc->uploadUniform("u_color", sqColor);
 
@@ -196,11 +247,20 @@ public:
             for (int x = 0; x < 20; ++x) {
                 glm::vec3 pos(0.11f * x, 0.11f * y, 0.0f);
                 glm::mat4 transform = glm::translate(eyes, pos) * scale;
-                nq::Renderer::submit(flatColor, squareVA, transform);
+                nq::Renderer::submit(flatColorShader, squareVA, transform);
             }
         }
 
-        nq::Renderer::submit(shader, vertexArray);
+        auto tr = glm::scale(eyes, glm::vec3(1.5f));
+
+        texture->bind();
+        nq::Renderer::submit(textureShader, squareVA, tr);
+
+        moon->bind();
+        nq::Renderer::submit(textureShader, squareVA, glm::translate(glm::mat4(1.0f), glm::vec3(0.25f, -0.25f, 0.0f)) * tr);
+
+        // Triangle
+        //nq::Renderer::submit(shader, vertexArray);
 
         nq::Renderer::endScene();
 
@@ -221,7 +281,7 @@ public:
 };
 
 /**
- *you
+ *
  */
 class Sandbox :
         public nauq::Application

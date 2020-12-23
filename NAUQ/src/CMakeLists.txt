@@ -1,6 +1,7 @@
 
 set(NAUQ_LIB nauq CACHE INTERNAL "Name of NAUQ library file")
 set(DEPEDENCE_IMGUI ${PROJECT_SOURCE_DIR}/dependence/imgui-docking)
+set(DEPEDENCE_STB ${PROJECT_SOURCE_DIR}/dependence/stb_image)
 set(NAUQ_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/include ${DEPEDENCE_IMGUI} CACHE INTERNAL "Directory of NAUQ header files")
 set(NAUQ_LIB_DIR ${PROJECT_BINARY_DIR} CACHE INTERNAL "Directory of NAUQ library files")
 
@@ -30,11 +31,13 @@ add_library(
         renderer/VertexArray.cpp
         renderer/Shader.cpp
         renderer/OrthographicCamera.cpp
+        renderer/Texture.cpp
         platform/openGL/OpenGLContext.cpp
         platform/openGL/OpenGLBuffer.cpp
         platform/openGL/OpenGLVertexArray.cpp
         platform/openGL/OpenGLRenderAPI.cpp
         platform/openGL/OpenGLShader.cpp
+        platform/openGL/OpenGLTexture.cpp
 )
 
 target_include_directories(
@@ -42,7 +45,9 @@ target_include_directories(
         PRIVATE
         ${NAUQ_INCLUDE_DIR}
         ${DEPEDENCE_IMGUI}
+        ${DEPEDENCE_STB}
 )
+
 
 #target_link_directories(
 #        ${NAUQ_LIB}
@@ -50,7 +55,6 @@ target_include_directories(
 #        ${IMGUI_DOCKING_LIB_DIR}
 #)
 
-message(STATUS ${IMGUI_DOCKING_LIB_DIR})
 
 target_link_libraries(
         ${NAUQ_LIB}
@@ -62,6 +66,7 @@ target_link_libraries(
         glm
         glad::glad
         imgui-docking
+        stb_image
 #        imgui::imgui
 )
 
