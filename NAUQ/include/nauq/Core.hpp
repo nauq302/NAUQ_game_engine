@@ -14,14 +14,18 @@
         #define NAUQ_API __declspec(dllimport)
     #endif
 
+    #define NQ_DEBUG_BREAK() __debugbreak()
+
 #else
     #define NAUQ_API
+    #define NQ_DEBUG_BREAK() __builtin_trap()
+#include <csignal>
 #endif
 
 
 #ifdef NQ_ENABLE_ASSERTS
-    #define NQ_ASSERT(x,...) !(x) ? (NQ_ERROR("Assert Failed: {0}", __VA_ARGS__), std::exit(1)) : (void)0
-    #define NQ_CORE_ASSERT(x,...) !(x) ? (NQ_CORE_ERROR("Assert Failed: {0}", __VA_ARGS__), std::exit(1)) : (void)0
+    #define NQ_ASSERT(x,...) !(x) ? (NQ_ERROR("Assert Failed: {0}", __VA_ARGS__), NQ_DEBUG_BREAK()) : (void)0
+    #define NQ_CORE_ASSERT(x,...) !(x) ? (NQ_CORE_ERROR("Assert Failed: {0}", __VA_ARGS__), NQ_DEBUG_BREAK()) : (void)0
 #else
     #define NQ_ASSERT(x,...)
     #define NQ_CORE_ASSERT(x,...)

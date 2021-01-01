@@ -20,16 +20,13 @@ private:
     nq::Ref<nq::VertexArray> vertexArray;
 
     nq::Ref<nq::VertexArray> squareVA;
-    nq::Ref<nq::Shader> flatColorShader, textureShader;
-    nq::OrthographicCamera camera;
+    nq::Ref<nq::Shader> flatColorShader;
+    nq::OrthographicCameraController cameraController;
 
     nq::Ref<nq::Texture2D> texture, moon;
 
-    glm::vec3 camPos;
-    float camSpeed = 0.5f;
+    nq::ShaderLibrary shaderLibrary;
 
-    float camRot = 0.0f;
-    float camRotSpeed = 180.0f;
 
     glm::vec3 sqColor = { 0.2f, 0.3f, 0.8f };
 
@@ -39,9 +36,7 @@ private:
 public:
     ExampleLayer() :
         nq::Layer("Example"),
-        camera(-2.0f, 2.0f, -1.5f, 1.5f),
-        camPos(0.0f),
-        camRot(0.0f)
+        cameraController(1024.f / 768.f)
     {
         vertexArray.reset(nq::VertexArray::create());
 
@@ -123,7 +118,8 @@ public:
             }
         )glsl";
 
-        shader.reset(nq::Shader::create(vertexSrc, fragmentSrc));
+
+        shader = nq::Shader::create("Vertex pos color", vertexSrc, fragmentSrc);
 
         std::string vertexFlat = R"glsl(
             #version 330 core
@@ -156,43 +152,9 @@ public:
             }
         )glsl";
 
-        flatColorShader.reset(nq::Shader::create(vertexFlat, fragmentFlat));
+        flatColorShader = nq::Shader::create("Flat Color", vertexFlat, fragmentFlat);
 
-        std::string vertexTexture = R"glsl(
-            #version 330 core
-            #extension GL_ARB_separate_shader_objects: enable
-
-            layout(location = 0) in vec3 a_pos;
-            layout(location = 1) in vec2 a_texCoord;
-
-            uniform mat4 u_vp;
-            uniform mat4 u_transform;
-
-            out vec2 v_texCoord;
-
-            void main() {
-                v_texCoord = a_texCoord;
-                gl_Position = u_vp * u_transform * vec4(a_pos,1.0);
-            }
-        )glsl";
-
-        std::string fragmentTexture = R"glsl(
-            #version 330 core
-
-            uniform vec3 u_color;
-            uniform sampler2D u_texture;
-
-            layout(location = 0) out vec4 color;
-
-            in vec2 v_texCoord;
-
-            void main() {
-                color = texture(u_texture, v_texCoord);
-            }
-        )glsl";
-
-        textureShader.reset(nq::Shader::create(vertexTexture, fragmentTexture));
-
+        auto textureShader = shaderLibrary.load("../../Sandbox/shaders/Texture.glsl");
 
         texture = nq::Texture2D::create("../../Sandbox/res/hv.jpeg");
         moon = nq::Texture2D::create("../../Sandbox/res/moon.png");
@@ -206,31 +168,12 @@ public:
 public:
     void onUpdate(nq::TimeStep ts) override
     {
-        if (nq::Input::isKeyPress(NQ_KEY_LEFT))
-            camPos.x -= camSpeed * ts;
-
-        else if (nq::Input::isKeyPress(NQ_KEY_RIGHT))
-            camPos.x += camSpeed * ts;
-
-        else if (nq::Input::isKeyPress(NQ_KEY_DOWN))
-            camPos.y -= camSpeed * ts;
-
-        else if (nq::Input::isKeyPress(NQ_KEY_UP))
-            camPos.y += camSpeed * ts;
-
-        if (nq::Input::isKeyPress(NQ_KEY_A))
-            camRot += camRotSpeed * ts;
-
-        if (nq::Input::isKeyPress(NQ_KEY_D))
-            camRot -= camRotSpeed * ts;
+        cameraController.onUpdate(ts);
 
         nq::RenderCommand::setClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         nq::RenderCommand::clear();
 
-        camera.setPosition(camPos);
-        camera.setRotation(camRot);
-
-        nq::Renderer::beginScene(camera);
+        nq::Renderer::beginScene(cameraController.getCamera());
 
         static const glm::mat4 eyes(1.0f);
         static glm::mat4 scale = glm::scale(eyes, glm::vec3(0.1f));
@@ -253,6 +196,8 @@ public:
 
         auto tr = glm::scale(eyes, glm::vec3(1.5f));
 
+        auto textureShader = shaderLibrary.get("Texture");
+
         texture->bind();
         nq::Renderer::submit(textureShader, squareVA, tr);
 
@@ -263,13 +208,11 @@ public:
         //nq::Renderer::submit(shader, vertexArray);
 
         nq::Renderer::endScene();
-
-
     }
 
-    void onEvent(nauq::Event& event) override
+    void onEvent(nq::Event& event) override
     {
-
+        cameraController.onEvent(event);
     }
 
     void onImGuiRender() override

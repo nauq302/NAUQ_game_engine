@@ -20,9 +20,8 @@ add_library(
         SHARED
         Application.cpp
         Log.cpp
-        platform/openGL/${WINDOW_SOURCE}
-        platform/openGL/OpenGLInput.cpp
         LayerStack.cpp
+        OrthographicCameraController.cpp
         imGui/ImGuiLayer.cpp
         imGui/ImGuiBuild.cpp
         renderer/RenderCommand.cpp
@@ -32,6 +31,8 @@ add_library(
         renderer/Shader.cpp
         renderer/OrthographicCamera.cpp
         renderer/Texture.cpp
+        platform/openGL/${WINDOW_SOURCE}
+        platform/openGL/OpenGLInput.cpp
         platform/openGL/OpenGLContext.cpp
         platform/openGL/OpenGLBuffer.cpp
         platform/openGL/OpenGLVertexArray.cpp

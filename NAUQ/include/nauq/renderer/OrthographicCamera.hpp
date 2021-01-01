@@ -23,6 +23,8 @@ namespace nauq {
         explicit OrthographicCamera(float left, float right, float bottom, float top);
 
     public:
+        void setProjection(float left, float right, float bottom, float top);
+
         [[nodiscard]] const glm::vec3& getPosition() const { return position; }
         [[nodiscard]] float getRotation() const { return rotation; }
         void setPosition(const glm::vec3& pos) { position = pos; recalculateView(); }

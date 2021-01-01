@@ -5,6 +5,7 @@
 #ifndef NUQ_GAME_ENGINE_KEYCODES_HPP
 #define NUQ_GAME_ENGINE_KEYCODES_HPP
 
+#include <unordered_map>
 
 // From Glfw3
 
@@ -135,9 +136,13 @@
 #define NQ_KEY_RIGHT_SUPER        347
 #define NQ_KEY_MENU               348
 
-#define NUQ_KEY_LAST               NUQ_KEY_MENU
+#define NQ_KEY_LAST               NQ_KEY_MENU
 
 
 
+namespace nauq {
 
+    std::unordered_map<int, int> openGlKeys = {
+    };
+}
 #endif //NUQ_GAME_ENGINE_KEYCODES_HPP

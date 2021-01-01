@@ -19,8 +19,8 @@
 #include "nauq/MouseButtonCodes.hpp"
 
 #include "nauq/Input.hpp"
-
 #include "nauq/Window.hpp"
+#include "nauq/OrthographicCameraController.hpp"
 
 #include "nauq/Layer.hpp"
 #include "nauq/LayerStack.hpp"

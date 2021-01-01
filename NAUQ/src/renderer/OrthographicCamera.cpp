@@ -15,6 +15,12 @@ namespace nauq {
         viewProjection = projection * view;
     }
 
+    void OrthographicCamera::setProjection(float left, float right, float bottom, float top)
+    {
+        projection = glm::ortho(left, right, bottom, top, -1.0f, 1.0f);
+        viewProjection = projection * view;
+    }
+
     void OrthographicCamera::recalculateView()
     {
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
@@ -23,6 +29,8 @@ namespace nauq {
         view = glm::inverse(transform);
         viewProjection = projection * view;
     }
+
+
 
 
 }
