@@ -140,9 +140,9 @@
 
 
 
-namespace nauq {
-
-    std::unordered_map<int, int> openGlKeys = {
-    };
-}
+//namespace nauq {
+//
+//    std::unordered_map<int, int> openGlKeys = {
+//    };
+//}
 #endif //NUQ_GAME_ENGINE_KEYCODES_HPP

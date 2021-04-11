@@ -36,11 +36,9 @@
 #include "nauq/renderer/OrthographicCamera.hpp"
 #include "nauq/renderer/RenderCommand.hpp"
 #include "nauq/renderer/Texture.hpp"
+#include "nauq/renderer/Renderer2D.hpp"
 
 #include "nauq/Application.hpp"
 
-/*-------- Entry point ----------*/
-#include "nauq/EntryPoint.hpp"
-/*-------------------------------*/
 
 #endif //NAUQ_GAME_ENGINE_NAUQ_HPP

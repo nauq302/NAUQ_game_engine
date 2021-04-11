@@ -24,6 +24,7 @@ namespace nauq {
 
     public:
         virtual void init() = 0;
+        virtual void setViewport(std::uint32_t x, std::uint32_t y, std::uint32_t w, std::uint32_t h) = 0;
         virtual void setClearColor(const glm::vec4& color) = 0;
 
         virtual void clear() = 0;

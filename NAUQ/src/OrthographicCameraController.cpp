@@ -10,14 +10,14 @@
 namespace nauq {
 
     OrthographicCameraController::OrthographicCameraController(float aspectRatio, bool rotatable) :
-        aspectRatio(aspectRatio),
-        zoomLevel(1.0f),
-        camera(-aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel),
-        camPos(0.0f, 0.0f, 0.0f),
-        camTransSpeed(4.0f),
-        camRot(0.0f),
-        camRotSpeed(45.0f),
-        rotatable(rotatable)
+            aspectRatio(aspectRatio),
+            zoomLevel(1.0f),
+            camera(-aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel),
+            position(0.0f, 0.0f, 0.0f),
+            transSpeed(4.0f),
+            camRot(0.0f),
+            camRotSpeed(45.0f),
+            rotatable(rotatable)
     {
 
     }
@@ -25,16 +25,16 @@ namespace nauq {
     void OrthographicCameraController::onUpdate(TimeStep ts)
     {
         if (Input::isKeyPress(NQ_KEY_A))
-            camPos.x -= camTransSpeed * ts;
+            position.x -= transSpeed * ts;
 
         else if (Input::isKeyPress(NQ_KEY_D))
-            camPos.x += camTransSpeed * ts;
+            position.x += transSpeed * ts;
 
         else if (Input::isKeyPress(NQ_KEY_S))
-            camPos.y -= camTransSpeed * ts;
+            position.y -= transSpeed * ts;
 
         else if (Input::isKeyPress(NQ_KEY_W))
-            camPos.y += camTransSpeed * ts;
+            position.y += transSpeed * ts;
 
 
         if (rotatable) {
@@ -47,8 +47,8 @@ namespace nauq {
             camera.setRotation(camRot);
         }
 
-        camera.setPosition(camPos);
-        camTransSpeed = zoomLevel;
+        camera.setPosition(position);
+        transSpeed = zoomLevel;
     }
 
     void OrthographicCameraController::onEvent(Event& event)

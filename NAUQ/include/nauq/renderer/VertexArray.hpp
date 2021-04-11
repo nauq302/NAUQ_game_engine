@@ -23,7 +23,7 @@ namespace nauq {
 
         [[nodiscard]] virtual const Ref<IndexBuffer>& getIndexBuffer() const = 0;
 
-        static VertexArray* create();
+        static Ref<VertexArray> create();
     };
 }
 

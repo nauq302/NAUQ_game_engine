@@ -19,7 +19,7 @@
 #else
     #define NAUQ_API
     #define NQ_DEBUG_BREAK() __builtin_trap()
-#include <csignal>
+    #include <csignal>
 #endif
 
 

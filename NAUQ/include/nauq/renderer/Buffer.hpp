@@ -155,7 +155,7 @@ namespace nauq {
         virtual ~IndexBuffer() = default;
 
     public:
-        static IndexBuffer* create(std::uint32_t* indices, std::size_t size);
+        static Ref<IndexBuffer> create(std::uint32_t* indices, std::size_t size);
 
         virtual void bind() const = 0;
         virtual void unbind() const = 0;

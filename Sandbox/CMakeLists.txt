@@ -3,11 +3,21 @@ project(NAUQ_game_engine_Sandbox)
 
 
 find_package(spdlog CONFIG REQUIRED)
-add_executable(demo SandboxApp.cpp Sandbox_pch.hpp)
+
+add_executable(demo SandboxApp.cpp Sandbox2DLayer.cpp)
+
+
 target_include_directories(demo PRIVATE ${NAUQ_INCLUDE_DIR})
+
+
 target_link_directories(demo PRIVATE ${NAUQ_LIB_DIR})
+
 target_link_libraries(demo PRIVATE ${NAUQ_LIB} spdlog::spdlog spdlog::spdlog_header_only)
+
+
+
 target_precompile_headers(demo PRIVATE [[Sandbox_pch.hpp]])
+
 
 if (MSVC)
     add_custom_command(

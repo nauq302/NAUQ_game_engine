@@ -4,6 +4,7 @@
 
 #include <nauq/renderer/RenderCommand.hpp>
 #include "nauq/renderer/Renderer.hpp"
+#include "nauq/renderer/Renderer2D.hpp"
 
 #include "nauq/platform/openGL/OpenGLShader.hpp"
 
@@ -14,6 +15,12 @@ namespace nauq {
     void Renderer::init()
     {
         RenderCommand::init();
+        Renderer2D::init();
+    }
+
+    void Renderer::onWindowResize(std::uint32_t width, std::uint32_t height)
+    {
+        RenderCommand::setViewport(0, 0, width, height);
     }
 
     void Renderer::beginScene(OrthographicCamera& camera)
@@ -36,6 +43,8 @@ namespace nauq {
     {
 
     }
+
+
 
 
 }

@@ -18,7 +18,8 @@ namespace nauq {
      */
     Application::Application() :
         lastFrameTime(0.f),
-        running(true)
+        running(true),
+        minimized(false)
     {
         NQ_CORE_ASSERT(instance == nullptr, "Application already exists");
         instance = this;
@@ -44,13 +45,14 @@ namespace nauq {
     void Application::run()
     {
         while (running) {
-
             auto time = static_cast<float>(glfwGetTime());
             TimeStep timeStep = time - lastFrameTime;
             lastFrameTime = time;
 
-            for (Layer* l : layerStack) {
-                l->onUpdate(timeStep);
+            if (!minimized) {
+                for (Layer* l : layerStack) {
+                    l->onUpdate(timeStep);
+                }
             }
 
             imGuiLayer->begin();
@@ -59,9 +61,10 @@ namespace nauq {
             }
             imGuiLayer->end();
 
+
 #ifdef NAUQ_DEBUG
             glm::vec2 mousePos = Input::getMousePosition();
-            NAUQ_CORE_TRACE("{0}, {1}", mousePos.x, mousePos.y);
+                NAUQ_CORE_TRACE("{0}, {1}", mousePos.x, mousePos.y);
 #endif
 
             window->onUpdate();
@@ -77,6 +80,7 @@ namespace nauq {
         EventDispatcher dispatcher(event);
 
         dispatcher.dispatch<WindowCloseEvent>(NQ_BIND_EVENT_FN(Application::onWindowClosed));
+        dispatcher.dispatch<WindowResizeEvent>(NQ_BIND_EVENT_FN(Application::onWindowResized));
 
         for (auto rit = layerStack.rbegin(); rit != layerStack.rend(); ++rit) {
             (*rit)->onEvent(event);
@@ -115,5 +119,17 @@ namespace nauq {
     {
         running = false;
         return true;
+    }
+
+    bool Application::onWindowResized(WindowResizeEvent& event)
+    {
+        if (event.getWidth() == 0 || event.getHeight() == 0) {
+            minimized = true;
+            return false;
+        }
+
+        minimized = false;
+        Renderer::onWindowResize(event.getWidth(), event.getHeight());
+        return false;
     }
 }

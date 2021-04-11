@@ -7,6 +7,9 @@
 
 #include <string_view>
 
+#include <nauq/EntryPoint.hpp>
+#include "Sandbox2DLayer.hpp"
+
 namespace nq = nauq;
 
 /**
@@ -38,7 +41,7 @@ public:
         nq::Layer("Example"),
         cameraController(1024.f / 768.f)
     {
-        vertexArray.reset(nq::VertexArray::create());
+        vertexArray = nq::VertexArray::create();
 
         float vertices[] = {
                 -0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
@@ -62,7 +65,7 @@ public:
         nq::Ref<nq::IndexBuffer> indexBuffer(nq::IndexBuffer::create(indices, 3));
         vertexArray->setIndexBuffer(indexBuffer);
 
-        squareVA.reset(nq::VertexArray::create());
+        squareVA = nq::VertexArray::create();
 
         float sq[] = {
                 -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
@@ -177,11 +180,6 @@ public:
 
         static const glm::mat4 eyes(1.0f);
         static glm::mat4 scale = glm::scale(eyes, glm::vec3(0.1f));
-
-//        nq::MaterialRef material = new nq::Material(flatColorShader);
-//        material->set("u_color", red);
-//        squareMesh->setMaterial(material);
-
         auto fc = std::dynamic_pointer_cast<nq::OpenGLShader>(flatColorShader);
         fc->bind();
         fc->uploadUniform("u_color", sqColor);
@@ -232,7 +230,7 @@ class Sandbox :
 public:
     explicit Sandbox()
     {
-        pushLayer(new ExampleLayer);
+        pushLayer(new Sandbox2DLayer);
     }
     ~Sandbox() override = default;
 };

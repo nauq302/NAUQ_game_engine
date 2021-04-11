@@ -24,6 +24,15 @@ namespace nauq {
         NQ_CORE_INFO("\tVendor: {0}", glGetString(GL_VENDOR));
         NQ_CORE_INFO("\tRenderer: {0}", glGetString(GL_RENDERER));
         NQ_CORE_INFO("\tVersion: {0}", glGetString(GL_VERSION));
+
+#ifdef NQ_ENABLE_ASSERTS
+        int majorVer;
+        int minorVer;
+        glGetIntegerv(GL_MAJOR_VERSION, &majorVer);
+        glGetIntegerv(GL_MINOR_VERSION, &minorVer);
+
+        NQ_CORE_ASSERT(majorVer > 4 || (majorVer == 4 && minorVer >= 5), "Nauq requires at least OpenGL version 4.5");
+#endif
     }
 
     void OpenGLContext::swapBuffers()

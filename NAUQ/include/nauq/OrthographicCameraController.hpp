@@ -21,8 +21,8 @@ namespace nauq {
         float zoomLevel;
         OrthographicCamera camera;
 
-        glm::vec3 camPos;
-        float camTransSpeed;
+        glm::vec3 position;
+        float transSpeed;
 
         float camRot;
         float camRotSpeed;
@@ -36,6 +36,8 @@ namespace nauq {
     public:
         inline OrthographicCamera& getCamera() { return camera; }
         [[nodiscard]] inline const OrthographicCamera& getCamera() const { return camera; }
+
+        inline void setZoomLevel(float level) { zoomLevel = level; }
 
         void onUpdate(TimeStep ts);
         void onEvent(Event& event);

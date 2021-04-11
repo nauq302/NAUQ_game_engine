@@ -13,7 +13,8 @@ namespace nauq {
             public RendererAPI
     {
     public:
-        virtual void init() override;
+        void init() override;
+        void setViewport(std::uint32_t x, std::uint32_t y, std::uint32_t w, std::uint32_t h) override;
 
         void setClearColor(const glm::vec4& color) override;
 

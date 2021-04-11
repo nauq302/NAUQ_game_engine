@@ -32,6 +32,7 @@ namespace nauq {
         LayerStack layerStack;
         float lastFrameTime;
         bool running;
+        bool minimized;
 
     public:
         explicit Application();
@@ -50,6 +51,7 @@ namespace nauq {
 
     private:
         bool onWindowClosed(WindowCloseEvent& event);
+        bool onWindowResized(WindowResizeEvent& event);
     };
 
     Application* createApp();

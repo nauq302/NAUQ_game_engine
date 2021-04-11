@@ -31,6 +31,7 @@ add_library(
         renderer/Shader.cpp
         renderer/OrthographicCamera.cpp
         renderer/Texture.cpp
+        renderer/Renderer2D.cpp
         platform/openGL/${WINDOW_SOURCE}
         platform/openGL/OpenGLInput.cpp
         platform/openGL/OpenGLContext.cpp
@@ -39,6 +40,7 @@ add_library(
         platform/openGL/OpenGLRenderAPI.cpp
         platform/openGL/OpenGLShader.cpp
         platform/openGL/OpenGLTexture.cpp
+
 )
 
 target_include_directories(
@@ -64,7 +66,7 @@ target_link_libraries(
         spdlog::spdlog_header_only
         GL
         glfw
-        glm
+#        glm
         glad::glad
         imgui-docking
         stb_image

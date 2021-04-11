@@ -38,14 +38,14 @@ namespace nauq {
      * @param size
      * @return
      */
-    IndexBuffer* IndexBuffer::create(std::uint32_t* indices, std::size_t size)
+    Ref<IndexBuffer> IndexBuffer::create(std::uint32_t* indices, std::size_t size)
     {
         switch (Renderer::getAPI()) {
             case RendererAPI::API::NONE:
                 NQ_CORE_ASSERT(false, "RendererAPI::NONE is not current supported!");
 
             case RendererAPI::API::OPEN_GL:
-                return new OpenGLIndexBuffer(indices, size);
+                return std::make_shared<OpenGLIndexBuffer>(indices, size);
 
             default:
                 return nullptr;

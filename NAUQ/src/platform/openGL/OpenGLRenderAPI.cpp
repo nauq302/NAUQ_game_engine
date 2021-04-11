@@ -12,6 +12,11 @@ namespace nauq {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     }
 
+    void OpenGLRenderAPI::setViewport(std::uint32_t x, std::uint32_t y, std::uint32_t w, std::uint32_t h)
+    {
+        glViewport(x, y, w, h);
+    }
+
     void OpenGLRenderAPI::setClearColor(const glm::vec4& color)
     {
         glClearColor(color.r, color.g, color.b, color.g);
@@ -26,6 +31,7 @@ namespace nauq {
     {
         glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
     }
+
 
 
 
