@@ -32,11 +32,11 @@ namespace nauq {
 
         std::size_t lastDot = filepath.rfind('.');
         std::size_t count = lastDot == std::string::npos ? filepath.size() - lastSlash : lastDot - lastSlash;
-        name = filepath.substr(lastSlash, count);
+        _name = filepath.substr(lastSlash, count);
     }
 
     OpenGLShader::OpenGLShader(std::string name, const std::string& vertexSrc, const std::string& fragmentSrc) :
-        name(std::move(name))
+            _name(std::move(name))
     {
         SrcMap sources = {
             { GL_VERTEX_SHADER, vertexSrc},
@@ -213,6 +213,8 @@ namespace nauq {
             glDetachShader(rendererID, id);
         }
     }
+
+
 
 
 }

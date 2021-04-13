@@ -10,11 +10,14 @@
 
 #include "nauq/platform/openGL/OpenGLShader.hpp"
 
+#include <glm/gtc/matrix_transform.hpp>
+
 namespace nauq {
 
     struct Storage {
         Ref<VertexArray> vertexArray;
-        Ref<Shader> shader;
+        Ref<Shader> flatColorShader;
+        Ref<Shader> textureShader;
     };
 
     static Storage* data;
@@ -25,27 +28,32 @@ namespace nauq {
 
         data->vertexArray = VertexArray::create();
 
-        float sq[] = {
-                -0.5f, -0.5f, 0.0f,
-                 0.5f, -0.5f, 0.0f,
-                 0.5f,  0.5f, 0.0f,
-                -0.5f,  0.5f, 0.0f,
+        float vertices[] = {
+                -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+                 0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+                 0.5f,  0.5f, 0.0f, 1.0f, 1.0f,
+                -0.5f,  0.5f, 0.0f, 0.0f, 1.0f,
         };
 
-        Ref<VertexBuffer> squareVB(VertexBuffer::create(sq, sizeof(sq)));
-        squareVB->setLayout({
+        Ref<VertexBuffer> vertexBuffer(VertexBuffer::create(vertices, sizeof(vertices)));
+        vertexBuffer->setLayout({
             { ShaderDataType::VEC3F, "a_pos" },
+            { ShaderDataType::VEC2F, "a_texCoord" },
         });
 
-        data->vertexArray->addVertexBuffer(squareVB);
+        data->vertexArray->addVertexBuffer(vertexBuffer);
 
-        unsigned int sqi[] = {
+        unsigned int indices[] = {
                 0, 1, 2, 2, 3, 0
         };
-        Ref<IndexBuffer> squareIB = IndexBuffer::create(sqi, 6);
-        data->vertexArray->setIndexBuffer(squareIB);
+        Ref<IndexBuffer> indexBuffer = IndexBuffer::create(indices, 6);
+        data->vertexArray->setIndexBuffer(indexBuffer);
 
-        data->shader = Shader::create("../../Sandbox/shaders/Flat Color.glsl");
+        data->flatColorShader = Shader::create("../../Sandbox/shaders/Flat Color.glsl");
+
+        data->textureShader = Shader::create("../../Sandbox/shaders/Texture.glsl");
+        data->textureShader->bind();
+        data->textureShader->set("u_texture", 0);
     }
 
     void Renderer2D::shutDown()
@@ -55,10 +63,11 @@ namespace nauq {
 
     void Renderer2D::beginScene(const OrthographicCamera& camera)
     {
-        auto fc = std::dynamic_pointer_cast<OpenGLShader>(data->shader);
-        fc->bind();
-        fc->uploadUniform("u_vp", camera.getProjection());
-        fc->uploadUniform("u_transform", glm::mat4(1.0f));
+        data->flatColorShader->bind();
+        data->flatColorShader->set("u_vp", camera.getViewProjection());
+
+        data->textureShader->bind();
+        data->textureShader->set("u_vp", camera.getViewProjection());
     }
 
     void Renderer2D::endScene()
@@ -73,11 +82,36 @@ namespace nauq {
 
     void Renderer2D::drawQuad(glm::vec3 pos, glm::vec2 size, const glm::vec4& color)
     {
-        auto fc = std::dynamic_pointer_cast<OpenGLShader>(data->shader);
-        fc->bind();
-        fc->uploadUniform("u_color", color);
+        data->flatColorShader->bind();
+        data->flatColorShader->set("u_color", color);
+
+        static const glm::mat4 ones(1.0f);
+        glm::mat transform = glm::translate(ones, pos) * glm::scale(ones, { size.x, size.y, 1.0f });
+
+        data->flatColorShader->set("u_transform", transform);
 
         data->vertexArray->bind();
         RenderCommand::drawIndexed(data->vertexArray);
+    }
+
+    void Renderer2D::drawQuad(glm::vec2 pos, glm::vec2 size, const Ref<Texture>& texture)
+    {
+        drawQuad({ pos.x, pos.y, 0.0f }, size, texture);
+    }
+
+    void Renderer2D::drawQuad(glm::vec3 pos, glm::vec2 size, const Ref<Texture>& texture)
+    {
+        data->textureShader->bind();
+
+        static const glm::mat4 ones(1.0f);
+        glm::mat transform = glm::translate(ones, pos) * glm::scale(ones, { size.x, size.y, 1.0f });
+
+        data->textureShader->set("u_transform", transform);
+
+        texture->bind();
+
+        data->vertexArray->bind();
+        RenderCommand::drawIndexed(data->vertexArray);
+
     }
 }

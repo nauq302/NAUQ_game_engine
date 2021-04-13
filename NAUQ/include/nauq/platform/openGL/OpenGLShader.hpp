@@ -20,7 +20,7 @@ namespace nauq {
     private:
         using SrcMap = std::unordered_map<GLenum, std::string>;
         std::uint32_t rendererID = 0;
-        std::string name;
+        std::string _name;
 
     public:
         explicit OpenGLShader(const std::string& filepath);
@@ -31,7 +31,12 @@ namespace nauq {
         void bind() const override;
         void unbind() const override;
 
-        [[nodiscard]] const std::string& getName() const override { return name; }
+        [[nodiscard]] const std::string& getName() const override { return _name; }
+
+        inline void set(const std::string& name, int value) override { uploadUniform(name, value); }
+        inline void set(const std::string& name, const glm::vec3& value) override { uploadUniform(name, value); }
+        inline void set(const std::string& name, const glm::vec4& value) override { uploadUniform(name, value); }
+        inline void set(const std::string& name, const glm::mat4& value) override { uploadUniform(name, value); }
 
         void uploadUniform(const std::string& uname, int value) const;
         void uploadUniform(const std::string& uname, float value) const;
@@ -42,7 +47,7 @@ namespace nauq {
 
     private:
         static std::string readfile(const std::string& filepath);
-        SrcMap preprocess(const std::string& source);
+        static SrcMap preprocess(const std::string& source);
         void compile(const SrcMap& shaderSources);
 
     };

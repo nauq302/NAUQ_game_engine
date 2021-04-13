@@ -6,6 +6,7 @@
 #define NAUQ_GAME_ENGINE_RENDERER2D_HPP
 
 #include "OrthographicCamera.hpp"
+#include "Texture.hpp"
 
 namespace nauq {
 
@@ -21,6 +22,9 @@ namespace nauq {
 
         static void drawQuad(glm::vec2 pos, glm::vec2 size, const glm::vec4& color);
         static void drawQuad(glm::vec3 pos, glm::vec2 size, const glm::vec4& color);
+
+        static void drawQuad(glm::vec2 pos, glm::vec2 size, const Ref<Texture>& texture);
+        static void drawQuad(glm::vec3 pos, glm::vec2 size, const Ref<Texture>& texture);
 
     };
 
