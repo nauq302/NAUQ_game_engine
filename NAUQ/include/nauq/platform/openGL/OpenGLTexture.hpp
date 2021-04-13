@@ -17,18 +17,23 @@ namespace nauq {
         std::uint32_t rendererID;
         std::uint32_t width;
         std::uint32_t height;
+        GLenum internalFormat;
+        GLenum dataFormat;
 
 
     public:
+        explicit OpenGLTexture2D(std::uint32_t width, std::uint32_t height);
         explicit OpenGLTexture2D(const std::string& path);
         ~OpenGLTexture2D() override;
 
     public:
         [[nodiscard]] std::uint32_t getWidth() const override { return width; }
-
         [[nodiscard]] std::uint32_t getHeight() const override { return height; }
 
-        virtual void bind(std::uint32_t slot = 0) const override;
+        void setData(void* data, std::size_t size) override;
+
+        void bind(std::uint32_t slot = 0) const override;
+        void unbind() const override;
     };
 }
 

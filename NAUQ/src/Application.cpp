@@ -31,7 +31,6 @@ namespace nauq {
 
         imGuiLayer = new ImGuiLayer();
         pushOverlay(imGuiLayer);
-
     }
 
     /**

@@ -10,6 +10,22 @@
 
 namespace nauq {
 
+    OpenGLTexture2D::OpenGLTexture2D(std::uint32_t width, std::uint32_t height) :
+        width(width),
+        height(height),
+        internalFormat(GL_RGBA8),
+        dataFormat(GL_RGBA)
+    {
+        glCreateTextures(GL_TEXTURE_2D, 1, &rendererID);
+        glTextureStorage2D(rendererID, 1, internalFormat, width, height);
+
+        glTextureParameteri(rendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTextureParameteri(rendererID, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        glTextureParameteri(rendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTextureParameteri(rendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    }
+
     OpenGLTexture2D::OpenGLTexture2D(const std::string& path) :
         path(path)
     {
@@ -21,8 +37,6 @@ namespace nauq {
 
         width = w;
         height = h;
-
-        GLenum internalFormat, dataFormat;
 
         switch (channel) {
             case 4:
@@ -61,12 +75,24 @@ namespace nauq {
         glDeleteTextures(1, &rendererID);
     }
 
-
+    void OpenGLTexture2D::setData(void* data, std::size_t size)
+    {
+        std::uint32_t bpp = dataFormat == GL_RGBA ? 4 : 3;
+        NQ_ASSERT(size == width * height * bpp, "Data must be entire texture");
+        glTextureSubImage2D(rendererID, 0, 0, 0, width, height, dataFormat, GL_UNSIGNED_BYTE, data);
+    }
 
     void OpenGLTexture2D::bind(std::uint32_t slot) const
     {
         glBindTextureUnit(slot, rendererID);
     }
+
+    void OpenGLTexture2D::unbind() const
+    {
+        glBindTexture(GL_TEXTURE_2D, 0);
+    }
+
+
 
 
 }

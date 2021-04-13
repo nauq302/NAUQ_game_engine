@@ -44,8 +44,14 @@ namespace nauq {
     template <typename T>
     using Ref = std::shared_ptr<T>;
 
+    template <typename T, typename... Ts>
+    constexpr Ref<T> createRef(Ts&&... ts) { return std::make_shared<T>(std::forward<Ts>(ts)...); }
+
     template <typename T>
     using Scope = std::unique_ptr<T>;
+
+    template <typename T, typename... Ts>
+    constexpr Scope<T> createScope(Ts&&... ts) { return std::make_unique<T>(std::forward<Ts>(ts)...); }
 }
 
 

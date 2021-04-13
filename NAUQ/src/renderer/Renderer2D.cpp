@@ -16,8 +16,8 @@ namespace nauq {
 
     struct Storage {
         Ref<VertexArray> vertexArray;
-        Ref<Shader> flatColorShader;
         Ref<Shader> textureShader;
+        Ref<Texture2D> whiteTexture;
     };
 
     static Storage* data;
@@ -49,7 +49,9 @@ namespace nauq {
         Ref<IndexBuffer> indexBuffer = IndexBuffer::create(indices, 6);
         data->vertexArray->setIndexBuffer(indexBuffer);
 
-        data->flatColorShader = Shader::create("../../Sandbox/shaders/Flat Color.glsl");
+        data->whiteTexture = Texture2D::create(1, 1);
+        std::uint32_t whiteData = 0xffffffff;
+        data->whiteTexture->setData(&whiteData, sizeof whiteData);
 
         data->textureShader = Shader::create("../../Sandbox/shaders/Texture.glsl");
         data->textureShader->bind();
@@ -63,9 +65,6 @@ namespace nauq {
 
     void Renderer2D::beginScene(const OrthographicCamera& camera)
     {
-        data->flatColorShader->bind();
-        data->flatColorShader->set("u_vp", camera.getViewProjection());
-
         data->textureShader->bind();
         data->textureShader->set("u_vp", camera.getViewProjection());
     }
@@ -82,13 +81,14 @@ namespace nauq {
 
     void Renderer2D::drawQuad(glm::vec3 pos, glm::vec2 size, const glm::vec4& color)
     {
-        data->flatColorShader->bind();
-        data->flatColorShader->set("u_color", color);
+        data->textureShader->set("u_color", color);
 
         static const glm::mat4 ones(1.0f);
         glm::mat transform = glm::translate(ones, pos) * glm::scale(ones, { size.x, size.y, 1.0f });
 
-        data->flatColorShader->set("u_transform", transform);
+        data->textureShader->set("u_transform", transform);
+
+        data->whiteTexture->bind();
 
         data->vertexArray->bind();
         RenderCommand::drawIndexed(data->vertexArray);
@@ -106,12 +106,13 @@ namespace nauq {
         static const glm::mat4 ones(1.0f);
         glm::mat transform = glm::translate(ones, pos) * glm::scale(ones, { size.x, size.y, 1.0f });
 
+        data->textureShader->set("u_color", glm::vec4(1.0f));
         data->textureShader->set("u_transform", transform);
 
         texture->bind();
 
         data->vertexArray->bind();
         RenderCommand::drawIndexed(data->vertexArray);
-
+        texture->unbind();
     }
 }

@@ -53,11 +53,6 @@ namespace nauq {
         ImGui::DestroyContext();
     }
 
-    void ImGuiLayer::onImGuiRender()
-    {
-        static bool show = true;
-        ImGui::ShowDemoWindow(&show);
-    }
 
 
 
