@@ -1,3 +1,4 @@
+
 //
 // Created by nauq302 on 05/08/2020.
 //
@@ -37,6 +38,8 @@
 #include "nauq/renderer/RenderCommand.hpp"
 #include "nauq/renderer/Texture.hpp"
 #include "nauq/renderer/Renderer2D.hpp"
+
+#include "nauq/debug/Instrumentor.hpp"
 
 #include "nauq/Application.hpp"
 

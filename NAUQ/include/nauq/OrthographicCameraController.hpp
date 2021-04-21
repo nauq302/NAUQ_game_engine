@@ -21,7 +21,7 @@ namespace nauq {
         float zoomLevel;
         OrthographicCamera camera;
 
-        glm::vec3 position;
+        glm::vec3 camPos;
         float transSpeed;
 
         float camRot;

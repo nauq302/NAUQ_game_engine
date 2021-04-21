@@ -8,6 +8,7 @@
 #include "nauq/events/ApplicationEvent.hpp"
 #include "nauq/events/KeyEvent.hpp"
 #include "nauq/events/MouseEvent.hpp"
+#include "nauq/debug/Instrumentor.hpp"
 
 #include "nauq/platform/openGL/OpenGLContext.hpp"
 
@@ -16,7 +17,7 @@ namespace nauq {
     /**
      *
      */
-    static bool glfw_Initialized = false;
+    static int glfw_windowCount = false;
 
     /**
      *
@@ -33,9 +34,9 @@ namespace nauq {
      * @param props
      * @return
      */
-    Window* Window::create(const WindowProps& props)
+    Scope<Window> Window::create(const WindowProps& props)
     {
-        return new OpenGLWindow(props);
+        return createScope<OpenGLWindow>(props);
     }
 
     /**
@@ -45,6 +46,8 @@ namespace nauq {
     OpenGLWindow::OpenGLWindow(const nauq::WindowProps& props) :
         window(nullptr)
     {
+        NQ_PROFILE_FUNCTION();
+
         init(props);
     }
 
@@ -53,6 +56,8 @@ namespace nauq {
      */
     OpenGLWindow::~OpenGLWindow()
     {
+        NQ_PROFILE_FUNCTION();
+
         shutdown();
     }
 
@@ -62,20 +67,22 @@ namespace nauq {
      */
     void OpenGLWindow::init(const WindowProps& props)
     {
+        NQ_PROFILE_FUNCTION();
+
         data.title = props.title;
         data.width = props.width;
         data.height = props.height;
 
         NQ_CORE_INFO("Create window {0} ({1}, {2})", props.title, props.width, props.height);
 
-        if (!glfw_Initialized) {
+        if (glfw_windowCount == 0) {
             // TODO: glfwTerminate on system shutdown
             int success = glfwInit();
             NQ_CORE_ASSERT(success, "Could not initialize GLFW");
 
             glfwSetErrorCallback(glfw_errorCallback);
 
-            glfw_Initialized = true;
+            ++glfw_windowCount;
         }
 
         /// Create a window
@@ -192,6 +199,8 @@ namespace nauq {
      */
     void OpenGLWindow::onUpdate()
     {
+        NQ_PROFILE_FUNCTION();
+
         glfwPollEvents();
         context->swapBuffers();
     }
@@ -202,6 +211,8 @@ namespace nauq {
      */
     void OpenGLWindow::setVSync(bool enable)
     {
+        NQ_PROFILE_FUNCTION();
+
         if (enable) {
             glfwSwapInterval(1);
         } else {
@@ -225,7 +236,14 @@ namespace nauq {
      */
     void OpenGLWindow::shutdown()
     {
+        NQ_PROFILE_FUNCTION();
+
         glfwDestroyWindow(window);
+        --glfw_windowCount;
+
+        if (glfw_windowCount == 0) {
+            glfwTerminate();
+        }
     }
 
 }

@@ -7,6 +7,7 @@
 #include "nauq/renderer/VertexArray.hpp"
 #include "nauq/renderer/Shader.hpp"
 #include "nauq/renderer/RenderCommand.hpp"
+#include "nauq/debug/Instrumentor.hpp"
 
 #include "nauq/platform/openGL/OpenGLShader.hpp"
 
@@ -22,8 +23,13 @@ namespace nauq {
 
     static Storage* data;
 
+    static glm::mat4 eyes(1.0f);
+    static glm::vec4 ones(1.0f);
+
     void Renderer2D::init()
     {
+        NQ_PROFILE_FUNCTION();
+
         data = new Storage;
 
         data->vertexArray = VertexArray::create();
@@ -60,18 +66,20 @@ namespace nauq {
 
     void Renderer2D::shutDown()
     {
+        NQ_PROFILE_FUNCTION();
         delete data;
     }
 
     void Renderer2D::beginScene(const OrthographicCamera& camera)
     {
+        NQ_PROFILE_FUNCTION();
         data->textureShader->bind();
         data->textureShader->set("u_vp", camera.getViewProjection());
     }
 
     void Renderer2D::endScene()
     {
-
+        NQ_PROFILE_FUNCTION();
     }
 
     void Renderer2D::drawQuad(glm::vec2 pos, glm::vec2 size, const glm::vec4& color)
@@ -81,10 +89,11 @@ namespace nauq {
 
     void Renderer2D::drawQuad(glm::vec3 pos, glm::vec2 size, const glm::vec4& color)
     {
+        NQ_PROFILE_FUNCTION();
+
         data->textureShader->set("u_color", color);
 
-        static const glm::mat4 ones(1.0f);
-        glm::mat transform = glm::translate(ones, pos) * glm::scale(ones, { size.x, size.y, 1.0f });
+        glm::mat transform = glm::translate(eyes, pos) * glm::scale(eyes, { size.x, size.y, 1.0f });
 
         data->textureShader->set("u_transform", transform);
 
@@ -94,19 +103,21 @@ namespace nauq {
         RenderCommand::drawIndexed(data->vertexArray);
     }
 
-    void Renderer2D::drawQuad(glm::vec2 pos, glm::vec2 size, const Ref<Texture>& texture)
+    void Renderer2D::drawQuad(glm::vec2 pos, glm::vec2 size, const Ref<Texture>& texture,
+                              float tilingFactor /*= 1.0f*/, const glm::vec4& tintColor /*= glm::vec4(1.0f)*/)
     {
-        drawQuad({ pos.x, pos.y, 0.0f }, size, texture);
+        drawQuad({ pos.x, pos.y, 0.0f }, size, texture, tilingFactor, tintColor);
     }
 
-    void Renderer2D::drawQuad(glm::vec3 pos, glm::vec2 size, const Ref<Texture>& texture)
+    void Renderer2D::drawQuad(glm::vec3 pos, glm::vec2 size, const Ref<Texture>& texture,
+                              float tilingFactor /*= 1.0f*/, const glm::vec4& tintColor /*= glm::vec4(1.0f)*/)
     {
-        data->textureShader->bind();
+        NQ_PROFILE_FUNCTION();
 
-        static const glm::mat4 ones(1.0f);
-        glm::mat transform = glm::translate(ones, pos) * glm::scale(ones, { size.x, size.y, 1.0f });
+        glm::mat transform = glm::translate(eyes, pos) * glm::scale(eyes, { size.x, size.y, 1.0f });
 
-        data->textureShader->set("u_color", glm::vec4(1.0f));
+        data->textureShader->set("u_color", tintColor);
+        data->textureShader->set("u_tilingFactor", tilingFactor);
         data->textureShader->set("u_transform", transform);
 
         texture->bind();
@@ -115,4 +126,56 @@ namespace nauq {
         RenderCommand::drawIndexed(data->vertexArray);
         texture->unbind();
     }
+
+    void Renderer2D::drawRotatedQuad(glm::vec2 pos, glm::vec2 size, float rotation, const glm::vec4& color)
+    {
+        drawRotatedQuad({ pos.x, pos.y, 0.0f }, size, rotation, color);
+    }
+
+    void Renderer2D::drawRotatedQuad(glm::vec3 pos, glm::vec2 size, float rotation, const glm::vec4& color)
+    {
+        NQ_PROFILE_FUNCTION();
+
+        data->textureShader->set("u_color", color);
+
+        glm::mat transform = glm::translate(eyes, pos)
+                * glm::rotate(eyes, rotation, { 0.0f, 0.0f, 1.0f})
+                * glm::scale(eyes, { size.x, size.y, 1.0f });
+
+        data->textureShader->set("u_transform", transform);
+
+        data->whiteTexture->bind();
+
+        data->vertexArray->bind();
+        RenderCommand::drawIndexed(data->vertexArray);
+    }
+
+
+    void Renderer2D::drawRotatedQuad(glm::vec2 pos, glm::vec2 size, float rotation, const Ref<Texture>& texture,
+                                float tilingFactor /*= 1.0f*/, const glm::vec4& tintColor /*= glm::vec4(1.0f)*/)
+    {
+        drawRotatedQuad({ pos.x, pos.y, 0.0f }, size, rotation, texture, tilingFactor, tintColor);
+    }
+
+    void Renderer2D::drawRotatedQuad(glm::vec3 pos, glm::vec2 size, float rotation, const Ref<Texture>& texture,
+                                float tilingFactor /*= 1.0f*/, const glm::vec4& tintColor /*= glm::vec4(1.0f)*/)
+    {
+        NQ_PROFILE_FUNCTION();
+
+        glm::mat transform = glm::translate(eyes, pos)
+                * glm::rotate(eyes, rotation, { 0.0f, 0.0f, 1.0f})
+                * glm::scale(eyes, { size.x, size.y, 1.0f });
+
+        data->textureShader->set("u_color", tintColor);
+        data->textureShader->set("u_tilingFactor", tilingFactor);
+        data->textureShader->set("u_transform", transform);
+
+        texture->bind();
+
+        data->vertexArray->bind();
+        RenderCommand::drawIndexed(data->vertexArray);
+        texture->unbind();
+    }
+
+
 }

@@ -7,7 +7,7 @@
 
 #include "Core.hpp"
 
-#include "spdlog/spdlog.h"
+#include <spdlog/spdlog.h>
 
 
 namespace nauq {

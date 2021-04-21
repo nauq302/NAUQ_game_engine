@@ -4,10 +4,14 @@
 
 #include "nauq/platform/openGL/OpenGLRenderAPI.hpp"
 
+#include "nauq/debug/Instrumentor.hpp"
+
 namespace nauq {
 
     void OpenGLRenderAPI::init()
     {
+        NQ_PROFILE_FUNCTION();
+
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

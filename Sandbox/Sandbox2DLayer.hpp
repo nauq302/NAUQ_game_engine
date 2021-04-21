@@ -22,13 +22,6 @@ private:
 
     glm::vec4 sqColor = { 0.2f, 0.3f, 0.8f, 1.0f };
 
-    struct ProfileResult {
-        const char* name;
-        double time;
-    };
-
-    std::vector<ProfileResult> profileResults;
-
 public:
     explicit Sandbox2DLayer();
     ~Sandbox2DLayer() override = default;

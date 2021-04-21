@@ -5,6 +5,7 @@
 #include <nauq/renderer/RenderCommand.hpp>
 #include "nauq/renderer/Renderer.hpp"
 #include "nauq/renderer/Renderer2D.hpp"
+#include "nauq/debug/Instrumentor.hpp"
 
 #include "nauq/platform/openGL/OpenGLShader.hpp"
 
@@ -14,6 +15,8 @@ namespace nauq {
 
     void Renderer::init()
     {
+        NQ_PROFILE_FUNCTION();
+
         RenderCommand::init();
         Renderer2D::init();
     }

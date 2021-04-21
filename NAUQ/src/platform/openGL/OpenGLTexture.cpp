@@ -5,6 +5,8 @@
 #include "nauq/platform/openGL/OpenGLTexture.hpp"
 
 #include "nauq/Log.hpp"
+#include "nauq/debug/Instrumentor.hpp"
+
 #include "stb_image.hpp"
 
 
@@ -16,6 +18,8 @@ namespace nauq {
         internalFormat(GL_RGBA8),
         dataFormat(GL_RGBA)
     {
+        NQ_PROFILE_FUNCTION();
+
         glCreateTextures(GL_TEXTURE_2D, 1, &rendererID);
         glTextureStorage2D(rendererID, 1, internalFormat, width, height);
 
@@ -29,10 +33,17 @@ namespace nauq {
     OpenGLTexture2D::OpenGLTexture2D(const std::string& path) :
         path(path)
     {
+        NQ_PROFILE_FUNCTION();
+
         stbi_set_flip_vertically_on_load(1);
 
         int w, h, channel;
-        stbi_uc* data = stbi_load(path.data(), &w, &h, &channel, 0);
+        stbi_uc* data;
+        {
+            NQ_PROFILE_SCOPE("stbi_load");
+            data = stbi_load(path.c_str(), &w, &h, &channel, 0);
+        }
+
         NQ_CORE_ASSERT(data, "Failed to load image");
 
         width = w;
@@ -72,11 +83,15 @@ namespace nauq {
 
     OpenGLTexture2D::~OpenGLTexture2D()
     {
+        NQ_PROFILE_FUNCTION();
+
         glDeleteTextures(1, &rendererID);
     }
 
     void OpenGLTexture2D::setData(void* data, std::size_t size)
     {
+        NQ_PROFILE_FUNCTION();
+
         std::uint32_t bpp = dataFormat == GL_RGBA ? 4 : 3;
         NQ_ASSERT(size == width * height * bpp, "Data must be entire texture");
         glTextureSubImage2D(rendererID, 0, 0, 0, width, height, dataFormat, GL_UNSIGNED_BYTE, data);
@@ -84,11 +99,15 @@ namespace nauq {
 
     void OpenGLTexture2D::bind(std::uint32_t slot) const
     {
+        NQ_PROFILE_FUNCTION();
+
         glBindTextureUnit(slot, rendererID);
     }
 
     void OpenGLTexture2D::unbind() const
     {
+        NQ_PROFILE_FUNCTION();
+
         glBindTexture(GL_TEXTURE_2D, 0);
     }
 

@@ -2,6 +2,7 @@
 // Created by nauq302 on 29/12/2020.
 //
 
+#include <nauq/debug/Instrumentor.hpp>
 #include "nauq/OrthographicCameraController.hpp"
 
 #include "nauq/Input.hpp"
@@ -13,7 +14,7 @@ namespace nauq {
             aspectRatio(aspectRatio),
             zoomLevel(1.0f),
             camera(-aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel),
-            position(0.0f, 0.0f, 0.0f),
+            camPos(0.0f, 0.0f, 0.0f),
             transSpeed(4.0f),
             camRot(0.0f),
             camRotSpeed(45.0f),
@@ -24,18 +25,27 @@ namespace nauq {
 
     void OrthographicCameraController::onUpdate(TimeStep ts)
     {
-        if (Input::isKeyPress(NQ_KEY_A))
-            position.x -= transSpeed * ts;
+        NQ_PROFILE_FUNCTION();
 
-        else if (Input::isKeyPress(NQ_KEY_D))
-            position.x += transSpeed * ts;
+        float rad = glm::radians(camRot);
+        auto trans = transSpeed * ts;
 
-        else if (Input::isKeyPress(NQ_KEY_S))
-            position.y -= transSpeed * ts;
+        if (Input::isKeyPress(NQ_KEY_A)) {
+            camPos.x -= cos(rad) * trans;
+            camPos.y -= sin(rad) * trans;
 
-        else if (Input::isKeyPress(NQ_KEY_W))
-            position.y += transSpeed * ts;
+        } else if (Input::isKeyPress(NQ_KEY_D)) {
+            camPos.x += cos(rad) * trans;
+            camPos.y += sin(rad) * trans;
 
+        } else if (Input::isKeyPress(NQ_KEY_S)) {
+            camPos.x += sin(rad) * trans;
+            camPos.y -= cos(rad) * trans;
+
+        } else if (Input::isKeyPress(NQ_KEY_W)) {
+            camPos.x -= sin(rad) * trans;
+            camPos.y += cos(rad) * trans;
+        }
 
         if (rotatable) {
             if (Input::isKeyPress(NQ_KEY_Q))
@@ -47,12 +57,14 @@ namespace nauq {
             camera.setRotation(camRot);
         }
 
-        camera.setPosition(position);
+        camera.setPosition(camPos);
         transSpeed = zoomLevel;
     }
 
     void OrthographicCameraController::onEvent(Event& event)
     {
+        NQ_PROFILE_FUNCTION();
+
         EventDispatcher dispatcher(event);
         dispatcher.dispatch<MouseScrollEvent>(NQ_BIND_EVENT_FN(OrthographicCameraController::onMouseScroll));
         dispatcher.dispatch<WindowResizeEvent>(NQ_BIND_EVENT_FN(OrthographicCameraController::onWindowResize));
@@ -60,6 +72,8 @@ namespace nauq {
 
     bool OrthographicCameraController::onMouseScroll(MouseScrollEvent& e)
     {
+        NQ_PROFILE_FUNCTION();
+
         zoomLevel -= e.getYOffset();
         zoomLevel = std::max(zoomLevel, 0.25f);
         camera.setProjection(-aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel);
@@ -68,6 +82,8 @@ namespace nauq {
 
     bool OrthographicCameraController::onWindowResize(WindowResizeEvent& e)
     {
+        NQ_PROFILE_FUNCTION();
+
         aspectRatio = static_cast<float>(e.getWidth()) / static_cast<float>(e.getHeight());
         camera.setProjection(-aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel);
         return false;

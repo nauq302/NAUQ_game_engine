@@ -9,6 +9,7 @@
 #include <glm/gtc/type_ptr.hpp>
 
 #include <fstream>
+#include <nauq/debug/Instrumentor.hpp>
 
 namespace nauq {
 
@@ -23,6 +24,8 @@ namespace nauq {
 
     OpenGLShader::OpenGLShader(const std::string& filepath)
     {
+        NQ_PROFILE_FUNCTION();
+
         std::string source = readfile(filepath);
         SrcMap shaderSources = preprocess(source);
         compile(shaderSources);
@@ -38,6 +41,8 @@ namespace nauq {
     OpenGLShader::OpenGLShader(std::string name, const std::string& vertexSrc, const std::string& fragmentSrc) :
             _name(std::move(name))
     {
+        NQ_PROFILE_FUNCTION();
+
         SrcMap sources = {
             { GL_VERTEX_SHADER, vertexSrc},
             { GL_FRAGMENT_SHADER, fragmentSrc }
@@ -48,57 +53,59 @@ namespace nauq {
 
     OpenGLShader::~OpenGLShader()
     {
+        NQ_PROFILE_FUNCTION();
+
         glDeleteProgram(rendererID);
     }
 
     void OpenGLShader::bind() const
     {
+        NQ_PROFILE_FUNCTION();
+
         glUseProgram(rendererID);
     }
 
     void OpenGLShader::unbind() const
     {
+        NQ_PROFILE_FUNCTION();
+
         glUseProgram(0);
     }
 
-    void OpenGLShader::uploadUniform(const std::string& uname, int value) const
+    void OpenGLShader::set(const std::string& name, int value)
     {
-        int location = glGetUniformLocation(rendererID, uname.c_str());
-        glUniform1i(location, value);
-    }
-    void OpenGLShader::uploadUniform(const std::string& uname, float value) const
-    {
-        int location = glGetUniformLocation(rendererID, uname.c_str());
-        glUniform1f(location, value);
+        NQ_PROFILE_FUNCTION();
+        uploadUniform(name, value);
     }
 
-    void OpenGLShader::uploadUniform(const std::string& uname, const glm::vec2& value) const
+    void OpenGLShader::set(const std::string& name, float value)
     {
-        int location = glGetUniformLocation(rendererID, uname.c_str());
-        glUniform2f(location, value.x, value.y);
+        NQ_PROFILE_FUNCTION();
+        uploadUniform(name, value);
     }
 
-    void OpenGLShader::uploadUniform(const std::string& uname, const glm::vec3& value) const
+    void OpenGLShader::set(const std::string& name, const glm::vec3& value)
     {
-        int location = glGetUniformLocation(rendererID, uname.c_str());
-        glUniform3f(location, value.x, value.y, value.z);
+        NQ_PROFILE_FUNCTION();
+        uploadUniform(name, value);
     }
 
-
-    void OpenGLShader::uploadUniform(const std::string& uname, const glm::vec4& value) const
+    void OpenGLShader::set(const std::string& name, const glm::vec4& value)
     {
-        int location = glGetUniformLocation(rendererID, uname.c_str());
-        glUniform4f(location, value.x, value.y, value.z, value.w);
+        NQ_PROFILE_FUNCTION();
+        uploadUniform(name, value);
     }
 
-    void OpenGLShader::uploadUniform(const std::string& uname, const glm::mat4& value) const
+    void OpenGLShader::set(const std::string& name, const glm::mat4& value)
     {
-        int location = glGetUniformLocation(rendererID, uname.c_str());
-        glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
+        NQ_PROFILE_FUNCTION();
+        uploadUniform(name, value);
     }
 
     std::string OpenGLShader::readfile(const std::string& filepath)
     {
+        NQ_PROFILE_FUNCTION();
+
         std::string result;
         std::ifstream ifs(filepath, std::ios::in | std::ios::binary);
 
@@ -119,6 +126,8 @@ namespace nauq {
 
     OpenGLShader::SrcMap OpenGLShader::preprocess(const std::string& source)
     {
+        NQ_PROFILE_FUNCTION();
+
         SrcMap shaderSources;
 
         char typeToken[] = "#type";
@@ -153,6 +162,8 @@ namespace nauq {
 
     void OpenGLShader::compile(const OpenGLShader::SrcMap& shaderSources)
     {
+        NQ_PROFILE_FUNCTION();
+
         GLuint program = glCreateProgram();
 
         NQ_CORE_ASSERT(shaderSources.size() <= 2, "We only support 2 shaders for now");
@@ -214,7 +225,40 @@ namespace nauq {
         }
     }
 
+    void OpenGLShader::uploadUniform(const std::string& uname, int value) const
+    {
+        int location = glGetUniformLocation(rendererID, uname.c_str());
+        glUniform1i(location, value);
+    }
+    void OpenGLShader::uploadUniform(const std::string& uname, float value) const
+    {
+        int location = glGetUniformLocation(rendererID, uname.c_str());
+        glUniform1f(location, value);
+    }
 
+    void OpenGLShader::uploadUniform(const std::string& uname, const glm::vec2& value) const
+    {
+        int location = glGetUniformLocation(rendererID, uname.c_str());
+        glUniform2f(location, value.x, value.y);
+    }
+
+    void OpenGLShader::uploadUniform(const std::string& uname, const glm::vec3& value) const
+    {
+        int location = glGetUniformLocation(rendererID, uname.c_str());
+        glUniform3f(location, value.x, value.y, value.z);
+    }
+
+    void OpenGLShader::uploadUniform(const std::string& uname, const glm::vec4& value) const
+    {
+        int location = glGetUniformLocation(rendererID, uname.c_str());
+        glUniform4f(location, value.x, value.y, value.z, value.w);
+    }
+
+    void OpenGLShader::uploadUniform(const std::string& uname, const glm::mat4& value) const
+    {
+        int location = glGetUniformLocation(rendererID, uname.c_str());
+        glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
+    }
 
 
 }

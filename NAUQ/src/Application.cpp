@@ -9,6 +9,7 @@
 #include "nauq/imGui/ImGuiLayer.hpp"
 #include "nauq/Input.hpp"
 #include "nauq/renderer/Renderer.hpp"
+#include "nauq/debug/Instrumentor.hpp"
 
 
 namespace nauq {
@@ -21,10 +22,12 @@ namespace nauq {
         running(true),
         minimized(false)
     {
+        NQ_PROFILE_FUNCTION();
+
         NQ_CORE_ASSERT(instance == nullptr, "Application already exists");
         instance = this;
 
-        window.reset(Window::create());
+        window = Window::create();
         window->setEventCallback(NQ_BIND_EVENT_FN(Application::onEvent));
 
         Renderer::init();
@@ -43,23 +46,33 @@ namespace nauq {
      */
     void Application::run()
     {
+        NQ_PROFILE_FUNCTION();
+
         while (running) {
+            NQ_PROFILE_SCOPE("Run Loop")
+
             auto time = static_cast<float>(glfwGetTime());
             TimeStep timeStep = time - lastFrameTime;
             lastFrameTime = time;
 
             if (!minimized) {
-                for (Layer* l : layerStack) {
-                    l->onUpdate(timeStep);
+                {
+                    NQ_PROFILE_SCOPE("Layers update");
+
+                    for (Layer* l : layerStack) {
+                        l->onUpdate(timeStep);
+                    }
                 }
-            }
 
-            imGuiLayer->begin();
-            for (Layer* l : layerStack) {
-                l->onImGuiRender();
+                imGuiLayer->begin();
+                {
+                    NQ_PROFILE_SCOPE("Layers ImGui render");
+                    for (Layer* l : layerStack) {
+                        l->onImGuiRender();
+                    }
+                }
+                imGuiLayer->end();
             }
-            imGuiLayer->end();
-
 
 #ifdef NAUQ_DEBUG
             glm::vec2 mousePos = Input::getMousePosition();
@@ -76,6 +89,8 @@ namespace nauq {
      */
     void Application::onEvent(Event& event)
     {
+        NQ_PROFILE_FUNCTION();
+
         EventDispatcher dispatcher(event);
 
         dispatcher.dispatch<WindowCloseEvent>(NQ_BIND_EVENT_FN(Application::onWindowClosed));
@@ -95,6 +110,8 @@ namespace nauq {
      */
     void Application::pushLayer(Layer* layer)
     {
+        NQ_PROFILE_FUNCTION();
+
         layerStack.pushLayer(layer);
         layer->onAttach();
     }
@@ -105,6 +122,8 @@ namespace nauq {
      */
     void Application::pushOverlay(Layer* layer)
     {
+        NQ_PROFILE_FUNCTION();
+
         layerStack.pushOverlay(layer);
         layer->onAttach();
     }
@@ -116,12 +135,16 @@ namespace nauq {
      */
     bool Application::onWindowClosed(WindowCloseEvent& event)
     {
+        NQ_PROFILE_FUNCTION();
+
         running = false;
         return true;
     }
 
     bool Application::onWindowResized(WindowResizeEvent& event)
     {
+        NQ_PROFILE_FUNCTION();
+
         if (event.getWidth() == 0 || event.getHeight() == 0) {
             minimized = true;
             return false;

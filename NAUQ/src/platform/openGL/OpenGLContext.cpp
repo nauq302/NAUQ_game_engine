@@ -3,6 +3,8 @@
 //
 
 #include "nauq/platform/openGL/OpenGLContext.hpp"
+
+#include "nauq/debug/Instrumentor.hpp"
 #include "nauq/Log.hpp"
 
 namespace nauq {
@@ -15,6 +17,8 @@ namespace nauq {
 
     void OpenGLContext::init()
     {
+        NQ_PROFILE_FUNCTION();
+
         glfwMakeContextCurrent(windowHandle);
 
         int status = gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress));
@@ -37,6 +41,8 @@ namespace nauq {
 
     void OpenGLContext::swapBuffers()
     {
+        NQ_PROFILE_FUNCTION();
+
         glfwSwapBuffers(windowHandle);
     }
 }

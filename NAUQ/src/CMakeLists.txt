@@ -41,7 +41,7 @@ add_library(
         platform/openGL/OpenGLShader.cpp
         platform/openGL/OpenGLTexture.cpp
 
-)
+        debug/Instrumentor.cpp ../include/nauq/debug/Instrumentor.hpp)
 
 target_include_directories(
         ${NAUQ_LIB}

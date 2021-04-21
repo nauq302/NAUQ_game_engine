@@ -13,7 +13,7 @@ namespace nauq {
     {
         switch (Renderer::getAPI()) {
             case RendererAPI::API::NONE: NQ_CORE_ASSERT(false, "RendererAPI::NONE is not currently supported!"); return nullptr;
-            case RendererAPI::API::OPEN_GL: return std::make_shared<OpenGLShader>(filepath);
+            case RendererAPI::API::OPEN_GL: return createRef<OpenGLShader>(filepath);
         }
 
         NQ_CORE_ASSERT(false, "Unknown RendererAPI!");
@@ -25,7 +25,7 @@ namespace nauq {
     {
         switch (Renderer::getAPI()) {
             case RendererAPI::API::NONE: NQ_CORE_ASSERT(false, "RendererAPI::NONE is not currently supported!"); return nullptr;
-            case RendererAPI::API::OPEN_GL: return std::make_shared<OpenGLShader>(name, vertexSrc, fragmentSrc);
+            case RendererAPI::API::OPEN_GL: return createRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
         }
 
         NQ_CORE_ASSERT(false, "Unknown RendererAPI!");

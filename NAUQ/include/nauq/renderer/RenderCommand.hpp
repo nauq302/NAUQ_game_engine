@@ -5,6 +5,7 @@
 #ifndef NAUQ_GAME_ENGINE_RENDERCOMMAND_HPP
 #define NAUQ_GAME_ENGINE_RENDERCOMMAND_HPP
 
+
 #include "RendererAPI.hpp"
 
 namespace nauq {

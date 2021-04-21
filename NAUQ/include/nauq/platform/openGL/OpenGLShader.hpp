@@ -33,10 +33,11 @@ namespace nauq {
 
         [[nodiscard]] const std::string& getName() const override { return _name; }
 
-        inline void set(const std::string& name, int value) override { uploadUniform(name, value); }
-        inline void set(const std::string& name, const glm::vec3& value) override { uploadUniform(name, value); }
-        inline void set(const std::string& name, const glm::vec4& value) override { uploadUniform(name, value); }
-        inline void set(const std::string& name, const glm::mat4& value) override { uploadUniform(name, value); }
+        void set(const std::string& name, int value) override;
+        void set(const std::string& name, float value) override;
+        void set(const std::string& name, const glm::vec3& value) override;
+        void set(const std::string& name, const glm::vec4& value) override;
+        void set(const std::string& name, const glm::mat4& value) override;
 
         void uploadUniform(const std::string& uname, int value) const;
         void uploadUniform(const std::string& uname, float value) const;
