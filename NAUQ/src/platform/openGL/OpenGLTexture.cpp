@@ -44,7 +44,7 @@ namespace nauq {
             data = stbi_load(path.c_str(), &w, &h, &channel, 0);
         }
 
-        NQ_CORE_ASSERT(data, "Failed to load image");
+        NQ_CORE_ASSERT(data, "Failed to load image " + path);
 
         width = w;
         height = h;

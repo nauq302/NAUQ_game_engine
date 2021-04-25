@@ -9,8 +9,6 @@
 #include "nauq/renderer/RenderCommand.hpp"
 #include "nauq/debug/Instrumentor.hpp"
 
-#include "nauq/platform/openGL/OpenGLShader.hpp"
-
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace nauq {
@@ -104,20 +102,19 @@ namespace nauq {
     }
 
     void Renderer2D::drawQuad(glm::vec2 pos, glm::vec2 size, const Ref<Texture>& texture,
-                              float tilingFactor /*= 1.0f*/, const glm::vec4& tintColor /*= glm::vec4(1.0f)*/)
+                               const glm::vec4& tintColor /*= glm::vec4(1.0f)*/)
     {
-        drawQuad({ pos.x, pos.y, 0.0f }, size, texture, tilingFactor, tintColor);
+        drawQuad({ pos.x, pos.y, 0.0f }, size, texture,  tintColor);
     }
 
     void Renderer2D::drawQuad(glm::vec3 pos, glm::vec2 size, const Ref<Texture>& texture,
-                              float tilingFactor /*= 1.0f*/, const glm::vec4& tintColor /*= glm::vec4(1.0f)*/)
+                               const glm::vec4& tintColor /*= glm::vec4(1.0f)*/)
     {
         NQ_PROFILE_FUNCTION();
 
         glm::mat transform = glm::translate(eyes, pos) * glm::scale(eyes, { size.x, size.y, 1.0f });
 
         data->textureShader->set("u_color", tintColor);
-        data->textureShader->set("u_tilingFactor", tilingFactor);
         data->textureShader->set("u_transform", transform);
 
         texture->bind();
@@ -127,12 +124,12 @@ namespace nauq {
         texture->unbind();
     }
 
-    void Renderer2D::drawRotatedQuad(glm::vec2 pos, glm::vec2 size, float rotation, const glm::vec4& color)
+    void Renderer2D::drawQuad(glm::vec2 pos, glm::vec2 size, float rotation, const glm::vec4& color)
     {
-        drawRotatedQuad({ pos.x, pos.y, 0.0f }, size, rotation, color);
+        drawQuad({ pos.x, pos.y, 0.0f }, size, rotation, color);
     }
 
-    void Renderer2D::drawRotatedQuad(glm::vec3 pos, glm::vec2 size, float rotation, const glm::vec4& color)
+    void Renderer2D::drawQuad(glm::vec3 pos, glm::vec2 size, float rotation, const glm::vec4& color)
     {
         NQ_PROFILE_FUNCTION();
 
@@ -151,14 +148,14 @@ namespace nauq {
     }
 
 
-    void Renderer2D::drawRotatedQuad(glm::vec2 pos, glm::vec2 size, float rotation, const Ref<Texture>& texture,
-                                float tilingFactor /*= 1.0f*/, const glm::vec4& tintColor /*= glm::vec4(1.0f)*/)
+    void Renderer2D::drawQuad(glm::vec2 pos, glm::vec2 size, float rotation, const Ref<Texture>& texture,
+                                const glm::vec4& tintColor /*= glm::vec4(1.0f)*/)
     {
-        drawRotatedQuad({ pos.x, pos.y, 0.0f }, size, rotation, texture, tilingFactor, tintColor);
+        drawQuad({ pos.x, pos.y, 0.0f }, size, rotation, texture, tintColor);
     }
 
-    void Renderer2D::drawRotatedQuad(glm::vec3 pos, glm::vec2 size, float rotation, const Ref<Texture>& texture,
-                                float tilingFactor /*= 1.0f*/, const glm::vec4& tintColor /*= glm::vec4(1.0f)*/)
+    void Renderer2D::drawQuad(glm::vec3 pos, glm::vec2 size, float rotation, const Ref<Texture>& texture,
+                                const glm::vec4& tintColor /*= glm::vec4(1.0f)*/)
     {
         NQ_PROFILE_FUNCTION();
 
@@ -167,7 +164,6 @@ namespace nauq {
                 * glm::scale(eyes, { size.x, size.y, 1.0f });
 
         data->textureShader->set("u_color", tintColor);
-        data->textureShader->set("u_tilingFactor", tilingFactor);
         data->textureShader->set("u_transform", transform);
 
         texture->bind();

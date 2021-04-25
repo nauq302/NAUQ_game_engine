@@ -21,7 +21,6 @@ void main() {
 #version 330 core
 
 uniform vec4 u_color;
-uniform float u_tilingFactor;
 uniform sampler2D u_texture;
 
 layout(location = 0) out vec4 color;
@@ -33,5 +32,5 @@ void main() {
     float dist = 1.0f - distance(v_screenPos * 0.8f, vec2(0.0f));
     dist = clamp(dist, 0.0f, 1.0f);
     dist = sqrt(dist);
-    color = texture(u_texture, v_texCoord * u_tilingFactor) * u_color * dist;
+    color = texture(u_texture, v_texCoord) * u_color * dist;
 }

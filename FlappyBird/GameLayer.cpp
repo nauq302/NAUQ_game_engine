@@ -21,7 +21,7 @@ void GameLayer::onAttach()
     level.init();
 
     auto& io = ImGui::GetIO();
-    font = io.Fonts->AddFontFromFileTTF("../../OpenSans-Regular.ttf", 120.0f);
+    font = io.Fonts->AddFontFromFileTTF("../../FlappyBird/res/OpenSans-Regular.ttf", 120.0f);
 }
 
 void GameLayer::onDetach()
@@ -45,13 +45,16 @@ void GameLayer::onUpdate(nauq::TimeStep ts)
 
     switch (state) {
         case GameState::PLAY:
+
             level.onUpdate(ts);
             break;
         default:;
     }
 
+
     nauq::RenderCommand::setClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
     nauq::RenderCommand::clear();
+
 
     nauq::Renderer2D::beginScene(*camera);
     level.onRender();

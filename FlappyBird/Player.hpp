@@ -7,6 +7,8 @@
 
 #include <nauq.hpp>
 
+#include "ParticleSystem.hpp"
+
 class Player
 {
 private:
@@ -20,11 +22,27 @@ private:
     float smokeEmitInterval = 0.4f;
     float smokeNextEmitTime = smokeEmitInterval;
 
+    ParticleProps smokeProps, engineProps;
+    ParticleSystem particleSystem;
 
+    nauq::Ref<nauq::Texture2D> shipTexture;
+
+public:
+    explicit Player();
 
 public:
     [[nodiscard]] glm::vec2 getPosition() const { return position; }
-    [[nodiscard]] std::uint32_t getScore() const { return static_cast<std::uint32_t>(position.x + 10.0f) / 10; }
+    [[nodiscard]] inline std::uint32_t getScore() const { return static_cast<std::uint32_t>(position.x + 10.0f) / 10.0f; }
+    [[nodiscard]] inline float getRotation() const { return velocity.y * 4.0f - 90.0f; }
+
+    void loadRes();
+    void onUpdate(nauq::TimeStep ts);
+    void onRender();
+    void onImGuiRender();
+    void reset();
+
+private:
+
 };
 
 

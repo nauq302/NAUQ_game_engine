@@ -4,7 +4,7 @@ project(NAUQ_game_engine_FlappyBird)
 
 find_package(spdlog CONFIG REQUIRED)
 
-add_executable(flappyBird app.cpp GameLayer.cpp GameLayer.hpp Random.hpp Level.cpp Level.hpp Player.cpp Player.hpp Color.hpp)
+add_executable(flappyBird app.cpp GameLayer.cpp GameLayer.hpp Random.hpp Level.cpp Level.hpp Player.cpp Player.hpp Color.hpp ParticleSystem.cpp ParticleSystem.hpp)
 
 target_include_directories(flappyBird PRIVATE ${NAUQ_INCLUDE_DIR})
 

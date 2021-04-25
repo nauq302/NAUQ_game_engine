@@ -23,13 +23,13 @@ namespace nauq {
         static void drawQuad(glm::vec2 pos, glm::vec2 size, const glm::vec4& color);
         static void drawQuad(glm::vec3 pos, glm::vec2 size, const glm::vec4& color);
 
-        static void drawQuad(glm::vec2 pos, glm::vec2 size, const Ref<Texture>& texture, float tilingFactor = 1.0f, const glm::vec4& tintColor = glm::vec4(1.0f));
-        static void drawQuad(glm::vec3 pos, glm::vec2 size, const Ref<Texture>& texture, float tilingFactor = 1.0f, const glm::vec4& tintColor = glm::vec4(1.0f));
+        static void drawQuad(glm::vec2 pos, glm::vec2 size, const Ref<Texture>& texture, const glm::vec4& tintColor = glm::vec4(1.0f));
+        static void drawQuad(glm::vec3 pos, glm::vec2 size, const Ref<Texture>& texture, const glm::vec4& tintColor = glm::vec4(1.0f));
 
-        static void drawRotatedQuad(glm::vec2 pos, glm::vec2 size, float rotation, const glm::vec4& color);
-        static void drawRotatedQuad(glm::vec3 pos, glm::vec2 size, float rotation, const glm::vec4& color);
-        static void drawRotatedQuad(glm::vec2 pos, glm::vec2 size, float rotation, const Ref<Texture>& texture, float tilingFactor = 1.0f, const glm::vec4& tintColor = glm::vec4(1.0f));
-        static void drawRotatedQuad(glm::vec3 pos, glm::vec2 size, float rotation, const Ref<Texture>& texture, float tilingFactor = 1.0f, const glm::vec4& tintColor = glm::vec4(1.0f));
+        static void drawQuad(glm::vec2 pos, glm::vec2 size, float rotation, const glm::vec4& color);
+        static void drawQuad(glm::vec3 pos, glm::vec2 size, float rotation, const glm::vec4& color);
+        static void drawQuad(glm::vec2 pos, glm::vec2 size, float rotation, const Ref<Texture>& texture, const glm::vec4& tintColor = glm::vec4(1.0f));
+        static void drawQuad(glm::vec3 pos, glm::vec2 size, float rotation, const Ref<Texture>& texture, const glm::vec4& tintColor = glm::vec4(1.0f));
 
     };
 
