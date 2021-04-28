@@ -10,20 +10,15 @@
 
 namespace nauq {
 
-    /**
-     *
-     * @param vertices
-     * @param size
-     * @return
-     */
-    VertexBuffer* VertexBuffer::create(float* vertices, std::size_t size)
+    template <typename... Ts>
+    Ref<VertexBuffer> createVB(Ts&&... ts)
     {
         switch (Renderer::getAPI()) {
             case RendererAPI::API::NONE:
                 NQ_CORE_ASSERT(false, "RendererAPI::NONE is not current supported!");
 
             case RendererAPI::API::OPEN_GL:
-                return new OpenGLVertexBuffer(vertices, size);
+                return createRef<OpenGLVertexBuffer>(std::forward<Ts>(ts)...);
 
             default:
                 return nullptr;
@@ -32,20 +27,37 @@ namespace nauq {
         NQ_CORE_ASSERT(false, "Unknown RendererAPI!");
     }
 
+
+    /**
+     *
+     * @param vertices
+     * @param size
+     * @return
+     */
+    Ref<VertexBuffer> VertexBuffer::create(float* vertices, std::size_t size)
+    {
+        return createVB(vertices, size);
+    }
+
+    Ref<VertexBuffer> VertexBuffer::create(std::size_t size)
+    {
+        return createVB(size);
+    }
+
     /**
      *
      * @param indices
      * @param size
      * @return
      */
-    Ref<IndexBuffer> IndexBuffer::create(std::uint32_t* indices, std::size_t size)
+    Ref<IndexBuffer> IndexBuffer::create(std::uint32_t* indices, std::size_t count)
     {
         switch (Renderer::getAPI()) {
             case RendererAPI::API::NONE:
                 NQ_CORE_ASSERT(false, "RendererAPI::NONE is not current supported!");
 
             case RendererAPI::API::OPEN_GL:
-                return std::make_shared<OpenGLIndexBuffer>(indices, size);
+                return std::make_shared<OpenGLIndexBuffer>(indices, count);
 
             default:
                 return nullptr;

@@ -124,7 +124,6 @@ namespace nauq {
                 stride += e.size;
             }
         }
-
     };
 
 
@@ -137,13 +136,15 @@ namespace nauq {
         virtual ~VertexBuffer() = default;
 
     public:
-        static VertexBuffer* create(float* vertices, std::size_t size);
+        static Ref<VertexBuffer> create(std::size_t size);
+        static Ref<VertexBuffer> create(float* vertices, std::size_t size);
 
         virtual void bind() const = 0;
         virtual void unbind() const = 0;
 
         virtual const BufferLayout& getLayout() = 0;
         virtual void setLayout(const BufferLayout& layout) = 0;
+        virtual void setData(const void* data, std::uint32_t size) = 0;
     };
 
     /**
@@ -155,7 +156,7 @@ namespace nauq {
         virtual ~IndexBuffer() = default;
 
     public:
-        static Ref<IndexBuffer> create(std::uint32_t* indices, std::size_t size);
+        static Ref<IndexBuffer> create(std::uint32_t* indices, std::size_t count);
 
         virtual void bind() const = 0;
         virtual void unbind() const = 0;

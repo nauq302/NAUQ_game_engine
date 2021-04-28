@@ -76,7 +76,7 @@ void Player::onUpdate(nauq::TimeStep ts)
 void Player::onRender()
 {
     particleSystem.onRender();
-    nauq::Renderer2D::drawQuad({ position.x, position.y, 0.5f }, { 1.0f, 1.3f }, glm::radians(getRotation()), shipTexture);
+    nauq::Renderer2D::drawRotatedQuad({ position.x, position.y, 0.5f }, { 1.0f, 1.3f }, getRotation(), shipTexture);
 }
 
 void Player::onImGuiRender()

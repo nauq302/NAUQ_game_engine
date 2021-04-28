@@ -8,6 +8,15 @@
 
 namespace nauq {
 
+    OpenGLVertexBuffer::OpenGLVertexBuffer(std::size_t size)
+    {
+        NQ_PROFILE_FUNCTION();
+
+        glCreateBuffers(1, &rendererID);
+        glBindBuffer(GL_ARRAY_BUFFER, rendererID);
+        glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
+    }
+
     nauq::OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, std::size_t size)
     {
         NQ_PROFILE_FUNCTION();
@@ -24,7 +33,6 @@ namespace nauq {
         glDeleteBuffers(1, &rendererID);
     }
 
-
     void nauq::OpenGLVertexBuffer::bind() const
     {
         NQ_PROFILE_FUNCTION();
@@ -38,6 +46,14 @@ namespace nauq {
 
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
+
+    void OpenGLVertexBuffer::setData(const void* data, std::uint32_t size)
+    {
+        glBindBuffer(GL_ARRAY_BUFFER, rendererID);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
+    }
+
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 

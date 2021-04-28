@@ -13,7 +13,8 @@ static const std::size_t NUMBER_OF_PILLARS = 5;
 
 static glm::vec4 hsv2rgba(const glm::vec3& hsv)
 {
-    auto rgb = glm::rgbColor(hsv);
+    glm::vec3 c = { hsv.x * 360.f , hsv.y, hsv.z };
+    glm::vec3 rgb = glm::rgbColor(c);
     return { rgb.r, rgb.g, rgb.b, 1.0f };
 }
 
@@ -66,9 +67,9 @@ void Level::onUpdate(nauq::TimeStep ts)
 
 void Level::onRender()
 {
-    auto playerPos = player.getPosition();
+    glm::vec2 playerPos = player.getPosition();
 
-    auto color = hsv2rgba(pillarHSV);
+    glm::vec4 color = hsv2rgba(pillarHSV);
 
     /// Background
     nauq::Renderer2D::drawQuad({ playerPos.x, 0.0f, -0.8f }, { 50.0f, 50.0f }, { 0.3f, 0.3f, 0.3f, 1.0f });
@@ -78,8 +79,8 @@ void Level::onRender()
     nauq::Renderer2D::drawQuad({ playerPos.x, -34.0f }, { 50.0f, 50.0f }, color);
 
     for (auto& p : pillars) {
-        nauq::Renderer2D::drawQuad(p.topPos, p.topScale, glm::radians(180.f), triangleTex, color);
-        nauq::Renderer2D::drawQuad(p.botPos, p.botScale, 0.0f, triangleTex, color);
+        nauq::Renderer2D::drawRotatedQuad(p.topPos, p.topScale, 180.f, triangleTex, 1.0f, color);
+        nauq::Renderer2D::drawRotatedQuad(p.botPos, p.botScale, 0.0f, triangleTex, 1.0f, color);
     }
 
     player.onRender();

@@ -101,7 +101,7 @@ namespace nauq {
     {
         NQ_PROFILE_FUNCTION();
 
-        glBindTextureUnit(slot, rendererID);
+       glBindTextureUnit(slot, rendererID);
     }
 
     void OpenGLTexture2D::unbind() const

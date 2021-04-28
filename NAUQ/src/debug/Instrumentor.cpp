@@ -7,6 +7,7 @@
 #include <thread>
 
 namespace nauq {
+    static std::hash<std::thread::id> hash;
 
     void Instrumentor::begin(const std::string& name, const std::string& filepath)
     {
@@ -47,13 +48,12 @@ namespace nauq {
 
     void InstrumentorTimer::stop()
     {
-
         auto end = std::chrono::high_resolution_clock::now();
 
         long long s = std::chrono::time_point_cast<std::chrono::microseconds>(start).time_since_epoch().count();
         long long e = std::chrono::time_point_cast<std::chrono::microseconds>(end).time_since_epoch().count();
 
-        std::uint32_t threadID = std::hash<std::thread::id>()(std::this_thread::get_id());
+        std::uint32_t threadID = hash(std::this_thread::get_id());
         Instrumentor::get().writeProfile({ name, s, e, threadID });
     }
 }

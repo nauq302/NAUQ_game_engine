@@ -6,7 +6,7 @@
 
 #include "nauq/Log.hpp"
 
-#include <glm/gtc/type_ptr.hpp>
+
 
 #include <fstream>
 #include <nauq/debug/Instrumentor.hpp>
@@ -79,6 +79,12 @@ namespace nauq {
     }
 
     void OpenGLShader::set(const std::string& name, float value)
+    {
+        NQ_PROFILE_FUNCTION();
+        uploadUniform(name, value);
+    }
+
+    void OpenGLShader::set(const std::string& name, std::span<int> value)
     {
         NQ_PROFILE_FUNCTION();
         uploadUniform(name, value);
@@ -225,39 +231,24 @@ namespace nauq {
         }
     }
 
-    void OpenGLShader::uploadUniform(const std::string& uname, int value) const
-    {
-        int location = glGetUniformLocation(rendererID, uname.c_str());
-        glUniform1i(location, value);
-    }
-    void OpenGLShader::uploadUniform(const std::string& uname, float value) const
-    {
-        int location = glGetUniformLocation(rendererID, uname.c_str());
-        glUniform1f(location, value);
-    }
 
-    void OpenGLShader::uploadUniform(const std::string& uname, const glm::vec2& value) const
+    int OpenGLShader::getLocation(const std::string& uname) const
     {
-        int location = glGetUniformLocation(rendererID, uname.c_str());
-        glUniform2f(location, value.x, value.y);
-    }
+        auto it = locations.find(uname);
 
-    void OpenGLShader::uploadUniform(const std::string& uname, const glm::vec3& value) const
-    {
-        int location = glGetUniformLocation(rendererID, uname.c_str());
-        glUniform3f(location, value.x, value.y, value.z);
-    }
+        if (it != locations.end()) {
+            return it->second;
+        }
 
-    void OpenGLShader::uploadUniform(const std::string& uname, const glm::vec4& value) const
-    {
         int location = glGetUniformLocation(rendererID, uname.c_str());
-        glUniform4f(location, value.x, value.y, value.z, value.w);
-    }
 
-    void OpenGLShader::uploadUniform(const std::string& uname, const glm::mat4& value) const
-    {
-        int location = glGetUniformLocation(rendererID, uname.c_str());
-        glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
+        if (location == -1) {
+            NQ_CORE_WARN("{0} not found!!!!", uname);
+        } else {
+            locations.insert({ uname, location });
+        }
+
+        return location;
     }
 
 

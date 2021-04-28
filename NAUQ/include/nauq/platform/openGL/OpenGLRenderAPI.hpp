@@ -20,7 +20,7 @@ namespace nauq {
 
         void clear() override;
 
-        void drawIndexed(const Ref<VertexArray>& vertexArray) override;
+        void drawIndexed(const Ref<VertexArray>& vertexArray, std::uint32_t count) override;
     };
 }
 

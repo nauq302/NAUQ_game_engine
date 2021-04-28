@@ -34,6 +34,12 @@ namespace nauq {
 
         void bind(std::uint32_t slot = 0) const override;
         void unbind() const override;
+
+        bool operator ==(const Texture& other) const override
+        {
+            auto* p = dynamic_cast<const OpenGLTexture2D*>(&other);
+            return p == nullptr ? false : rendererID == p->rendererID;
+        }
     };
 }
 

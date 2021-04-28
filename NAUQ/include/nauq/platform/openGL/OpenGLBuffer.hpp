@@ -16,10 +16,11 @@ namespace nauq {
             public VertexBuffer
     {
     private:
-        std::uint32_t rendererID;
+        std::uint32_t rendererID = 0;
         BufferLayout layout;
 
     public:
+        explicit OpenGLVertexBuffer(std::size_t size);
         explicit OpenGLVertexBuffer(float* vertices, std::size_t size);
         ~OpenGLVertexBuffer() override;
 
@@ -29,7 +30,7 @@ namespace nauq {
 
         const BufferLayout& getLayout() override { return layout; }
         void setLayout(const BufferLayout& layout) override { this->layout = layout; }
-
+        void setData(const void* data, std::uint32_t size) override;
     };
 
     /**

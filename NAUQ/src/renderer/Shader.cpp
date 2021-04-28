@@ -9,29 +9,28 @@
 
 namespace nauq {
 
-    Ref<Shader> Shader::create(const std::string& filepath)
+    template <typename... Ts>
+    Ref<Shader> createShader(Ts&&... ts)
     {
         switch (Renderer::getAPI()) {
             case RendererAPI::API::NONE: NQ_CORE_ASSERT(false, "RendererAPI::NONE is not currently supported!"); return nullptr;
-            case RendererAPI::API::OPEN_GL: return createRef<OpenGLShader>(filepath);
+            case RendererAPI::API::OPEN_GL: return createRef<OpenGLShader>(std::forward<Ts>(ts)...);
         }
 
         NQ_CORE_ASSERT(false, "Unknown RendererAPI!");
         return nullptr;
     }
 
+
+    Ref<Shader> Shader::create(const std::string& filepath)
+    {
+        return createShader(filepath);
+    }
 
     Ref<Shader> Shader::create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
     {
-        switch (Renderer::getAPI()) {
-            case RendererAPI::API::NONE: NQ_CORE_ASSERT(false, "RendererAPI::NONE is not currently supported!"); return nullptr;
-            case RendererAPI::API::OPEN_GL: return createRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
-        }
-
-        NQ_CORE_ASSERT(false, "Unknown RendererAPI!");
-        return nullptr;
+        return createShader(name, vertexSrc, fragmentSrc);
     }
-
 
     void ShaderLibrary::add(const Ref<Shader>& shader)
     {

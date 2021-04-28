@@ -45,7 +45,7 @@ namespace nauq {
     {
     private:
         const char* name;
-        std::chrono::time_point<std::chrono::high_resolution_clock> start;
+        std::chrono::time_point<std::chrono::high_resolution_clock> start{};
         bool stopped;
 
     public:
@@ -58,7 +58,7 @@ namespace nauq {
     };
 }
 
-#define NQ_PROFILE 1
+#define NQ_PROFILE 0
 
 #if NQ_PROFILE
     #define NQ_PROFILE_BEGIN_SESSION(name, filepath) ::nauq::Instrumentor::get().begin(name, filepath)

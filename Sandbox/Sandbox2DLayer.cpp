@@ -43,12 +43,17 @@ void Sandbox2DLayer::onUpdate(nq::TimeStep ts)
         NQ_PROFILE_SCOPE("render draw");
         nq::Renderer2D::beginScene(cameraController.getCamera());
 
+        static float t = 0.0f;
+        t += ts;
+
         nq::Renderer2D::drawQuad({ -1.0f,  0.0f }, { 0.8f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
         nq::Renderer2D::drawQuad({  0.5f, -0.5f }, { 0.5f, 1.0f }, { 0.2f, 0.8f, 0.3f, 1.0f });
 
+        nq::Renderer2D::drawRotatedQuad({  0.5f, -0.5f }, { 0.5f, 1.0f }, 15.0f * t, { 0.2f, 0.8f, 0.3f, 1.0f });
 
-        nq::Renderer2D::drawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, texture, 10.0f, { 0.5f, 0.0f, 0.0f, 1.0f } );
+        nq::Renderer2D::drawRotatedQuad({ 0.0f, 0.0f, 0.1f }, { 1.0f, 1.0f }, 10.0f * t, texture, 1.0f, { 0.5f, 0.0f, 0.0f, 1.0f });
 
+        nq::Renderer2D::drawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, texture, 10.0f, { 0.5f, 0.0f, 0.0f, 1.0f });
 
         nq::Renderer2D::endScene();
     }

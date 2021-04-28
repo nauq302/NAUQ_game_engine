@@ -33,9 +33,11 @@ namespace nauq {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    void OpenGLRenderAPI::drawIndexed(const Ref<VertexArray>& vertexArray)
+    void OpenGLRenderAPI::drawIndexed(const Ref<VertexArray>& vertexArray, std::uint32_t count)
     {
-        glDrawElements(GL_TRIANGLES, vertexArray->getIndexBuffer()->getCount(), GL_UNSIGNED_INT, nullptr);
+        std::uint32_t indexCount = count == 0 ? vertexArray->getIndexBuffer()->getCount() : count;
+        glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
+        glBindTexture(GL_TEXTURE_2D, 0);
     }
 
 

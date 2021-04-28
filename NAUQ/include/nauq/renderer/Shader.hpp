@@ -10,6 +10,7 @@
 #include <glm/glm.hpp>
 
 #include <string>
+#include <span>
 
 
 namespace nauq {
@@ -29,6 +30,7 @@ namespace nauq {
         [[nodiscard]] virtual const std::string& getName() const = 0;
 
         virtual void set(const std::string& name, int value) = 0;
+        virtual void set(const std::string& name, std::span<int> value) = 0;
         virtual void set(const std::string& name, float value) = 0;
         virtual void set(const std::string& name, const glm::vec3& value) = 0;
         virtual void set(const std::string& name, const glm::vec4& value) = 0;

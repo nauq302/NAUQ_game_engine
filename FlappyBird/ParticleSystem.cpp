@@ -22,7 +22,7 @@ void ParticleSystem::emit(const ParticleProps& particleProps)
     auto& particle = particlePool[poolIndex];
     particle.active = true;
     particle.position = particleProps.position;
-    particle.rotation = Random::getFloat() * 2.0f * glm::pi<float>();
+    particle.rotation = Random::getFloat() * 20.0f * glm::pi<float>();
 
     /// Velocity
     particle.velocity = particleProps.velocity;
@@ -77,6 +77,6 @@ void ParticleSystem::onRender()
         float size = glm::lerp(p.sizeEnd, p.sizeBegin, life);
 
 
-        nauq::Renderer2D::drawQuad(p.position, { size, size }, p.rotation, color);
+        nauq::Renderer2D::drawRotatedQuad(p.position, { size, size }, p.rotation, color);
     }
 }
