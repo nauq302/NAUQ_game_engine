@@ -99,7 +99,7 @@ void Sandbox2DLayer::onUpdate(nq::TimeStep ts)
         auto bounds = cameraController.getBound();
         auto pos = cameraController.getCamera().getPosition();
         m.x = (m.x / width - 0.5f) * bounds.getWidth();
-        m.y = (0.5f - m.y / height) * bounds.getHeight();x`
+        m.y = (0.5f - m.y / height) * bounds.getHeight();
         props.position = { m.x + pos.x, m.y + pos.y };
 
         particleSystem.emit(props);
