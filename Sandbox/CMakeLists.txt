@@ -4,7 +4,7 @@ project(NAUQ_game_engine_Sandbox)
 
 find_package(spdlog CONFIG REQUIRED)
 
-add_executable(demo SandboxApp.cpp Sandbox2DLayer.cpp)
+add_executable(demo SandboxApp.cpp Sandbox2DLayer.cpp ParticleSystem.cpp)
 
 
 target_include_directories(demo PRIVATE ${NAUQ_INCLUDE_DIR})

@@ -6,6 +6,7 @@
 #define NAUQ_GAME_ENGINE_SANDBOX2DLAYER_HPP
 
 #include <nauq.hpp>
+#include "ParticleSystem.hpp"
 
 namespace nq = nauq;
 
@@ -15,10 +16,15 @@ class Sandbox2DLayer :
 private:
     nq::OrthographicCameraController cameraController;
 
+    ParticleSystem particleSystem;
+    ParticleProps props;
+
     // Temp
     nq::Ref<nq::Shader> shader;
     nq::Ref<nq::VertexArray> vertexArray;
-    nq::Ref<nq::Texture2D> texture;
+    nq::Ref<nq::Texture2D> hv;
+    nq::Ref<nq::Texture2D> sheet;
+    nq::Ref<nq::SubTexture2D> test;
 
     glm::vec4 sqColor = { 0.2f, 0.3f, 0.8f, 1.0f };
 

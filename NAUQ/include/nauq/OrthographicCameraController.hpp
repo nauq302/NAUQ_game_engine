@@ -13,12 +13,21 @@
 
 namespace nauq {
 
+    struct OrthographicCameraBounds
+    {
+        float left, right;
+        float bottom, top;
+
+        [[nodiscard]] inline float getWidth() const { return right - left; }
+        [[nodiscard]] inline float getHeight() const { return top - bottom; }
+    };
 
     class OrthographicCameraController
     {
     private:
         float aspectRatio;
         float zoomLevel;
+        OrthographicCameraBounds bounds;
         OrthographicCamera camera;
 
         glm::vec3 camPos;
@@ -37,7 +46,9 @@ namespace nauq {
         inline OrthographicCamera& getCamera() { return camera; }
         [[nodiscard]] inline const OrthographicCamera& getCamera() const { return camera; }
 
-        inline void setZoomLevel(float level) { zoomLevel = level; }
+        [[nodiscard]] inline const OrthographicCameraBounds& getBound() const { return bounds; }
+
+        void setZoomLevel(float level);
 
         void onUpdate(TimeStep ts);
         void onEvent(Event& event);
@@ -46,6 +57,7 @@ namespace nauq {
         bool onMouseScroll(MouseScrollEvent& e);
         bool onWindowResize(WindowResizeEvent& e);
 
+        void calculateView();
     };
 }
 

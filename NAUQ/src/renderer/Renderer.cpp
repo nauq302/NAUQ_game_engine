@@ -47,7 +47,10 @@ namespace nauq {
 
     }
 
-
+    void Renderer::shutDown()
+    {
+        Renderer2D::shutDown();
+    }
 
 
 }

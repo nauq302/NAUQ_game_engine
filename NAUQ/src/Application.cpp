@@ -39,7 +39,11 @@ namespace nauq {
     /**
      *
      */
-    Application::~Application() = default;
+    Application::~Application()
+    {
+        NQ_PROFILE_FUNCTION();
+        Renderer::shutDown();
+    }
 
     /**
      *

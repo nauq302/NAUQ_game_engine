@@ -5,6 +5,8 @@
 #ifndef NAUQ_GAME_ENGINE_ENTRYPOINT_HPP
 #define NAUQ_GAME_ENGINE_ENTRYPOINT_HPP
 
+#include "nauq/renderer/Renderer.hpp"
+
 /**
  *
  * @param argc
@@ -26,6 +28,8 @@ int main(int argc, const char* argv[])
     NQ_PROFILE_BEGIN_SESSION("End", "Nauq_Profile_end.json");
     delete app;
     NQ_PROFILE_END_SESSION();
+
+    NQ_INFO("Test");
 }
 
 #endif //NAUQ_GAME_ENGINE_ENTRYPOINT_HPP

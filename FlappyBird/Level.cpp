@@ -40,7 +40,7 @@ void Level::init()
 
     pillars.resize(NUMBER_OF_PILLARS);
     for (int i = 0; i < NUMBER_OF_PILLARS; ++i) {
-        createPillar(i, i * 10.0f);
+        createPillar(i, static_cast<float>(i) * 10.0f);
     }
 }
 
@@ -79,7 +79,7 @@ void Level::onRender()
     nauq::Renderer2D::drawQuad({ playerPos.x, -34.0f }, { 50.0f, 50.0f }, color);
 
     for (auto& p : pillars) {
-        nauq::Renderer2D::drawRotatedQuad(p.topPos, p.topScale, 180.f, triangleTex, 1.0f, color);
+        nauq::Renderer2D::drawRotatedQuad(p.topPos, p.topScale, glm::radians(180.f), triangleTex, 1.0f, color);
         nauq::Renderer2D::drawRotatedQuad(p.botPos, p.botScale, 0.0f, triangleTex, 1.0f, color);
     }
 

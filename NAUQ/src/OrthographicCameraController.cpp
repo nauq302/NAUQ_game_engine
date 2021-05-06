@@ -13,7 +13,8 @@ namespace nauq {
     OrthographicCameraController::OrthographicCameraController(float aspectRatio, bool rotatable) :
             aspectRatio(aspectRatio),
             zoomLevel(1.0f),
-            camera(-aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel),
+            bounds { -aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel },
+            camera(bounds.left, bounds.right, bounds.bottom, bounds.top),
             camPos(0.0f, 0.0f, 0.0f),
             transSpeed(4.0f),
             camRot(0.0f),
@@ -31,20 +32,20 @@ namespace nauq {
         auto trans = transSpeed * ts;
 
         if (Input::isKeyPress(NQ_KEY_A)) {
-            camPos.x -= cos(rad) * trans;
-            camPos.y -= sin(rad) * trans;
+            camPos.x -= glm::cos(rad) * trans;
+            camPos.y -= glm::sin(rad) * trans;
 
         } else if (Input::isKeyPress(NQ_KEY_D)) {
-            camPos.x += cos(rad) * trans;
-            camPos.y += sin(rad) * trans;
+            camPos.x += glm::cos(rad) * trans;
+            camPos.y += glm::sin(rad) * trans;
 
         } else if (Input::isKeyPress(NQ_KEY_S)) {
-            camPos.x += sin(rad) * trans;
-            camPos.y -= cos(rad) * trans;
+            camPos.x += glm::sin(rad) * trans;
+            camPos.y -= glm::cos(rad) * trans;
 
         } else if (Input::isKeyPress(NQ_KEY_W)) {
-            camPos.x -= sin(rad) * trans;
-            camPos.y += cos(rad) * trans;
+            camPos.x -= glm::sin(rad) * trans;
+            camPos.y += glm::cos(rad) * trans;
         }
 
         if (rotatable) {
@@ -61,6 +62,13 @@ namespace nauq {
         transSpeed = zoomLevel;
     }
 
+    void OrthographicCameraController::setZoomLevel(float level)
+    {
+        zoomLevel = level;
+        calculateView();
+    }
+
+
     void OrthographicCameraController::onEvent(Event& event)
     {
         NQ_PROFILE_FUNCTION();
@@ -76,7 +84,7 @@ namespace nauq {
 
         zoomLevel -= e.getYOffset();
         zoomLevel = std::max(zoomLevel, 0.25f);
-        camera.setProjection(-aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel);
+        calculateView();
         return false;
     }
 
@@ -85,7 +93,14 @@ namespace nauq {
         NQ_PROFILE_FUNCTION();
 
         aspectRatio = static_cast<float>(e.getWidth()) / static_cast<float>(e.getHeight());
-        camera.setProjection(-aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel);
+        calculateView();
         return false;
     }
+
+    void OrthographicCameraController::calculateView()
+    {
+        bounds = { -aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel };
+        camera.setProjection(bounds.left, bounds.right, bounds.bottom, bounds.top);
+    }
+
 }

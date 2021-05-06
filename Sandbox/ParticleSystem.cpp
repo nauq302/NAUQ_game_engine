@@ -4,21 +4,35 @@
 
 #include "ParticleSystem.hpp"
 
-#include "Random.hpp"
-
 #define GLM_ENABLE_EXPERIMENTAL
 #include <glm/gtx/compatibility.hpp>
+#include <random>
+
+class Random
+{
+private:
+    static inline std::mt19937 randomEngine;
+    static inline std::uniform_int_distribution<std::mt19937::result_type> distribution;
+
+public:
+    static inline void init() { randomEngine.seed(std::random_device()()); }
+    static inline float getFloat() {
+        return static_cast<float>(distribution(randomEngine)) / static_cast<float>(std::numeric_limits<std::mt19937::result_type>::max());
+    }
+
+};
 
 static inline float randomFloat() { return Random::getFloat() - 0.5f; }
 
-ParticleSystem::ParticleSystem() :
-    particlePool(1000)
+ParticleSystem::ParticleSystem(std::size_t maxParticle) :
+    particlePool(maxParticle),
+    poolIndex(maxParticle - 1)
 {
-
 }
 
 void ParticleSystem::emit(const ParticleProps& particleProps)
 {
+    NQ_INFO("{0}", poolIndex);
     auto& particle = particlePool[poolIndex];
     particle.active = true;
     particle.position = particleProps.position;
@@ -34,7 +48,6 @@ void ParticleSystem::emit(const ParticleProps& particleProps)
     particle.colorEnd = particleProps.colorEnd;
 
     /// Size
-
     particle.sizeBegin = particleProps.sizeBegin + particleProps.sizeVariation * randomFloat();
     particle.sizeEnd = particle.sizeEnd;
 
@@ -42,7 +55,7 @@ void ParticleSystem::emit(const ParticleProps& particleProps)
     particle.lifeTime = particleProps.lifeTime;
     particle.lifeRemaining = particleProps.lifeTime;
 
-    poolIndex = (poolIndex - 1) % particlePool.size();
+    poolIndex = (poolIndex + 1) % particlePool.size();
 }
 
 void ParticleSystem::onUpdate(nauq::TimeStep ts)
@@ -63,8 +76,9 @@ void ParticleSystem::onUpdate(nauq::TimeStep ts)
     }
 }
 
-void ParticleSystem::onRender()
+void ParticleSystem::onRender(nauq::OrthographicCamera& camera)
 {
+    nauq::Renderer2D::beginScene(camera);
     for (auto& p : particlePool) {
         if (!p.active) {
             continue;
@@ -75,8 +89,7 @@ void ParticleSystem::onRender()
         color.a *= life;
 
         float size = glm::lerp(p.sizeEnd, p.sizeBegin, life);
-
-
         nauq::Renderer2D::drawRotatedQuad(p.position, { size, size }, p.rotation, color);
     }
+    nauq::Renderer2D::endScene();
 }

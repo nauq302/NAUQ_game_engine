@@ -6,6 +6,7 @@
 #define NUQ_GAME_ENGINE_KEYCODES_HPP
 
 #include <unordered_map>
+#include <GLFW/glfw3.h>
 
 // From Glfw3
 
@@ -137,6 +138,20 @@
 #define NQ_KEY_MENU               348
 
 #define NQ_KEY_LAST               NQ_KEY_MENU
+
+
+#define NQ_MOUSE_BUTTON_1         0
+#define NQ_MOUSE_BUTTON_2         1
+#define NQ_MOUSE_BUTTON_3         2
+#define NQ_MOUSE_BUTTON_4         3
+#define NQ_MOUSE_BUTTON_5         4
+#define NQ_MOUSE_BUTTON_6         5
+#define NQ_MOUSE_BUTTON_7         6
+#define NQ_MOUSE_BUTTON_8         7
+#define NQ_MOUSE_BUTTON_LAST      NQ_MOUSE_BUTTON_8
+#define NQ_MOUSE_BUTTON_LEFT      NQ_MOUSE_BUTTON_1
+#define NQ_MOUSE_BUTTON_RIGHT     NQ_MOUSE_BUTTON_2
+#define NQ_MOUSE_BUTTON_MIDDLE    NQ_MOUSE_BUTTON_3
 
 
 

@@ -51,10 +51,8 @@ void GameLayer::onUpdate(nauq::TimeStep ts)
         default:;
     }
 
-
     nauq::RenderCommand::setClearColor({ 0.0f, 0.0f, 0.0f, 1.0f });
     nauq::RenderCommand::clear();
-
 
     nauq::Renderer2D::beginScene(*camera);
     level.onRender();
@@ -75,9 +73,8 @@ void GameLayer::onImGuiRender()
         case GameState::MAIN_MENU: {
             auto pos = ImGui::GetWindowPos();
             auto width = nauq::Application::get().getWindow().getWidth();
-            auto height = nauq::Application::get().getWindow().getHeight();
 
-            pos.x += width * 0.5f - 300.0f;
+            pos.x += static_cast<float>(width) * 0.5f - 300.0f;
             pos.y += 50.0f;
 
             if (blink) {
@@ -89,9 +86,8 @@ void GameLayer::onImGuiRender()
         case GameState::GAME_OVER: {
             auto pos = ImGui::GetWindowPos();
             auto width = nauq::Application::get().getWindow().getWidth();
-            auto height = nauq::Application::get().getWindow().getHeight();
 
-            pos.x += width * 0.5f - 300.0f;
+            pos.x += static_cast<float>(width) * 0.5f - 300.0f;
             pos.y += 50.0f;
 
             if (blink) {
@@ -107,7 +103,6 @@ void GameLayer::onImGuiRender()
 
             break;
         }
-
     }
 }
 

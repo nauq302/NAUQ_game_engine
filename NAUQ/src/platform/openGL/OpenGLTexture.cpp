@@ -13,6 +13,7 @@
 namespace nauq {
 
     OpenGLTexture2D::OpenGLTexture2D(std::uint32_t width, std::uint32_t height) :
+        path("No no no"),
         width(width),
         height(height),
         internalFormat(GL_RGBA8),
@@ -84,8 +85,8 @@ namespace nauq {
     OpenGLTexture2D::~OpenGLTexture2D()
     {
         NQ_PROFILE_FUNCTION();
-
         glDeleteTextures(1, &rendererID);
+
     }
 
     void OpenGLTexture2D::setData(void* data, std::size_t size)

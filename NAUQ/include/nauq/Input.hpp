@@ -10,6 +10,8 @@
 
 namespace nauq {
 
+
+
     class NAUQ_API Input
     {
     private:
@@ -31,6 +33,10 @@ namespace nauq {
     };
 }
 
+//namespace std {
+//    template<std::size_t length, typename T, glm::qualifier Q>
+//    glm::vec<length, T
+//}
 
 
 #endif //NAUQ_GAME_ENGINE_INPUT_HPP

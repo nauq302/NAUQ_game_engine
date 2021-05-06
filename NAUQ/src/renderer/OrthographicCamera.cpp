@@ -11,11 +11,11 @@ namespace nauq {
 
     OrthographicCamera::OrthographicCamera(float left, float right, float bottom, float top) :
         projection(glm::ortho(left, right, bottom, top, -1.0f, 1.0f)),
-        view(1.0f)
+        view(1.0f),
+        viewProjection(projection * view)
     {
         NQ_PROFILE_FUNCTION();
 
-        viewProjection = projection * view;
     }
 
     void OrthographicCamera::setProjection(float left, float right, float bottom, float top)
@@ -30,8 +30,8 @@ namespace nauq {
     {
         NQ_PROFILE_FUNCTION();
 
-        static glm::mat4 eyes(1.0f);
-        glm::mat4 transform = glm::translate(eyes, position) * glm::rotate(eyes, glm::radians(rotation), glm::vec3(0, 0, 1));
+        constexpr glm::mat4 eyes(1.0f);
+        glm::mat4 transform = glm::translate(eyes, position) * glm::rotate(eyes, glm::radians(rotation), { 0, 0, 1 });
 
         view = glm::inverse(transform);
         viewProjection = projection * view;
