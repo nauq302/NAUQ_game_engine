@@ -29,7 +29,7 @@ int main(int argc, const char* argv[])
     delete app;
     NQ_PROFILE_END_SESSION();
 
-    NQ_INFO("Test");
+    NQ_CORE_INFO("Exit successful");
 }
 
 #endif //NAUQ_GAME_ENGINE_ENTRYPOINT_HPP

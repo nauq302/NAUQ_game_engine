@@ -32,8 +32,8 @@ ParticleSystem::ParticleSystem(std::size_t maxParticle) :
 
 void ParticleSystem::emit(const ParticleProps& particleProps)
 {
-    NQ_INFO("{0}", poolIndex);
     auto& particle = particlePool[poolIndex];
+
     particle.active = true;
     particle.position = particleProps.position;
     particle.rotation = Random::getFloat() * 2.0f * glm::pi<float>();

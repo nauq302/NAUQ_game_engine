@@ -28,6 +28,8 @@ private:
 
     glm::vec4 sqColor = { 0.2f, 0.3f, 0.8f, 1.0f };
 
+    std::unordered_map<char,nq::Ref<nq::SubTexture2D>> textures;
+
 public:
     explicit Sandbox2DLayer();
     ~Sandbox2DLayer() override = default;
