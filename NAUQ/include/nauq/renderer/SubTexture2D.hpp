@@ -26,7 +26,7 @@ namespace nauq {
         [[nodiscard]] inline const Ref<Texture2D>& getTexture() const { return texture; }
 
 
-        static Ref<SubTexture2D> createFromCoords(const Ref<Texture2D>& texture, glm::vec2 coords, glm::vec2 ceilSize, glm::vec2 spriteSize = { 1, 1});
+        static Ref<SubTexture2D> createFromCoords(const Ref<Texture2D>& texture, glm::vec2 coords, glm::vec2 ceilSize, glm::vec2 spriteSize = { 1, 1 });
     };
 }
 

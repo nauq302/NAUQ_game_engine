@@ -4,6 +4,8 @@
 
 #include "nauq/renderer/OrthographicCamera.hpp"
 
+#include "nauq/core/Core.hpp"
+
 #include <glm/gtc/matrix_transform.hpp>
 #include <nauq/debug/Instrumentor.hpp>
 
@@ -30,7 +32,6 @@ namespace nauq {
     {
         NQ_PROFILE_FUNCTION();
 
-        constexpr glm::mat4 eyes(1.0f);
         glm::mat4 transform = glm::translate(eyes, position) * glm::rotate(eyes, glm::radians(rotation), { 0, 0, 1 });
 
         view = glm::inverse(transform);

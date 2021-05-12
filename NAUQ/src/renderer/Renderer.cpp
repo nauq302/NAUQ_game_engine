@@ -21,7 +21,7 @@ namespace nauq {
         Renderer2D::init();
     }
 
-    void Renderer::onWindowResize(std::uint32_t width, std::uint32_t height)
+    void Renderer::onWindowResize(uint32_t width, uint32_t height)
     {
         RenderCommand::setViewport(0, 0, width, height);
     }

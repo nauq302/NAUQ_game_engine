@@ -5,7 +5,8 @@
 #ifndef NAUQ_GAME_ENGINE_EVENT_HPP
 #define NAUQ_GAME_ENGINE_EVENT_HPP
 
-#include "nauq/Core.hpp"
+#include <functional>
+#include "nauq/core/Core.hpp"
 #include "nauq/Log.hpp"
 
 namespace nauq {

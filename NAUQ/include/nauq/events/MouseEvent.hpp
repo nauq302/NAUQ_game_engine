@@ -20,7 +20,7 @@ namespace nauq {
         glm::vec2 position;
 
     public:
-        explicit inline MouseMoveEvent(float x, float y) : position{x,y} {}
+        explicit inline MouseMoveEvent(float x, float y) : position{ x, y } {}
 
     public:
         [[nodiscard]] inline float getX() const { return position.x; }
@@ -46,7 +46,7 @@ namespace nauq {
         glm::vec2 offset;
 
     public:
-        explicit inline MouseScrollEvent(float x, float y) : offset{x,y} {}
+        explicit inline MouseScrollEvent(float x, float y) : offset{ x, y } {}
 
     public:
         [[nodiscard]] inline float getXOffset() const { return offset.x; }

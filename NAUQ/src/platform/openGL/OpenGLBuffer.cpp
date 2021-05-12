@@ -8,7 +8,7 @@
 
 namespace nauq {
 
-    OpenGLVertexBuffer::OpenGLVertexBuffer(std::size_t size)
+    OpenGLVertexBuffer::OpenGLVertexBuffer(size_t size)
     {
         NQ_PROFILE_FUNCTION();
 
@@ -17,7 +17,7 @@ namespace nauq {
         glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
     }
 
-    nauq::OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, std::size_t size)
+    nauq::OpenGLVertexBuffer::OpenGLVertexBuffer(float* vertices, size_t size)
     {
         NQ_PROFILE_FUNCTION();
 
@@ -47,7 +47,7 @@ namespace nauq {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
-    void OpenGLVertexBuffer::setData(const void* data, std::uint32_t size)
+    void OpenGLVertexBuffer::setData(const void* data, uint32_t size)
     {
         glBindBuffer(GL_ARRAY_BUFFER, rendererID);
         glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
@@ -57,14 +57,14 @@ namespace nauq {
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-    OpenGLIndexBuffer::OpenGLIndexBuffer(std::uint32_t* vertices, std::size_t count) :
+    OpenGLIndexBuffer::OpenGLIndexBuffer(uint32_t* vertices, size_t count) :
         count(count)
     {
         NQ_PROFILE_FUNCTION();
 
         glCreateBuffers(1, &rendererID);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, rendererID);
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(std::uint32_t), vertices, GL_STATIC_DRAW);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), vertices, GL_STATIC_DRAW);
     }
 
     OpenGLIndexBuffer::~OpenGLIndexBuffer()

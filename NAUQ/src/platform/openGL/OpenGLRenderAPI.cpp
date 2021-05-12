@@ -18,7 +18,7 @@ namespace nauq {
         glEnable(GL_DEPTH_TEST);
     }
 
-    void OpenGLRenderAPI::setViewport(std::uint32_t x, std::uint32_t y, std::uint32_t w, std::uint32_t h)
+    void OpenGLRenderAPI::setViewport(uint32_t x, uint32_t y, uint32_t w, uint32_t h)
     {
         glViewport(x, y, w, h);
     }
@@ -33,7 +33,7 @@ namespace nauq {
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     }
 
-    void OpenGLRenderAPI::drawIndexed(const Ref<VertexArray>& vertexArray, std::uint32_t count)
+    void OpenGLRenderAPI::drawIndexed(const Ref<VertexArray>& vertexArray, uint32_t count)
     {
         std::uint32_t indexCount = count == 0 ? vertexArray->getIndexBuffer()->getCount() : count;
         glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);

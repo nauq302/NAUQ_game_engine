@@ -12,7 +12,7 @@
 
 namespace nauq {
 
-    OpenGLTexture2D::OpenGLTexture2D(std::uint32_t width, std::uint32_t height) :
+    OpenGLTexture2D::OpenGLTexture2D(uint32_t width, uint32_t height) :
         path("No no no"),
         width(width),
         height(height),
@@ -89,7 +89,7 @@ namespace nauq {
 
     }
 
-    void OpenGLTexture2D::setData(void* data, std::size_t size)
+    void OpenGLTexture2D::setData(void* data, size_t size)
     {
         NQ_PROFILE_FUNCTION();
 
@@ -98,7 +98,7 @@ namespace nauq {
         glTextureSubImage2D(rendererID, 0, 0, 0, width, height, dataFormat, GL_UNSIGNED_BYTE, data);
     }
 
-    void OpenGLTexture2D::bind(std::uint32_t slot) const
+    void OpenGLTexture2D::bind(uint32_t slot) const
     {
         NQ_PROFILE_FUNCTION();
 

@@ -34,12 +34,12 @@ namespace nauq {
      * @param size
      * @return
      */
-    Ref<VertexBuffer> VertexBuffer::create(float* vertices, std::size_t size)
+    Ref<VertexBuffer> VertexBuffer::create(float* vertices, size_t size)
     {
         return createVB(vertices, size);
     }
 
-    Ref<VertexBuffer> VertexBuffer::create(std::size_t size)
+    Ref<VertexBuffer> VertexBuffer::create(size_t size)
     {
         return createVB(size);
     }
@@ -50,7 +50,7 @@ namespace nauq {
      * @param size
      * @return
      */
-    Ref<IndexBuffer> IndexBuffer::create(std::uint32_t* indices, std::size_t count)
+    Ref<IndexBuffer> IndexBuffer::create(uint32_t* indices, size_t count)
     {
         switch (Renderer::getAPI()) {
             case RendererAPI::API::NONE:

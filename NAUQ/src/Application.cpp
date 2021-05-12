@@ -17,7 +17,7 @@ namespace nauq {
     /**
      *
      */
-    Application::Application() :
+    Application::Application(const std::string& name) :
         lastFrameTime(0.f),
         running(true),
         minimized(false)
@@ -27,7 +27,7 @@ namespace nauq {
         NQ_CORE_ASSERT(instance == nullptr, "Application already exists");
         instance = this;
 
-        window = Window::create();
+        window = Window::create(WindowProps(name));
         window->setEventCallback(NQ_BIND_EVENT_FN(Application::onEvent));
 
         Renderer::init();

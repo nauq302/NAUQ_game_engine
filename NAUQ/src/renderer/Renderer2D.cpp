@@ -30,11 +30,11 @@ namespace nauq {
     };
 
     struct Data {
-        static constexpr std::uint32_t maxQuads = 1024;
-        static constexpr std::uint32_t maxVertices = maxQuads * 4;
-        static constexpr std::uint32_t maxIndices = maxQuads * 6;
+        static constexpr uint32_t maxQuads = 1024;
+        static constexpr uint32_t maxVertices = maxQuads * 4;
+        static constexpr uint32_t maxIndices = maxQuads * 6;
 
-        static constexpr std::uint32_t maxTextureSlots = 32;
+        static constexpr uint32_t maxTextureSlots = 32;
         static constexpr glm::vec4 quadVertexPositions[4] = {
                 { -0.5f, -0.5f, 0.0f, 1.0f },
                 {  0.5f, -0.5f, 0.0f, 1.0f },
@@ -47,12 +47,12 @@ namespace nauq {
         Ref<VertexBuffer> quadVertexBuffer;
         Ref<Texture2D> whiteTexture;
 
-        std::uint32_t quadIndexCount = 0;
+        uint32_t quadIndexCount = 0;
         QuadVertex* quadVertexBufferBase = nullptr;
         QuadVertex* quadVertexBufferPtr = nullptr;
 
         std::array<Ref<Texture2D>, maxTextureSlots> texSlots = { nullptr, };
-        std::uint32_t texSlotIndex = 1; /// 0 - white texture
+        uint32_t texSlotIndex = 1; /// 0 - white texture
 
         Renderer2D::Statistics stats;
     };
@@ -81,10 +81,10 @@ namespace nauq {
 
         data->quadVertexBufferBase = new QuadVertex[Data::maxVertices];
 
-        auto* quadIndices = new std::uint32_t[Data::maxIndices];
+        auto* quadIndices = new uint32_t[Data::maxIndices];
 
-        std::uint32_t offset = 0;
-        for (std::uint32_t i = 0; i < Data::maxIndices; i += 6) {
+        uint32_t offset = 0;
+        for (uint32_t i = 0; i < Data::maxIndices; i += 6) {
             quadIndices[i + 0] = offset + 0;
             quadIndices[i + 1] = offset + 1;
             quadIndices[i + 2] = offset + 2;
@@ -100,7 +100,7 @@ namespace nauq {
         delete[] quadIndices;
 
         data->whiteTexture = Texture2D::create(1, 1);
-        std::uint32_t whiteData = 0xffffffff;
+        uint32_t whiteData = 0xffffffff;
         data->whiteTexture->setData(&whiteData, sizeof whiteData);
 
         //data->textureShader = Shader::create("../../Sandbox/shaders/Texture.glsl");
@@ -151,7 +151,7 @@ namespace nauq {
     {
         NQ_PROFILE_FUNCTION();
 
-        std::uint32_t dataSize = (data->quadVertexBufferPtr - data->quadVertexBufferBase) * sizeof(QuadVertex);
+        uint32_t dataSize = (data->quadVertexBufferPtr - data->quadVertexBufferBase) * sizeof(QuadVertex);
         data->quadVertexBuffer->setData(data->quadVertexBufferBase, dataSize);
 
         flush();
@@ -166,7 +166,7 @@ namespace nauq {
             return; /// Nothing to draw
         }
 
-        for (std::uint32_t i = 0; i < data->texSlotIndex; ++i) {
+        for (uint32_t i = 0; i < data->texSlotIndex; ++i) {
             data->texSlots[i]->bind(i);
         }
         RenderCommand::drawIndexed(data->vertexArray, data->quadIndexCount);
@@ -250,7 +250,7 @@ namespace nauq {
 
         float textureIndex = 0.0f;
 
-        for (std::uint32_t i = 1; i < data->texSlotIndex; ++i) {
+        for (uint32_t i = 1; i < data->texSlotIndex; ++i) {
             if (*data->texSlots[i] == *texture) {
                 textureIndex = static_cast<float>(i);
                 break;
@@ -296,7 +296,7 @@ namespace nauq {
         }
 
         glm::mat4 transform = glm::translate(eyes, pos)
-                * glm::rotate(eyes, radians, { 0.0f, 0.0f, 1.0f})
+                * glm::rotate(eyes, radians, { 0.0f, 0.0f, 1.0f })
                 * glm::scale(eyes, { size.x, size.y, 1.0f });
 
         setData(transform, color, whole, 0.0f);
@@ -337,7 +337,7 @@ namespace nauq {
 
         float textureIndex = 0.0f;
 
-        for (std::uint32_t i = 1; i < data->texSlotIndex; ++i) {
+        for (uint32_t i = 1; i < data->texSlotIndex; ++i) {
             if (*data->texSlots[i] == *texture) {
                 textureIndex = static_cast<float>(i);
                 break;
@@ -390,7 +390,7 @@ namespace nauq {
 
         float textureIndex = 0.0f;
 
-        for (std::uint32_t i = 1; i < data->texSlotIndex; ++i) {
+        for (uint32_t i = 1; i < data->texSlotIndex; ++i) {
             if (*data->texSlots[i] == *subTexture->getTexture()) {
                 textureIndex = static_cast<float>(i);
                 break;

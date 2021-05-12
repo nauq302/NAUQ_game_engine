@@ -5,7 +5,7 @@
 #ifndef NAUQ_GAME_ENGINE_LAYER_HPP
 #define NAUQ_GAME_ENGINE_LAYER_HPP
 
-#include "Core.hpp"
+#include "nauq/core/Core.hpp"
 #include "events/Event.hpp"
 
 #include <string>

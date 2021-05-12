@@ -6,6 +6,7 @@
 #define NAUQ_GAME_ENGINE_CORE_HPP
 
 #include <memory>
+#include <glm/glm.hpp>
 
 #ifdef NAUQ_PLATFORM_WINDOWS
     #ifdef NAUQ_BUILD_DLL
@@ -39,7 +40,7 @@ namespace nauq {
      * @param c
      * @return
      */
-    constexpr unsigned char bit(unsigned char index) { return 1u << index; }
+    constexpr uint8_t bit(uint8_t index) { return 1u << index; }
 
     template <typename T>
     using Ref = std::shared_ptr<T>;
@@ -52,6 +53,9 @@ namespace nauq {
 
     template <typename T, typename... Ts>
     constexpr Scope<T> createScope(Ts&&... ts) { return std::make_unique<T>(std::forward<Ts>(ts)...); }
+
+    constexpr glm::mat4 eyes = glm::mat4(1.0f);
+    constexpr glm::vec4 white = glm::vec4(1.0f);
 }
 
 

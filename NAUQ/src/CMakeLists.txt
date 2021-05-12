@@ -40,8 +40,11 @@ add_library(
         platform/openGL/OpenGLRenderAPI.cpp
         platform/openGL/OpenGLShader.cpp
         platform/openGL/OpenGLTexture.cpp
-
-        debug/Instrumentor.cpp ../include/nauq/debug/Instrumentor.hpp renderer/SubTexture2D.cpp ../include/nauq/renderer/SubTexture2D.hpp)
+        debug/Instrumentor.cpp
+        renderer/SubTexture2D.cpp
+        renderer/Framebuffer.cpp
+        platform/openGL/OpenGLFramebuffer.cpp
+)
 
 target_include_directories(
         ${NAUQ_LIB}

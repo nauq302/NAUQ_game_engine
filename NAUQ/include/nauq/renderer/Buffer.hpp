@@ -21,7 +21,7 @@ namespace nauq {
         BOOL
     };
 
-    constexpr std::uint32_t shaderDataTypeSize(ShaderDataType type)
+    constexpr uint32_t shaderDataTypeSize(ShaderDataType type)
     {
         switch (type) {
             case ShaderDataType::FLOAT: return sizeof(float);
@@ -55,8 +55,8 @@ namespace nauq {
     {
         std::string name;
         ShaderDataType type;
-        std::uint32_t offset;
-        std::uint32_t size;
+        uint32_t offset;
+        uint32_t size;
         bool normalized;
 
         BufferElement(ShaderDataType type, std::string name, bool normalized = false) :
@@ -97,7 +97,7 @@ namespace nauq {
     {
     private:
         std::vector<BufferElement> elements;
-        std::uint32_t stride = 0;
+        uint32_t stride = 0;
 
     public:
 
@@ -109,7 +109,7 @@ namespace nauq {
 
     public:
         [[nodiscard]] inline const std::vector<BufferElement>& getElements() const { return elements; }
-        [[nodiscard]] inline std::uint32_t getStride() const { return stride; }
+        [[nodiscard]] inline uint32_t getStride() const { return stride; }
 
         inline std::vector<BufferElement>::iterator begin() { return elements.begin(); }
         inline std::vector<BufferElement>::iterator end() { return elements.end(); }
@@ -136,15 +136,15 @@ namespace nauq {
         virtual ~VertexBuffer() = default;
 
     public:
-        static Ref<VertexBuffer> create(std::size_t size);
-        static Ref<VertexBuffer> create(float* vertices, std::size_t size);
+        static Ref<VertexBuffer> create(size_t size);
+        static Ref<VertexBuffer> create(float* vertices, size_t size);
 
         virtual void bind() const = 0;
         virtual void unbind() const = 0;
 
         virtual const BufferLayout& getLayout() = 0;
         virtual void setLayout(const BufferLayout& layout) = 0;
-        virtual void setData(const void* data, std::uint32_t size) = 0;
+        virtual void setData(const void* data, uint32_t size) = 0;
     };
 
     /**
@@ -156,12 +156,12 @@ namespace nauq {
         virtual ~IndexBuffer() = default;
 
     public:
-        static Ref<IndexBuffer> create(std::uint32_t* indices, std::size_t count);
+        static Ref<IndexBuffer> create(uint32_t* indices, size_t count);
 
         virtual void bind() const = 0;
         virtual void unbind() const = 0;
 
-        [[nodiscard]] virtual std::size_t getCount() const = 0;
+        [[nodiscard]] virtual size_t getCount() const = 0;
 
     private:
     };

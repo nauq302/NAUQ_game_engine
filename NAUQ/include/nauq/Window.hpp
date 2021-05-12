@@ -6,7 +6,7 @@
 #define NAUQ_GAME_ENGINE_WINDOW_HPP
 
 
-#include "Core.hpp"
+#include "nauq/core/Core.hpp"
 #include "events/Event.hpp"
 
 namespace nauq {
@@ -17,10 +17,10 @@ namespace nauq {
     struct WindowProps
     {
         std::string title;
-        unsigned int width;
-        unsigned int height;
+        uint32_t width;
+        uint32_t height;
 
-        explicit WindowProps(std::string title = "Nauq Engine", unsigned width = 1024, unsigned height = 768) :
+        explicit WindowProps(std::string title = "Nauq Engine", uint32_t width = 1024, uint32_t height = 768) :
                 title(std::move(title)), width(width), height(height) {}
     };
 
@@ -36,12 +36,12 @@ namespace nauq {
 
         virtual void onUpdate() = 0;
 
-        [[nodiscard]] virtual unsigned int getWidth() const = 0;
-        [[nodiscard]] virtual unsigned int getHeight() const = 0;
+        [[nodiscard]] virtual uint32_t getWidth() const = 0;
+        [[nodiscard]] virtual uint32_t getHeight() const = 0;
 
         [[nodiscard]] virtual void* getNativeWindow() const = 0;
 
-        // Window attribute
+        /// Window attribute
         virtual void setEventCallback(const EventCallbackFn& callback) = 0;
         virtual void setVSync(bool enable) = 0;
         [[nodiscard]] virtual bool isVSync() const = 0;

@@ -68,6 +68,11 @@ namespace nauq {
         calculateView();
     }
 
+    void OrthographicCameraController::onResize(float width, float height)
+    {
+        aspectRatio = width / height;
+        calculateView();
+    }
 
     void OrthographicCameraController::onEvent(Event& event)
     {
@@ -92,8 +97,7 @@ namespace nauq {
     {
         NQ_PROFILE_FUNCTION();
 
-        aspectRatio = static_cast<float>(e.getWidth()) / static_cast<float>(e.getHeight());
-        calculateView();
+        onResize(static_cast<float>(e.getWidth()), static_cast<float>(e.getHeight()));
         return false;
     }
 
@@ -102,5 +106,7 @@ namespace nauq {
         bounds = { -aspectRatio * zoomLevel, aspectRatio * zoomLevel, -zoomLevel, zoomLevel };
         camera.setProjection(bounds.left, bounds.right, bounds.bottom, bounds.top);
     }
+
+
 
 }

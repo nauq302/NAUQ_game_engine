@@ -5,7 +5,7 @@
 #ifndef NAUQ_GAME_ENGINE_SHADER_HPP
 #define NAUQ_GAME_ENGINE_SHADER_HPP
 
-#include "nauq/Core.hpp"
+#include "nauq/core/Core.hpp"
 
 #include <glm/glm.hpp>
 

@@ -35,7 +35,7 @@ namespace nauq {
         bool minimized;
 
     public:
-        explicit Application();
+        explicit Application(const std::string& name = "Nauq Engine");
         virtual ~Application();
 
     public:
@@ -46,6 +46,8 @@ namespace nauq {
 
         void pushLayer(Layer* layer);
         void pushOverlay(Layer* layer);
+
+        inline void close() { running = false; }
 
         inline Window& getWindow() { return *window; }
 

@@ -6,7 +6,7 @@
 #ifndef NAUQ_GAME_ENGINE_NAUQ_HPP
 #define NAUQ_GAME_ENGINE_NAUQ_HPP
 
-#include "nauq/Core.hpp"
+#include "nauq/core/Core.hpp"
 #include "nauq/Log.hpp"
 
 #include "nauq/core/TimeStep.hpp"
@@ -37,7 +37,9 @@
 #include "nauq/renderer/OrthographicCamera.hpp"
 #include "nauq/renderer/RenderCommand.hpp"
 #include "nauq/renderer/Texture.hpp"
+#include "nauq/renderer/SubTexture2D.hpp"
 #include "nauq/renderer/Renderer2D.hpp"
+#include "nauq/renderer/Framebuffer.hpp"
 
 #include "nauq/debug/Instrumentor.hpp"
 

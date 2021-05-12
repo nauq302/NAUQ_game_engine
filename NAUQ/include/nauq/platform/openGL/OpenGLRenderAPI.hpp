@@ -14,13 +14,13 @@ namespace nauq {
     {
     public:
         void init() override;
-        void setViewport(std::uint32_t x, std::uint32_t y, std::uint32_t w, std::uint32_t h) override;
+        void setViewport(uint32_t x, uint32_t y, uint32_t w, uint32_t h) override;
 
         void setClearColor(const glm::vec4& color) override;
 
         void clear() override;
 
-        void drawIndexed(const Ref<VertexArray>& vertexArray, std::uint32_t count) override;
+        void drawIndexed(const Ref<VertexArray>& vertexArray, uint32_t count) override;
     };
 }
 

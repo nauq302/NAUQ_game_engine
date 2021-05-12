@@ -13,10 +13,6 @@ namespace nauq {
 
     class Renderer2D
     {
-    private:
-        static constexpr glm::mat4 eyes = glm::mat4(1.0f);
-        static constexpr glm::vec4 white = glm::vec4(1.0f);
-
     public:
         static void init();
         static void shutDown();
@@ -42,11 +38,11 @@ namespace nauq {
 
         struct Statistics
         {
-            std::uint32_t drawCalls = 0;
-            std::uint32_t quadCount = 0;
+            uint32_t drawCalls = 0;
+            uint32_t quadCount = 0;
 
-            [[nodiscard]] inline std::uint32_t getTotalQuadVertexCount() const { return quadCount * 4; }
-            [[nodiscard]] inline std::uint32_t getTotalQuadIndexCount() const { return quadCount * 6; }
+            [[nodiscard]] inline uint32_t getTotalQuadVertexCount() const { return quadCount * 4; }
+            [[nodiscard]] inline uint32_t getTotalQuadIndexCount() const { return quadCount * 6; }
         };
 
         static Statistics getStats();

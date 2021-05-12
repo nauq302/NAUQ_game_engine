@@ -30,11 +30,11 @@ namespace nauq {
         SrcMap shaderSources = preprocess(source);
         compile(shaderSources);
 
-        std::size_t lastSlash = filepath.find_last_of("/\\");
+        size_t lastSlash = filepath.find_last_of("/\\");
         lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
 
-        std::size_t lastDot = filepath.rfind('.');
-        std::size_t count = lastDot == std::string::npos ? filepath.size() - lastSlash : lastDot - lastSlash;
+        size_t lastDot = filepath.rfind('.');
+        size_t count = lastDot == std::string::npos ? filepath.size() - lastSlash : lastDot - lastSlash;
         _name = filepath.substr(lastSlash, count);
     }
 

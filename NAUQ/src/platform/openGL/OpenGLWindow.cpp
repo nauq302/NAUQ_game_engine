@@ -109,7 +109,6 @@ namespace nauq {
             dat.height = height;
 
             WindowResizeEvent event(width, height);
-            NQ_CORE_WARN("{0}, {1}", width, height);
             dat.eventCallback(event);
         });
 

@@ -5,7 +5,7 @@
 #ifndef NAUQ_GAME_ENGINE_LOG_HPP
 #define NAUQ_GAME_ENGINE_LOG_HPP
 
-#include "Core.hpp"
+#include "nauq/core/Core.hpp"
 
 #include <spdlog/spdlog.h>
 

@@ -6,6 +6,7 @@
 #define NAUQ_GAME_ENGINE_INSTRUMENTOR_HPP
 
 #include <fstream>
+#include <chrono>
 
 namespace nauq {
 
@@ -13,7 +14,7 @@ namespace nauq {
     {
         std::string name;
         long long start, end;
-        std::uint32_t threadID;
+        uint32_t threadID;
     };
 
     struct InstrumentorSession
@@ -45,7 +46,7 @@ namespace nauq {
     {
     private:
         const char* name;
-        std::chrono::time_point<std::chrono::high_resolution_clock> start{};
+        std::chrono::time_point<std::chrono::high_resolution_clock> start;
         bool stopped;
 
     public:

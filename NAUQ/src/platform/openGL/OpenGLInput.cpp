@@ -2,41 +2,47 @@
 // Created by nauq302 on 12/08/2020.
 //
 
-#include "nauq/platform/openGL/OpenGLInput.hpp"
+#include "nauq/Input.hpp"
 
 #include "nauq/Application.hpp"
 
 namespace nauq {
 
-    Input* Input::instance = new OpenGLInput;
+    inline GLFWwindow* getWindow() { return static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow()); }
 
-    bool OpenGLInput::isKeyPressImpl(int keycode)
+    bool Input::isKeyPress(int keycode)
     {
-        auto* window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
-
-        int state = glfwGetKey(window, keycode);
+        int state = glfwGetKey(getWindow(), keycode);
 
         return state == GLFW_PRESS || state == GLFW_REPEAT;
     }
 
-    bool OpenGLInput::isMouseButtonPressImpl(int button)
+    bool Input::isMouseButtonPress(int button)
     {
-        auto* window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
-
-        int state = glfwGetMouseButton(window, button);
+        int state = glfwGetMouseButton(getWindow(), button);
 
         return state == GLFW_PRESS;
     }
 
-    glm::vec2 OpenGLInput::getMousePositionImpl()
+    glm::vec2 Input::getMousePosition()
     {
-        auto* window = static_cast<GLFWwindow*>(Application::get().getWindow().getNativeWindow());
-        double x,y;
-
-        glfwGetCursorPos(window, &x, &y);
+        double x, y;
+        glfwGetCursorPos(getWindow(), &x, &y);
         return { x, y };
     }
 
+    float Input::getMouseX()
+    {
+        double x;
+        glfwGetCursorPos(getWindow(), &x, nullptr);
+        return static_cast<float>(x);
+    }
 
+    float Input::getMouseY()
+    {
+        double y;
+        glfwGetCursorPos(getWindow(), nullptr, &y);
+        return static_cast<float>(y);
+    }
 
 }

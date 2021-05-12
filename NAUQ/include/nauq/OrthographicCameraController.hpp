@@ -51,6 +51,7 @@ namespace nauq {
         void setZoomLevel(float level);
 
         void onUpdate(TimeStep ts);
+        void onResize(float width, float height);
         void onEvent(Event& event);
 
     private:

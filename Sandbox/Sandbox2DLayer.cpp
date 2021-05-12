@@ -41,28 +41,17 @@ Sandbox2DLayer::Sandbox2DLayer() :
 
 void Sandbox2DLayer::onAttach()
 {
-//    hv = nq::Texture2D::create("../../Sandbox/res/hv.jpeg");
+    hv = nq::Texture2D::create("../../Sandbox/res/hv.jpeg");
     sheet = nq::Texture2D::create("../../Sandbox/res/urban_sheet.png");
     test = nq::SubTexture2D::createFromCoords(sheet, { 0, 12 }, ceilSize, { 1, 3 });
 
     textures.insert({'w', nq::SubTexture2D::createFromCoords(sheet, { 9, 10 }, ceilSize, { 1, 1 })});
     textures.insert({'d', nq::SubTexture2D::createFromCoords(sheet, { 1, 13 }, ceilSize, { 1, 1 })});
 
-    props.colorBegin = { 254 / 255.f, 212 / 255.f, 123 / 255.f, 1.0f };
-    props.colorEnd   = { 254 / 255.f, 109 / 255.f,  41 / 255.f, 1.0f };
+    nq::FramebufferSpecification spec;
+    spec.width = 1024;
+    spec.height = 786;
 
-    props.sizeBegin = 0.5f;
-    props.sizeEnd   = 0.0f;
-    props.sizeVariation = 0.3f;
-
-    props.lifeTime = 1.0f;
-
-    props.velocity = { 0.0f, 0.0f };
-    props.velocityVariation = { 3.0f, 3.0f };
-
-    props.position = { 0.0f, 0.0f };
-
-    cameraController.setZoomLevel(4);
 }
 
 void Sandbox2DLayer::onDetach()
@@ -81,7 +70,6 @@ void Sandbox2DLayer::onUpdate(nq::TimeStep ts)
 
     {
         NQ_PROFILE_SCOPE("render prep");
-        /// Render
         nq::RenderCommand::setClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         nq::RenderCommand::clear();
     }
@@ -120,26 +108,6 @@ void Sandbox2DLayer::onUpdate(nq::TimeStep ts)
         }
     }
     nq::Renderer2D::endScene();
-
-    if (nq::Input::isMouseButtonPress(NQ_MOUSE_BUTTON_LEFT)) {
-        glm::vec2 m = nq::Input::getMousePosition();
-        auto& window = nq::Application::get().getWindow();
-        auto width = static_cast<float>(window.getWidth());
-        auto height = static_cast<float>(window.getHeight());
-
-        auto bounds = cameraController.getBound();
-        glm::vec3 pos = cameraController.getCamera().getPosition();
-
-        m.x = (m.x / width - 0.5f) * bounds.getWidth();
-        m.y = (0.5f - m.y / height) * bounds.getHeight();
-
-        props.position = { m.x + pos.x, m.y + pos.y };
-
-        particleSystem.emit(props);
-    }
-
-    particleSystem.onUpdate(ts);
-    particleSystem.onRender(cameraController.getCamera());
 }
 
 void Sandbox2DLayer::onImGuiRender()
@@ -156,6 +124,8 @@ void Sandbox2DLayer::onImGuiRender()
     ImGui::Text("Indices: %d", s.getTotalQuadIndexCount());
 
     ImGui::ColorEdit4("Square Color", glm::value_ptr(sqColor));
+    std::uint32_t id = hv->getRendererID();
+    ImGui::Image(reinterpret_cast<void*>(id), { 64.0f, 64.0f }, { 0, 1 }, { 1, 0 });
 
     ImGui::End();
 }

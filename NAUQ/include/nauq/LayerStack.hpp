@@ -35,7 +35,7 @@ namespace nauq {
         void popLayer(Layer* layer);
         void popOverlay(Layer* overlay);
 
-        inline std::size_t size() { return layers.size(); }
+        inline size_t size() { return layers.size(); }
         inline Iterator begin() { return layers.begin(); }
         inline Iterator end() { return layers.end(); }
         inline ReverseIterator rbegin() { return layers.rbegin(); }

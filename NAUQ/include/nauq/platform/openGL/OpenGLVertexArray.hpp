@@ -13,7 +13,7 @@ namespace nauq {
             public VertexArray
     {
     private:
-        std::uint32_t rendererID = 0;
+        uint32_t rendererID = 0;
         std::vector<Ref<VertexBuffer>> vertexBuffers;
         Ref<IndexBuffer> indexBuffer;
     public:

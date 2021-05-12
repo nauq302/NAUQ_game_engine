@@ -11,7 +11,7 @@
 
 namespace nauq {
 
-    Ref<Texture2D> Texture2D::create(std::uint32_t width, std::uint32_t height)
+    Ref<Texture2D> Texture2D::create(uint32_t width, uint32_t height)
     {
         switch (Renderer::getAPI()) {
             case RendererAPI::API::NONE:    NQ_CORE_ASSERT(false, "RendererAPI::NONE is currently not supported");
