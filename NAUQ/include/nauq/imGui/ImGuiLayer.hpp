@@ -20,6 +20,7 @@ namespace nauq {
     {
     private:
         float time;
+        bool blockEvents;
 
     public:
         explicit ImGuiLayer();
@@ -29,8 +30,12 @@ namespace nauq {
         void onAttach() override;
         void onDetach() override;
 
+        void onEvent(Event& event) override;
+
         void begin();
         void end();
+
+        inline void setBlockEvents(bool block) { blockEvents = block; }
 
     private:
         static inline ImGuiIO& getIO() { return ImGui::GetIO(); }

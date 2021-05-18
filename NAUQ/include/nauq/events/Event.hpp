@@ -69,10 +69,12 @@ namespace nauq {
     {
         friend class EventDispatcher;
 
-    protected:
+    public:
         bool handled = false;
 
     public:
+        virtual ~Event() = default;
+
         [[nodiscard]] virtual EventType getEventType() const = 0;
         [[nodiscard]] virtual const char* getName() const = 0;
         [[nodiscard]] virtual unsigned int getCategoryFlag() const = 0;

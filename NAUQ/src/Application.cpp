@@ -11,7 +11,6 @@
 #include "nauq/renderer/Renderer.hpp"
 #include "nauq/debug/Instrumentor.hpp"
 
-
 namespace nauq {
 
     /**

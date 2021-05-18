@@ -21,6 +21,15 @@ namespace nauq {
 
     ImGuiLayer::~ImGuiLayer() = default;
 
+    void ImGuiLayer::onEvent(Event& event)
+    {
+        if (blockEvents) {
+            ImGuiIO& io = getIO();
+            event.handled |= event.isInCategory(EVENT_CATEGORY_MOUSE) & io.WantCaptureMouse;
+            event.handled |= event.isInCategory(EVENT_CATEGORY_KEYBOARD) & io.WantCaptureKeyboard;
+        }
+    }
+
     void ImGuiLayer::onAttach()
     {
         NQ_PROFILE_FUNCTION();
@@ -76,11 +85,9 @@ namespace nauq {
         NQ_PROFILE_FUNCTION();
 
         ImGuiIO& io = getIO();
-        Application& app = Application::get();
+        Window& window = Application::get().getWindow();
 
-        io.DisplaySize = ImVec2(
-                static_cast<float>(app.getWindow().getWidth()),
-                static_cast<float>(app.getWindow().getHeight()));
+        io.DisplaySize = ImVec2(static_cast<float>(window.getWidth()), static_cast<float>(window.getHeight()));
 
         /// Rendering
         ImGui::Render();

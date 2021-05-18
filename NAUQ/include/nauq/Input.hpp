@@ -10,8 +10,6 @@
 
 namespace nauq {
 
-
-
     class NAUQ_API Input
     {
 

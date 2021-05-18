@@ -44,7 +44,8 @@ add_library(
         renderer/SubTexture2D.cpp
         renderer/Framebuffer.cpp
         platform/openGL/OpenGLFramebuffer.cpp
-)
+        scene/Scene.cpp
+        scene/Entity.cpp ../include/nauq/renderer/Camera.hpp scene/SceneCamera.cpp ../include/nauq/scene/SceneCamera.hpp)
 
 target_include_directories(
         ${NAUQ_LIB}
@@ -52,7 +53,10 @@ target_include_directories(
         ${NAUQ_INCLUDE_DIR}
         ${DEPEDENCE_IMGUI}
         ${DEPEDENCE_STB}
+        ${ENTT_INCLUDE_DIR}
 )
+
+message(STATUS ${ENTT_INCLUDE_DIR})
 
 
 #target_link_directories(

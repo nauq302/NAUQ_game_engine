@@ -71,6 +71,7 @@ namespace nauq {
     void OrthographicCameraController::onResize(float width, float height)
     {
         aspectRatio = width / height;
+//        glViewport(0, 0, width, height);
         calculateView();
     }
 

@@ -34,12 +34,17 @@
 #include "nauq/renderer/Renderer.hpp"
 #include "nauq/renderer/Buffer.hpp"
 #include "nauq/renderer/VertexArray.hpp"
+#include "nauq/renderer/Camera.hpp"
 #include "nauq/renderer/OrthographicCamera.hpp"
 #include "nauq/renderer/RenderCommand.hpp"
 #include "nauq/renderer/Texture.hpp"
 #include "nauq/renderer/SubTexture2D.hpp"
 #include "nauq/renderer/Renderer2D.hpp"
 #include "nauq/renderer/Framebuffer.hpp"
+
+#include "nauq/scene/Component.hpp"
+#include "nauq/scene/Scene.hpp"
+#include "nauq/scene/Entity.hpp"
 
 #include "nauq/debug/Instrumentor.hpp"
 

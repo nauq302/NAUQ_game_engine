@@ -76,7 +76,7 @@ namespace nauq {
         NQ_CORE_INFO("Create window {0} ({1}, {2})", props.title, props.width, props.height);
 
         if (glfw_windowCount == 0) {
-            // TODO: glfwTerminate on system shutdown
+            /// TODO: glfwTerminate on system shutdown
             int success = glfwInit();
             NQ_CORE_ASSERT(success, "Could not initialize GLFW");
 

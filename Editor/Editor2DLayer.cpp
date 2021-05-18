@@ -19,13 +19,23 @@ namespace nauq {
 
     void Editor2DLayer::onAttach()
     {
-        hv = Texture2D::create("../../Sandbox/res/hv.jpeg");
+        hv = Texture2D::create("../../Editor/res/moon.png");
 
         FramebufferSpecification spec;
         spec.width = 1024;
         spec.height = 786;
         framebuffer = Framebuffer::create(spec);
 
+        activeScene = createRef<Scene>();
+
+        square = activeScene->createEntity();
+        square.add<SpriteRendererComponent>(glm::vec4{ 0.2f, 0.3f, 0.8f, 1.0f });
+
+        camEntity = activeScene->createEntity("Camera");
+        camEntity.add<CameraComponent>();
+
+        camEntity2 = activeScene->createEntity("Camera 2");
+        camEntity2.add<CameraComponent>();
     }
 
     void Editor2DLayer::onDetach()
@@ -37,44 +47,24 @@ namespace nauq {
     {
         NQ_PROFILE_FUNCTION();
 
+        FramebufferSpecification spec = framebuffer->getSpecification();
+        if (viewportSize.x > 0.0f && viewportSize.y > 0.0f && (spec.width != viewportSize.x || spec.height != viewportSize.y)) {
+            framebuffer->resize(static_cast<uint32_t>(viewportSize.x), static_cast<uint32_t>(viewportSize.y));
+            cameraController.onResize(viewportSize.x, viewportSize.y);
+            activeScene->onViewportResize(static_cast<uint32_t>(viewportSize.x), static_cast<uint32_t>(viewportSize.y));
+        }
+
         /// Update
-        cameraController.onUpdate(ts);
+        if (viewportFocused)
+            cameraController.onUpdate(ts);
 
+        /// Render
         nauq::Renderer2D::resetStats();
+        framebuffer->bind();
+        RenderCommand::setClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+        RenderCommand::clear();
 
-        {
-            NQ_PROFILE_SCOPE("render prep");
-            /// Render
-            framebuffer->bind();
-            RenderCommand::setClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-            RenderCommand::clear();
-        }
-
-
-        {
-            NQ_PROFILE_SCOPE("render draw");
-            Renderer2D::beginScene(cameraController.getCamera());
-    
-            static float t = 0.0f;
-            t += ts;
-    
-            Renderer2D::drawQuad({ -1.0f,  0.0f }, { 0.8f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
-            Renderer2D::drawQuad({  0.5f, -0.5f }, { 0.5f, 1.0f }, { 0.2f, 0.8f, 0.3f, 1.0f });
-    
-            Renderer2D::drawRotatedQuad({  0.5f, -0.5f }, { 0.5f, 1.0f }, 1.5f * t, { 0.3f, 0.8f, 0.4f, 1.0f });
-    
-            Renderer2D::drawRotatedQuad({ 0.0f, 0.0f, 0.1f }, { 1.0f, 1.0f }, 1.0f * t, hv);
-    
-            Renderer2D::drawQuad({ 0.0f, 0.0f, -0.1f }, { 10.0f, 10.0f }, hv, 10.0f);
-    
-            for (float y = -0.5f; y < 5.0f; y += 0.5f) {
-                for (float x = -0.5f; x < 5.0f; x += 0.5f) {
-                    glm::vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f, 0.9f };
-                    nauq::Renderer2D::drawQuad({ x, y }, { 0.45f, 0.45f }, color);
-                }
-            }
-            Renderer2D::endScene();
-        }
+        activeScene->onUpdate(ts);
 
         framebuffer->unbind();
 
@@ -112,7 +102,7 @@ namespace nauq {
                 window_flags |= ImGuiWindowFlags_NoBackground;
 
             if (!opt_padding)
-                ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, {0.0f, 0.0f});
+                ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 0.0f, 0.0f });
             ImGui::Begin("DockSpace Demo", &dockSpaceOpen, window_flags);
             if (!opt_padding)
                 ImGui::PopStyleVar();
@@ -124,17 +114,15 @@ namespace nauq {
             ImGuiIO& io = ImGui::GetIO();
             if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable) {
                 ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-                ImGui::DockSpace(dockspace_id, {0.0f, 0.0f}, dockspace_flags);
+                ImGui::DockSpace(dockspace_id, { 0.0f, 0.0f }, dockspace_flags);
             }
 
             if (ImGui::BeginMenuBar()) {
                 if (ImGui::BeginMenu("File")) {
-
-                    if (ImGui::MenuItem("Exit")) Application::get().close();
-
+                    if (ImGui::MenuItem("Exit"))
+                        Application::get().close();
                     ImGui::EndMenu();
                 }
-
                 ImGui::EndMenuBar();
             }
 
@@ -148,25 +136,34 @@ namespace nauq {
                 ImGui::Text("Vertices: %d", s.getTotalQuadVertexCount());
                 ImGui::Text("Indices: %d", s.getTotalQuadIndexCount());
 
+                auto& sqColor = square.get<SpriteRendererComponent>().color;
                 ImGui::ColorEdit4("Square Color", glm::value_ptr(sqColor));
+
+                ImGui::DragFloat3("Camera Transform", glm::value_ptr(camEntity.get<TransformComponent>().transform[3]));
+
+                if (ImGui::Checkbox("Camera 1", &primaryCam)) {
+                    camEntity.get<CameraComponent>().primary = primaryCam;
+                    camEntity2.get<CameraComponent>().primary = !primaryCam;
+                }
 
                 ImGui::End();
 
                 ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 0, 0 });
                 ImGui::Begin("Viewport");
+                viewportFocused = ImGui::IsWindowFocused();
+                viewportHovered = ImGui::IsWindowHovered();
+                bool allowEvent = viewportFocused && viewportHovered;
+                Application::get().getImGuiLayer()->setBlockEvents(!allowEvent);
+
                 ImVec2 viewportPanelSize = ImGui::GetContentRegionAvail();
-                if (viewportSize != *reinterpret_cast<glm::vec2*>(&viewportPanelSize)) {
-                    viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
-                    framebuffer->resize(static_cast<uint32_t>(viewportSize.x), static_cast<uint32_t>(viewportSize.y));
-                    cameraController.onResize(viewportSize.x, viewportSize.y);
-                }
+                viewportSize = { viewportPanelSize.x, viewportPanelSize.y };
+
 
                 uint32_t id = framebuffer->getColorAttachment();
                 ImGui::Image(reinterpret_cast<void*>(id), viewportPanelSize, { 0, 1 }, { 1, 0 });
                 ImGui::End();
                 ImGui::PopStyleVar();
             }
-
 
             ImGui::End();
 
@@ -180,6 +177,7 @@ namespace nauq {
             ImGui::Text("Vertices: %d", s.getTotalQuadVertexCount());
             ImGui::Text("Indices: %d", s.getTotalQuadIndexCount());
 
+            auto& sqColor = square.get<SpriteRendererComponent>().color;
             ImGui::ColorEdit4("Square Color", glm::value_ptr(sqColor));
             std::uint32_t id = hv->getRendererID();
             ImGui::Image(reinterpret_cast<void*>(id), { 64.0f, 64.0f }, { 0, 1 }, { 1, 0 });

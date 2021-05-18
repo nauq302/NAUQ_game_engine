@@ -9,6 +9,8 @@
 
 namespace nauq {
 
+    constexpr uint32_t maxFramebufferSize = 8192;
+
     OpenGLFramebuffer::OpenGLFramebuffer(const FramebufferSpecification& spec) :
             spec(spec)
     {
@@ -65,6 +67,11 @@ namespace nauq {
 
     void OpenGLFramebuffer::resize(uint32_t width, uint32_t height)
     {
+        if (width == 0 || height == 0 || width >= maxFramebufferSize || height >= maxFramebufferSize) {
+            NQ_CORE_WARN("Attempted to resize framebuffer to {0} - {1}", width, height);
+            return;
+        }
+
         spec.width = width;
         spec.height = height;
         invalidate();

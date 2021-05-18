@@ -144,6 +144,20 @@ namespace nauq {
         data->texSlotIndex = 1;
     }
 
+    void Renderer2D::beginScene(const Camera& camera, const glm::mat4& transform)
+    {
+        NQ_PROFILE_FUNCTION();
+
+        glm::mat4 viewProject = camera.getProjection() * glm::inverse(transform);
+        data->textureShader->bind();
+        data->textureShader->set("u_vp", viewProject);
+
+        data->quadIndexCount = 0;
+        data->quadVertexBufferPtr = data->quadVertexBufferBase;
+
+        data->texSlotIndex = 1;
+    }
+
     /**
      *
      */
@@ -219,6 +233,22 @@ namespace nauq {
 
     /**
      *
+     * @param transform
+     * @param color
+     */
+    void Renderer2D::drawQuad(const glm::mat4& transform, const glm::vec4& color)
+    {
+        NQ_PROFILE_FUNCTION();
+
+        if (data->quadIndexCount >= Data::maxIndices) {
+            flushAndReset();
+        }
+
+        setData(transform, color, whole, 0.0f);
+    }
+
+    /**
+     *
      * @param pos
      * @param size
      * @param texture
@@ -264,6 +294,40 @@ namespace nauq {
         }
 
         glm::mat4 transform = glm::translate(eyes, pos) * glm::scale(eyes, { size.x, size.y, 1.0f });
+
+        setData(transform, tintColor, whole, textureIndex, tilingFactor);
+    }
+
+    /**
+     *
+     * @param transform
+     * @param texture
+     * @param tilingFactor
+     * @param tintColor
+     */
+    void Renderer2D::drawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, float tilingFactor,
+                              const glm::vec4& tintColor)
+    {
+        NQ_PROFILE_FUNCTION();
+
+        if (data->quadIndexCount >= Data::maxIndices) {
+            flushAndReset();
+        }
+
+        float textureIndex = 0.0f;
+
+        for (uint32_t i = 1; i < data->texSlotIndex; ++i) {
+            if (*data->texSlots[i] == *texture) {
+                textureIndex = static_cast<float>(i);
+                break;
+            }
+        }
+
+        if (textureIndex == 0.0f) {
+            textureIndex = static_cast<float>(data->texSlotIndex);
+            data->texSlots[data->texSlotIndex] = texture;
+            ++data->texSlotIndex;
+        }
 
         setData(transform, tintColor, whole, textureIndex, tilingFactor);
     }
@@ -408,6 +472,8 @@ namespace nauq {
         setData(transform, tintColor, subTexture->getCoords(), textureIndex, tilingFactor);
     }
 
+
+
     const char* vs = R"vs(
         #version 330 core
         #extension GL_ARB_separate_shader_objects: enable
@@ -498,6 +564,8 @@ namespace nauq {
     {
         return data->stats;
     }
+
+
 
 
 }

@@ -50,7 +50,7 @@ namespace nauq {
         inline void close() { running = false; }
 
         inline Window& getWindow() { return *window; }
-
+        inline ImGuiLayer* getImGuiLayer() { return imGuiLayer; }
     private:
         bool onWindowClosed(WindowCloseEvent& event);
         bool onWindowResized(WindowResizeEvent& event);

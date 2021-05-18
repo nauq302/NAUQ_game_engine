@@ -59,7 +59,7 @@ namespace nauq {
     };
 }
 
-#define NQ_PROFILE 0
+#define NQ_PROFILE 1
 
 #if NQ_PROFILE
     #define NQ_PROFILE_BEGIN_SESSION(name, filepath) ::nauq::Instrumentor::get().begin(name, filepath)

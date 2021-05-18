@@ -8,6 +8,7 @@
 #include <nauq.hpp>
 
 namespace nauq {
+
     class Editor2DLayer :
             public Layer
     {
@@ -22,10 +23,22 @@ namespace nauq {
         Ref<SubTexture2D> test;
         Ref<Framebuffer> framebuffer;
 
-        glm::vec4 sqColor = { 0.2f, 0.3f, 0.8f, 1.0f };
+        Ref<Scene> activeScene;
+
+        Entity square;
+        Entity camEntity;
+        Entity camEntity2;
+
+        bool primaryCam = false;
+
         glm::vec2 viewportSize = { 0, 0 };
 
-        std::unordered_map<char,Ref<SubTexture2D>> textures;
+        std::unordered_map<char, Ref<SubTexture2D>> textures;
+
+        bool viewportFocused = false;
+        bool viewportHovered = false;
+
+
 
     public:
         explicit Editor2DLayer();
