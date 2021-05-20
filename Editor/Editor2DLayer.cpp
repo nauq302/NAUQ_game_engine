@@ -36,6 +36,42 @@ namespace nauq {
 
         camEntity2 = activeScene->createEntity("Camera 2");
         camEntity2.add<CameraComponent>();
+
+
+
+        class CameraController :
+                public ScriptableEntity
+        {
+        public:
+            void onCreate() override
+            {
+                get<TransformComponent>().transform[3][0] = rand() % 10;
+            }
+
+            void onDestroy() override
+            {
+
+            }
+
+            void onUpdate(TimeStep ts) override
+            {
+                auto& transform = get<TransformComponent>().transform;
+                float speed = 5.0f;
+
+                if (Input::isKeyPress(NQ_KEY_A))
+                    transform[3][0] -= speed * ts;
+                if (Input::isKeyPress(NQ_KEY_D))
+                    transform[3][0] += speed * ts;
+                if (Input::isKeyPress(NQ_KEY_W))
+                    transform[3][1] += speed * ts;
+                if (Input::isKeyPress(NQ_KEY_S))
+                    transform[3][1] -= speed * ts;
+
+            }
+        };
+
+        camEntity.add<NativeScriptComponent>().bind<CameraController>();
+        camEntity2.add<NativeScriptComponent>().bind<CameraController>();
     }
 
     void Editor2DLayer::onDetach()

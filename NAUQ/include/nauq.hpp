@@ -45,6 +45,7 @@
 #include "nauq/scene/Component.hpp"
 #include "nauq/scene/Scene.hpp"
 #include "nauq/scene/Entity.hpp"
+#include "nauq/scene/ScriptableEntity.hpp"
 
 #include "nauq/debug/Instrumentor.hpp"
 

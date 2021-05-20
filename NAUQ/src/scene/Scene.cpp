@@ -7,6 +7,7 @@
 #include "nauq/core/Core.hpp"
 #include "nauq/scene/Component.hpp"
 #include "nauq/scene/Entity.hpp"
+#include "nauq/scene/ScriptableEntity.hpp"
 #include "nauq/renderer/Renderer2D.hpp"
 
 
@@ -29,11 +30,23 @@ namespace nauq {
 
     void Scene::onUpdate(TimeStep ts)
     {
+        {
+            registry.view<NativeScriptComponent>().each([=, this](auto e, NativeScriptComponent& nsc) {
+                if (!nsc.instance) {
+                    nsc.instance = nsc.instantiateFn();
+                    nsc.instance->entity = Entity(e, this);
+                    nsc.instance->onCreate();
+                }
+
+                nsc.instance->onUpdate(ts);
+            });
+        }
+
         Camera* mainCamera = nullptr;
         glm::mat4* transform = nullptr;
         auto view = registry.view<TransformComponent, CameraComponent>();
         for (auto e : view) {
-            const auto& [tr, c] = view.get<TransformComponent,CameraComponent>(e);
+            auto [tr, c] = view.get<TransformComponent,CameraComponent>(e);
             if (c.primary) {
                 mainCamera = &c.camera;
                 transform = &tr.transform;
@@ -76,6 +89,7 @@ namespace nauq {
         entity.add<TransformComponent>();
         entity.add<TagComponent>(name.empty() ? "Unnamed Entity" : name);
 
+        std::string_view t;
         return entity;
     }
 

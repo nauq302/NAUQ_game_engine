@@ -6,9 +6,12 @@
 #define NAUQ_GAME_ENGINE_COMPONENT_HPP
 
 #include "nauq/core/Core.hpp"
+#include "nauq/core/TimeStep.hpp"
 #include "SceneCamera.hpp"
 
+
 #include <concepts>
+#include <functional>
 
 namespace nauq {
 
@@ -58,6 +61,25 @@ namespace nauq {
         bool fixedAspectRatio = false;
 
         inline CameraComponent() = default;
+    };
+
+    class ScriptableEntity;
+
+    struct NativeScriptComponent : Component
+    {
+
+        ScriptableEntity* instance = nullptr;
+
+        ScriptableEntity* (*instantiateFn)() = nullptr;
+        void (*destroyFn)(NativeScriptComponent*) = nullptr;
+
+        template<typename T>
+        void bind()
+        {
+            instantiateFn = []() { return static_cast<ScriptableEntity*>(new T); };
+            destroyFn = [](NativeScriptComponent* nsc) { delete nsc->instance; nsc->instance = nullptr; };
+        }
+
     };
 
     template <typename C>

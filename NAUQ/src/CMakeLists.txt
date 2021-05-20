@@ -45,7 +45,7 @@ add_library(
         renderer/Framebuffer.cpp
         platform/openGL/OpenGLFramebuffer.cpp
         scene/Scene.cpp
-        scene/Entity.cpp ../include/nauq/renderer/Camera.hpp scene/SceneCamera.cpp ../include/nauq/scene/SceneCamera.hpp)
+        scene/Entity.cpp ../include/nauq/renderer/Camera.hpp scene/SceneCamera.cpp ../include/nauq/scene/SceneCamera.hpp ../include/nauq/scene/ScriptableEntity.hpp)
 
 target_include_directories(
         ${NAUQ_LIB}

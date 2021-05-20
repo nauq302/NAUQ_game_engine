@@ -22,8 +22,8 @@ namespace nauq {
         Scene* scene;
 
     public:
-        explicit Entity() = default;
-        explicit Entity(entt::entity entityHandle, Scene* scene) : entity(entityHandle), scene(scene) {}
+        explicit inline Entity() : entity(entt::null), scene(nullptr) {}
+        explicit inline Entity(entt::entity entityHandle, Scene* scene) : entity(entityHandle), scene(scene) {}
 
     public:
         template<ComponentType C>
@@ -54,6 +54,9 @@ namespace nauq {
             scene->registry.template remove<C>(entity);
         }
     };
+
+
+
 }
 
 
