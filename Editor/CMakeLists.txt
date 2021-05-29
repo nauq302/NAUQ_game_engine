@@ -5,7 +5,7 @@ project(NAUQ_game_engine_Editor)
 find_package(spdlog CONFIG REQUIRED)
 
 
-add_executable(editor EditorApp.cpp Editor2DLayer.cpp)
+add_executable(editor EditorApp.cpp Editor2DLayer.cpp panel/SceneHierarchyPanel.cpp panel/SceneHierarchyPanel.hpp)
 
 
 target_include_directories(editor PRIVATE ${NAUQ_INCLUDE_DIR})

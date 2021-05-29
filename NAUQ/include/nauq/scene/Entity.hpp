@@ -26,6 +26,10 @@ namespace nauq {
         explicit inline Entity(entt::entity entityHandle, Scene* scene) : entity(entityHandle), scene(scene) {}
 
     public:
+        [[nodiscard]] inline uint32_t id() const { return static_cast<uint32_t>(entity); }
+        inline operator bool() const { return entity != entt::null; }
+        bool operator ==(const Entity& other) const { return entity == other.entity && scene == other.scene; }
+
         template<ComponentType C>
         C& get() {
             NQ_CORE_ASSERT(has<C>(), "Entity does NOT have component");

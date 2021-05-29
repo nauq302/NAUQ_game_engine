@@ -28,7 +28,7 @@ namespace nauq {
 
         activeScene = createRef<Scene>();
 
-        square = activeScene->createEntity();
+        square = activeScene->createEntity("Square");
         square.add<SpriteRendererComponent>(glm::vec4{ 0.2f, 0.3f, 0.8f, 1.0f });
 
         camEntity = activeScene->createEntity("Camera");
@@ -72,6 +72,8 @@ namespace nauq {
 
         camEntity.add<NativeScriptComponent>().bind<CameraController>();
         camEntity2.add<NativeScriptComponent>().bind<CameraController>();
+
+        sceneHierarchyPanel.setContext(activeScene);
     }
 
     void Editor2DLayer::onDetach()
@@ -103,7 +105,6 @@ namespace nauq {
         activeScene->onUpdate(ts);
 
         framebuffer->unbind();
-
     }
 
     void Editor2DLayer::onImGuiRender()
@@ -161,6 +162,8 @@ namespace nauq {
                 }
                 ImGui::EndMenuBar();
             }
+
+            sceneHierarchyPanel.onImGuiRender();
 
             {
                 ImGui::Begin("Setting");

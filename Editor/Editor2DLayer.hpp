@@ -7,6 +7,8 @@
 
 #include <nauq.hpp>
 
+#include "panel/SceneHierarchyPanel.hpp"
+
 namespace nauq {
 
     class Editor2DLayer :
@@ -38,7 +40,7 @@ namespace nauq {
         bool viewportFocused = false;
         bool viewportHovered = false;
 
-
+        SceneHierarchyPanel sceneHierarchyPanel;
 
     public:
         explicit Editor2DLayer();
