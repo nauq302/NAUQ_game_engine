@@ -28,6 +28,7 @@ namespace nauq {
         Ref<Scene> activeScene;
 
         Entity square;
+        Entity redSquare;
         Entity camEntity;
         Entity camEntity2;
 

@@ -16,7 +16,7 @@ namespace nauq {
     {
     private:
         Ref<Scene> context;
-        Entity selected;
+        Entity selectedEntity;
 
     public:
         explicit SceneHierarchyPanel() = default;

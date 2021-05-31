@@ -31,7 +31,10 @@ namespace nauq {
         square = activeScene->createEntity("Square");
         square.add<SpriteRendererComponent>(glm::vec4{ 0.2f, 0.3f, 0.8f, 1.0f });
 
-        camEntity = activeScene->createEntity("Camera");
+        redSquare = activeScene->createEntity("RedSquare");
+        redSquare.add<SpriteRendererComponent>(glm::vec4{ 0.8f, 0.3f, 0.2f, 1.0f });
+
+        camEntity = activeScene->createEntity("Camera 1");
         camEntity.add<CameraComponent>();
 
         camEntity2 = activeScene->createEntity("Camera 2");
@@ -178,7 +181,7 @@ namespace nauq {
                 auto& sqColor = square.get<SpriteRendererComponent>().color;
                 ImGui::ColorEdit4("Square Color", glm::value_ptr(sqColor));
 
-                ImGui::DragFloat3("Camera Transform", glm::value_ptr(camEntity.get<TransformComponent>().transform[3]));
+                ImGui::DragFloat3("Camera Transform", glm::value_ptr(camEntity2.get<TransformComponent>().transform[3]));
 
                 if (ImGui::Checkbox("Camera 1", &primaryCam)) {
                     camEntity.get<CameraComponent>().primary = primaryCam;

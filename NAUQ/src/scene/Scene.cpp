@@ -46,7 +46,7 @@ namespace nauq {
         glm::mat4* transform = nullptr;
         auto view = registry.view<TransformComponent, CameraComponent>();
         for (auto e : view) {
-            auto [tr, c] = view.get<TransformComponent,CameraComponent>(e);
+            auto [tr, c] = view.get<TransformComponent, CameraComponent>(e);
             if (c.primary) {
                 mainCamera = &c.camera;
                 transform = &tr.transform;
@@ -89,7 +89,6 @@ namespace nauq {
         entity.add<TransformComponent>();
         entity.add<TagComponent>(name.empty() ? "Unnamed Entity" : name);
 
-        std::string_view t;
         return entity;
     }
 
