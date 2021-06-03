@@ -9,6 +9,7 @@
 #include "nauq/core/TimeStep.hpp"
 #include "SceneCamera.hpp"
 
+#include <glm/gtc/matrix_transform.hpp>
 
 #include <concepts>
 #include <functional>
@@ -30,14 +31,24 @@ namespace nauq {
     struct TransformComponent : Component
     {
     public:
-        glm::mat4 transform = eyes;
+        glm::vec3 translate = { 0, 0, 0 };
+        glm::vec3 rotation = { 0, 0, 0};
+        glm::vec3 scale = { 1, 1, 1 };
 
     public:
         inline TransformComponent() = default;
-        inline TransformComponent(const glm::mat4& trans) : transform(trans) {}
+//        inline TransformComponent(const glm::mat4& trans) : transform(trans) {}
 
-        inline operator glm::mat4&() { return transform; }
-        inline operator const glm::mat4&() const { return transform; }
+//        inline operator glm::mat4&() { return transform; }
+//        inline operator const glm::mat4&() const { return transform; }
+        [[nodiscard]] glm::mat4 getTransform() const
+        {
+            glm::mat4 rot = glm::rotate(eyes, rotation.x, { 1, 0, 0 })
+                          * glm::rotate(eyes, rotation.y, { 0, 1, 0 })
+                          * glm::rotate(eyes, rotation.z, { 0, 0, 1 });
+            return glm::translate(eyes, translate) * rot * glm::scale(eyes, scale);
+        }
+
     };
 
 
@@ -83,7 +94,7 @@ namespace nauq {
     };
 
     template <typename C>
-    concept ComponentType = std::derived_from<C, Component>;
+    concept ComponentType = std::derived_from<C, Component> && !std::same_as<C,Component>;
 }
 
 

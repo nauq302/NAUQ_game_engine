@@ -20,8 +20,8 @@ namespace nauq {
         uint32_t width;
         uint32_t height;
 
-        explicit WindowProps(std::string title = "Nauq Engine", uint32_t width = 1024, uint32_t height = 768) :
-                title(std::move(title)), width(width), height(height) {}
+        explicit WindowProps(const std::string& title = "Nauq Engine", uint32_t width = 1600, uint32_t height = 900) :
+                title(title), width(width), height(height) {}
     };
 
     /**

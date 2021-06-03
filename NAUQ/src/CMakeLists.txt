@@ -45,7 +45,10 @@ add_library(
         renderer/Framebuffer.cpp
         platform/openGL/OpenGLFramebuffer.cpp
         scene/Scene.cpp
-        scene/Entity.cpp ../include/nauq/renderer/Camera.hpp scene/SceneCamera.cpp ../include/nauq/scene/SceneCamera.hpp ../include/nauq/scene/ScriptableEntity.hpp)
+        scene/Entity.cpp
+        scene/SceneCamera.cpp
+)
+
 
 target_include_directories(
         ${NAUQ_LIB}
@@ -100,6 +103,8 @@ target_compile_options(
 )
 
 
+
+
 if (MSVC)
     target_compile_definitions(
             ${NAUQ_LIB}
@@ -109,3 +114,10 @@ if (MSVC)
             NAUQ_BUILD_DLL
     )
 endif ()
+
+add_custom_command(
+        TARGET ${NAUQ_LIB} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${NAUQ_SOURCE_DIR}/res/fonts/open_sans
+        ${NAUQ_BINARY_DIR}/res/fonts
+)

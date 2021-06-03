@@ -52,10 +52,10 @@ namespace nauq {
             projection = glm::ortho(left, right, bottom, top, orthographicNear, orthographicFar);
         }
 
-        for (int i = 0; i < 4; ++i) {
-            NQ_INFO("{} , {}, {}, {}", projection[i][0], projection[i][1] , projection[i][2] , projection[i][3]);
-        }
-        NQ_INFO("");
+//        for (int i = 0; i < 4; ++i) {
+//            NQ_INFO("{} , {}, {}, {}", projection[i][0], projection[i][1] , projection[i][2] , projection[i][3]);
+//        }
+//        NQ_INFO("");
     }
 
 

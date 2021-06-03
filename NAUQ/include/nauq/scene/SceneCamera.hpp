@@ -45,7 +45,7 @@ namespace nauq {
         static constexpr const char* projectionType_s(ProjectionType type) { return PROJECTION_TYPES_S[static_cast<int>(type)]; }
 
         [[nodiscard]] inline ProjectionType getProjectionType() const { return projectionType; }
-        inline void setProjectionType(ProjectionType type) { projectionType = type; }
+        inline void setProjectionType(ProjectionType type) { projectionType = type; calculateProjection(); }
         [[nodiscard]] inline const char* getProjectionType_s() const { return projectionType_s(projectionType); }
 
 

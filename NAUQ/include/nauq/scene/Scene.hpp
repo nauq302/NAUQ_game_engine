@@ -8,6 +8,7 @@
 //#include "entt.hpp"
 
 #include "nauq/core/TimeStep.hpp"
+#include "Component.hpp"
 #include "../../../dependence/entt/include/entt.hpp"
 
 namespace nauq {
@@ -32,8 +33,14 @@ namespace nauq {
         void onViewportResize(uint32_t width, uint32_t height);
 
         Entity createEntity(const std::string& name = "");
+        void destroyEntity(Entity entity);
 
         inline entt::registry& reg() { return registry; }
+
+    private:
+        template<ComponentType C>
+        void onAddComponent(Entity entity, C& component);
+
     };
 }
 

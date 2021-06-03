@@ -19,7 +19,7 @@ namespace nauq {
 
     void Editor2DLayer::onAttach()
     {
-        hv = Texture2D::create("../../Editor/res/moon.png");
+//        hv = Texture2D::create("../../Editor/res/moon.png");
 
         FramebufferSpecification spec;
         spec.width = 1024;
@@ -48,7 +48,7 @@ namespace nauq {
         public:
             void onCreate() override
             {
-                get<TransformComponent>().transform[3][0] = rand() % 10;
+                get<TransformComponent>().translate.x = rand() % 10 -5.0f;
             }
 
             void onDestroy() override
@@ -58,17 +58,17 @@ namespace nauq {
 
             void onUpdate(TimeStep ts) override
             {
-                auto& transform = get<TransformComponent>().transform;
+                auto& tc = get<TransformComponent>();
                 float speed = 5.0f;
 
                 if (Input::isKeyPress(NQ_KEY_A))
-                    transform[3][0] -= speed * ts;
+                    tc.translate.x -= speed * ts;
                 if (Input::isKeyPress(NQ_KEY_D))
-                    transform[3][0] += speed * ts;
+                    tc.translate.x += speed * ts;
                 if (Input::isKeyPress(NQ_KEY_W))
-                    transform[3][1] += speed * ts;
+                    tc.translate.y += speed * ts;
                 if (Input::isKeyPress(NQ_KEY_S))
-                    transform[3][1] -= speed * ts;
+                    tc.translate.y -= speed * ts;
 
             }
         };
@@ -128,8 +128,8 @@ namespace nauq {
                 ImGui::SetNextWindowPos(viewport->GetWorkPos());
                 ImGui::SetNextWindowSize(viewport->GetWorkSize());
                 ImGui::SetNextWindowViewport(viewport->ID);
-                ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
-                ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+                ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.f);
+                ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.f);
                 window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize |
                                 ImGuiWindowFlags_NoMove;
                 window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
@@ -142,7 +142,7 @@ namespace nauq {
                 window_flags |= ImGuiWindowFlags_NoBackground;
 
             if (!opt_padding)
-                ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 0.0f, 0.0f });
+                ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, { 0.f, 0.f });
             ImGui::Begin("DockSpace Demo", &dockSpaceOpen, window_flags);
             if (!opt_padding)
                 ImGui::PopStyleVar();
@@ -150,12 +150,16 @@ namespace nauq {
             if (opt_fullscreen)
                 ImGui::PopStyleVar(2);
 
-            // DockSpace
+            /// DockSpace
             ImGuiIO& io = ImGui::GetIO();
+            ImGuiStyle& style = ImGui::GetStyle();
+            float winMinSize = style.WindowMinSize.x;
+            style.WindowMinSize.x = 370.f;
             if (io.ConfigFlags & ImGuiConfigFlags_DockingEnable) {
                 ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
-                ImGui::DockSpace(dockspace_id, { 0.0f, 0.0f }, dockspace_flags);
+                ImGui::DockSpace(dockspace_id, { 0.f, 0.f }, dockspace_flags);
             }
+            style.WindowMinSize.x = winMinSize;
 
             if (ImGui::BeginMenuBar()) {
                 if (ImGui::BeginMenu("File")) {
@@ -169,7 +173,7 @@ namespace nauq {
             sceneHierarchyPanel.onImGuiRender();
 
             {
-                ImGui::Begin("Setting");
+                ImGui::Begin("Stats");
 
                 auto s = nauq::Renderer2D::getStats();
                 ImGui::Text("Renderer 2D stats:");
@@ -177,16 +181,6 @@ namespace nauq {
                 ImGui::Text("Quads: %d", s.quadCount);
                 ImGui::Text("Vertices: %d", s.getTotalQuadVertexCount());
                 ImGui::Text("Indices: %d", s.getTotalQuadIndexCount());
-
-                auto& sqColor = square.get<SpriteRendererComponent>().color;
-                ImGui::ColorEdit4("Square Color", glm::value_ptr(sqColor));
-
-                ImGui::DragFloat3("Camera Transform", glm::value_ptr(camEntity2.get<TransformComponent>().transform[3]));
-
-                if (ImGui::Checkbox("Camera 1", &primaryCam)) {
-                    camEntity.get<CameraComponent>().primary = primaryCam;
-                    camEntity2.get<CameraComponent>().primary = !primaryCam;
-                }
 
                 ImGui::End();
 

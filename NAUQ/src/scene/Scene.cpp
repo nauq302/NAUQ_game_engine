@@ -31,7 +31,7 @@ namespace nauq {
     void Scene::onUpdate(TimeStep ts)
     {
         {
-            registry.view<NativeScriptComponent>().each([=, this](auto e, NativeScriptComponent& nsc) {
+            registry.view<NativeScriptComponent>().each([=, this](entt::entity e, NativeScriptComponent& nsc) {
                 if (!nsc.instance) {
                     nsc.instance = nsc.instantiateFn();
                     nsc.instance->entity = Entity(e, this);
@@ -43,25 +43,24 @@ namespace nauq {
         }
 
         Camera* mainCamera = nullptr;
-        glm::mat4* transform = nullptr;
+        glm::mat4 camTransform;
         auto view = registry.view<TransformComponent, CameraComponent>();
         for (auto e : view) {
             auto [tr, c] = view.get<TransformComponent, CameraComponent>(e);
             if (c.primary) {
                 mainCamera = &c.camera;
-                transform = &tr.transform;
+                camTransform = tr.getTransform();
                 break;
             }
         }
 
         if (mainCamera) {
-            Renderer2D::beginScene(*mainCamera, *transform);
-
+            Renderer2D::beginScene(*mainCamera, camTransform);
             auto group = registry.group<TransformComponent>(entt::get<SpriteRendererComponent>);
 
             for (auto e : group) {
                 const auto& [trans, sprite] = group.get<TransformComponent, SpriteRendererComponent>(e);
-                Renderer2D::drawQuad(trans, sprite);
+                Renderer2D::drawQuad(trans.getTransform(), sprite);
             }
 
             Renderer2D::endScene();
@@ -77,9 +76,8 @@ namespace nauq {
         for (auto e : view) {
             auto& cc = view.get<CameraComponent>(e);
 
-            if (!cc.fixedAspectRatio) {
+            if (!cc.fixedAspectRatio)
                 cc.camera.setViewportSize(width, height);
-            }
         }
     }
 
@@ -92,5 +90,44 @@ namespace nauq {
         return entity;
     }
 
+    void Scene::destroyEntity(Entity entity)
+    {
+        registry.destroy(entity);
+    }
 
+    template<ComponentType C>
+    void Scene::onAddComponent(Entity entity, C& component)
+    {
+
+    }
+
+    template<>
+    void Scene::onAddComponent(Entity entity, TagComponent& component)
+    {
+
+    }
+
+    template<>
+    void Scene::onAddComponent(Entity entity, TransformComponent& component)
+    {
+
+    }
+
+    template<>
+    void Scene::onAddComponent(Entity entity, CameraComponent& component)
+    {
+        component.camera.setViewportSize(viewportWidth, viewportHeight);
+    }
+
+    template<>
+    void Scene::onAddComponent(Entity entity, SpriteRendererComponent& component)
+    {
+
+    }
+
+    template<>
+    void Scene::onAddComponent(Entity entity, NativeScriptComponent& component)
+    {
+
+    }
 }

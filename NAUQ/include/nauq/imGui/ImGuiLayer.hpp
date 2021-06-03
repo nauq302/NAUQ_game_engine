@@ -35,6 +35,8 @@ namespace nauq {
         void begin();
         void end();
 
+        static void setDarkThemeColors();
+
         inline void setBlockEvents(bool block) { blockEvents = block; }
 
     private:

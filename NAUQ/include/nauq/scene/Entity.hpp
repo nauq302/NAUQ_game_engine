@@ -26,8 +26,11 @@ namespace nauq {
         explicit inline Entity(entt::entity entityHandle, Scene* scene) : entity(entityHandle), scene(scene) {}
 
     public:
+        static inline Entity null() { return Entity(); }
+
         [[nodiscard]] inline uint32_t id() const { return static_cast<uint32_t>(entity); }
         inline operator bool() const { return entity != entt::null; }
+        inline operator entt::entity() const { return entity; }
         bool operator ==(const Entity& other) const { return entity == other.entity && scene == other.scene; }
 
         template<ComponentType C>
@@ -48,7 +51,9 @@ namespace nauq {
         template<ComponentType C, typename... Ts>
         C& add(Ts&&... args) {
             NQ_CORE_ASSERT(!has<C>(), "Entity ALREADY has component");
-            return scene->registry.template emplace<C>(entity, std::forward<Ts>(args)...);
+            C& c = scene->registry.template emplace<C>(entity, std::forward<Ts>(args)...);
+            scene->template onAddComponent<C>(*this, c);
+            return c;
         }
 
         template<ComponentType C>
