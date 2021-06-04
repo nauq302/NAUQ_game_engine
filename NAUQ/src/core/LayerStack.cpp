@@ -2,7 +2,7 @@
 // Created by nauq302 on 09/08/2020.
 //
 
-#include "nauq/LayerStack.hpp"
+#include "nauq/core/LayerStack.hpp"
 
 namespace nauq {
 

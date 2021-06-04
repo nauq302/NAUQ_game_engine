@@ -5,7 +5,7 @@
 #ifndef NAUQ_GAME_ENGINE_ENTITY_HPP
 #define NAUQ_GAME_ENGINE_ENTITY_HPP
 
-#include "nauq/Log.hpp"
+#include "nauq/core/Log.hpp"
 #include "nauq/scene/Component.hpp"
 #include "nauq/scene/Scene.hpp"
 #include "../../../dependence/entt/include/entt.hpp"

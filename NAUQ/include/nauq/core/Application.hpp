@@ -7,8 +7,8 @@
 
 #include "Window.hpp"
 #include "LayerStack.hpp"
-#include "imGui/ImGuiLayer.hpp"
-#include "events/ApplicationEvent.hpp"
+#include "nauq/imGui/ImGuiLayer.hpp"
+#include "nauq/events/ApplicationEvent.hpp"
 #include "nauq/renderer/Shader.hpp"
 #include "nauq/renderer/Buffer.hpp"
 #include "nauq/renderer/VertexArray.hpp"

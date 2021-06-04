@@ -3,10 +3,10 @@
 //
 
 #include <nauq/debug/Instrumentor.hpp>
-#include "nauq/OrthographicCameraController.hpp"
+#include "nauq/renderer/OrthographicCameraController.hpp"
 
-#include "nauq/Input.hpp"
-#include "nauq/KeyCodes.hpp"
+#include "nauq/core/Input.hpp"
+#include "nauq/core/KeyCodes.hpp"
 
 namespace nauq {
 

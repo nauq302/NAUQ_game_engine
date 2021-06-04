@@ -7,7 +7,7 @@
 
 #include "nauq/renderer/Camera.hpp"
 
-#include "nauq/Log.hpp"
+#include "nauq/core/Log.hpp"
 #include <array>
 
 namespace nauq {

@@ -2,9 +2,9 @@
 // Created by nauq302 on 12/08/2020.
 //
 
-#include "nauq/Input.hpp"
+#include "nauq/core/Input.hpp"
 
-#include "nauq/Application.hpp"
+#include "nauq/core/Application.hpp"
 
 namespace nauq {
 

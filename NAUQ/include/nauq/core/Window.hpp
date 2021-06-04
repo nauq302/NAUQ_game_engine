@@ -7,7 +7,7 @@
 
 
 #include "nauq/core/Core.hpp"
-#include "events/Event.hpp"
+#include "nauq/events/Event.hpp"
 
 namespace nauq {
 

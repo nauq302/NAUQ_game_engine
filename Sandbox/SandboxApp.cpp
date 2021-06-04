@@ -7,7 +7,7 @@
 
 #include <string_view>
 
-#include <nauq/EntryPoint.hpp>
+#include <nauq/core/EntryPoint.hpp>
 #include "Sandbox2DLayer.hpp"
 
 namespace nq = nauq;

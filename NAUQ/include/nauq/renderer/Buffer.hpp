@@ -5,7 +5,7 @@
 #ifndef NAUQ_GAME_ENGINE_BUFFER_HPP
 #define NAUQ_GAME_ENGINE_BUFFER_HPP
 
-#include "nauq/Log.hpp"
+#include "nauq/core/Log.hpp"
 #include <cstddef>
 #include <cstdint>
 #include <utility>

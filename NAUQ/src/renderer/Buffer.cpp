@@ -2,7 +2,7 @@
 // Created by nauq302 on 14/10/2020.
 //
 
-#include "nauq/Log.hpp"
+#include "nauq/core/Log.hpp"
 #include "nauq/renderer/Buffer.hpp"
 #include "nauq/renderer/Renderer.hpp"
 

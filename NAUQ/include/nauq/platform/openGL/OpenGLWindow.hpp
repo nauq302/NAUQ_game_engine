@@ -5,7 +5,7 @@
 #ifndef NAUQ_GAME_ENGINE_OPENGLWINDOW_HPP
 #define NAUQ_GAME_ENGINE_OPENGLWINDOW_HPP
 
-#include "nauq/Window.hpp"
+#include "nauq/core/Window.hpp"
 #include "nauq/renderer/GraphicsContext.hpp"
 #include "GLFW/glfw3.h"
 
@@ -31,7 +31,7 @@ namespace nauq {
 
         GLFWwindow* window;
         WindowData data;
-        GraphicsContext* context;
+        GraphicsContext* context = nullptr;
 
     public:
         explicit OpenGLWindow(const WindowProps& props);

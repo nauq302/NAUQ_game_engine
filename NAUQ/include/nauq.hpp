@@ -7,7 +7,7 @@
 #define NAUQ_GAME_ENGINE_NAUQ_HPP
 
 #include "nauq/core/Core.hpp"
-#include "nauq/Log.hpp"
+#include "nauq/core/Log.hpp"
 
 #include "nauq/core/TimeStep.hpp"
 
@@ -16,15 +16,15 @@
 #include "nauq/events/KeyEvent.hpp"
 #include "nauq/events/MouseEvent.hpp"
 
-#include "nauq/KeyCodes.hpp"
-#include "nauq/MouseButtonCodes.hpp"
+#include "nauq/core/KeyCodes.hpp"
+#include "nauq/core/MouseButtonCodes.hpp"
 
-#include "nauq/Input.hpp"
-#include "nauq/Window.hpp"
-#include "nauq/OrthographicCameraController.hpp"
+#include "nauq/core/Input.hpp"
+#include "nauq/core/Window.hpp"
+#include "nauq/renderer/OrthographicCameraController.hpp"
 
-#include "nauq/Layer.hpp"
-#include "nauq/LayerStack.hpp"
+#include "nauq/core/Layer.hpp"
+#include "nauq/core/LayerStack.hpp"
 
 #include "nauq/imGui/ImGuiLayer.hpp"
 
@@ -49,7 +49,7 @@
 
 #include "nauq/debug/Instrumentor.hpp"
 
-#include "nauq/Application.hpp"
+#include "nauq/core/Application.hpp"
 
 
 #endif //NAUQ_GAME_ENGINE_NAUQ_HPP

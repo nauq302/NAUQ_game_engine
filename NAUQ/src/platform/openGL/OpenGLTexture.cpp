@@ -4,7 +4,7 @@
 
 #include "nauq/platform/openGL/OpenGLTexture.hpp"
 
-#include "nauq/Log.hpp"
+#include "nauq/core/Log.hpp"
 #include "nauq/debug/Instrumentor.hpp"
 
 #include "stb_image.hpp"

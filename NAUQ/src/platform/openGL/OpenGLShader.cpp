@@ -4,7 +4,7 @@
 
 #include "nauq/platform/openGL/OpenGLShader.hpp"
 
-#include "nauq/Log.hpp"
+#include "nauq/core/Log.hpp"
 
 
 

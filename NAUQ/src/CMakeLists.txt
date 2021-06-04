@@ -13,17 +13,17 @@ find_package(glm CONFIG REQUIRED)
 find_package(glad)
 #find_package(imgui CONFIG REQUIRED)
 
-set(WINDOW_SOURCE $<IF:${UNIX},OpenGLWindow.cpp,Windows_Window.cpp>)
-
 add_library(
-        ${NAUQ_LIB}
-        SHARED
-        Application.cpp
-        Log.cpp
-        LayerStack.cpp
-        OrthographicCameraController.cpp
+        ${NAUQ_LIB} SHARED
+
+        core/Application.cpp
+        core/Window.cpp
+        core/Log.cpp
+        core/LayerStack.cpp
+
         imGui/ImGuiLayer.cpp
         imGui/ImGuiBuild.cpp
+
         renderer/RenderCommand.cpp
         renderer/Renderer.cpp
         renderer/Buffer.cpp
@@ -32,7 +32,11 @@ add_library(
         renderer/OrthographicCamera.cpp
         renderer/Texture.cpp
         renderer/Renderer2D.cpp
-        platform/openGL/${WINDOW_SOURCE}
+        renderer/SubTexture2D.cpp
+        renderer/Framebuffer.cpp
+        renderer/OrthographicCameraController.cpp
+
+        platform/openGL/OpenGLWindow.cpp
         platform/openGL/OpenGLInput.cpp
         platform/openGL/OpenGLContext.cpp
         platform/openGL/OpenGLBuffer.cpp
@@ -40,10 +44,10 @@ add_library(
         platform/openGL/OpenGLRenderAPI.cpp
         platform/openGL/OpenGLShader.cpp
         platform/openGL/OpenGLTexture.cpp
-        debug/Instrumentor.cpp
-        renderer/SubTexture2D.cpp
-        renderer/Framebuffer.cpp
         platform/openGL/OpenGLFramebuffer.cpp
+
+        debug/Instrumentor.cpp
+
         scene/Scene.cpp
         scene/Entity.cpp
         scene/SceneCamera.cpp
@@ -58,9 +62,6 @@ target_include_directories(
         ${DEPEDENCE_STB}
         ${ENTT_INCLUDE_DIR}
 )
-
-message(STATUS ${ENTT_INCLUDE_DIR})
-
 
 #target_link_directories(
 #        ${NAUQ_LIB}
@@ -92,6 +93,7 @@ target_precompile_headers(
 target_compile_definitions(
         ${NAUQ_LIB}
         PUBLIC
+        NQ_PLATFORM_OPENGL
         NQ_ENABLE_ASSERTS
         GLFW_INCLUDE_NONE
 )
@@ -102,10 +104,7 @@ target_compile_options(
         -fpic
 )
 
-
-
-
-if (MSVC)
+if(MSVC)
     target_compile_definitions(
             ${NAUQ_LIB}
             PUBLIC
@@ -113,7 +112,7 @@ if (MSVC)
             PRIVATE
             NAUQ_BUILD_DLL
     )
-endif ()
+endif()
 
 add_custom_command(
         TARGET ${NAUQ_LIB} POST_BUILD

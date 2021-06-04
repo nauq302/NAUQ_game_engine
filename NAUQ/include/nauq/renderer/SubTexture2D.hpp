@@ -6,7 +6,7 @@
 #define NAUQ_GAME_ENGINE_SUBTEXTURE2D_HPP
 
 #include "nauq/renderer/Texture.hpp"
-#include "nauq/Log.hpp"
+#include "nauq/core/Log.hpp"
 #include <glm/glm.hpp>
 
 namespace nauq {

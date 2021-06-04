@@ -5,7 +5,7 @@
 #ifndef NAUQ_GAME_ENGINE_IMGUILAYER_HPP
 #define NAUQ_GAME_ENGINE_IMGUILAYER_HPP
 
-#include "nauq/Layer.hpp"
+#include "nauq/core/Layer.hpp"
 
 #include "nauq/events/ApplicationEvent.hpp"
 #include "nauq/events/KeyEvent.hpp"

@@ -3,7 +3,7 @@
 //
 
 #include "nauq/platform/openGL/OpenGLFramebuffer.hpp"
-#include "nauq/Log.hpp"
+#include "nauq/core/Log.hpp"
 
 #include <glad/glad.h>
 

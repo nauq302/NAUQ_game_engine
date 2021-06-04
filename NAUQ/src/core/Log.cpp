@@ -3,7 +3,7 @@
 //
 
 
-#include "nauq/Log.hpp"
+#include "nauq/core/Log.hpp"
 
 namespace nauq {
 

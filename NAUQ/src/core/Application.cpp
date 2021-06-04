@@ -2,12 +2,12 @@
 // Created by nauq302 on 05/08/2020.
 //
 
-#include "nauq/Application.hpp"
+#include "nauq/core/Application.hpp"
 
 #include <memory>
-#include "nauq/Log.hpp"
+#include "nauq/core/Log.hpp"
 #include "nauq/imGui/ImGuiLayer.hpp"
-#include "nauq/Input.hpp"
+#include "nauq/core/Input.hpp"
 #include "nauq/renderer/Renderer.hpp"
 #include "nauq/debug/Instrumentor.hpp"
 

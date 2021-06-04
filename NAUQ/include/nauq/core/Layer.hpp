@@ -6,7 +6,7 @@
 #define NAUQ_GAME_ENGINE_LAYER_HPP
 
 #include "nauq/core/Core.hpp"
-#include "events/Event.hpp"
+#include "nauq/events/Event.hpp"
 
 #include <string>
 #include <nauq/core/TimeStep.hpp>

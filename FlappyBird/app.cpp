@@ -3,7 +3,7 @@
 //
 
 #include <nauq.hpp>
-#include <nauq/EntryPoint.hpp>
+#include <nauq/core/EntryPoint.hpp>
 
 #include "GameLayer.hpp"
 

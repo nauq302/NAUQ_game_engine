@@ -6,7 +6,7 @@
 
 #include "glm/gtc/matrix_transform.hpp"
 
-#include "nauq/Log.hpp"
+#include "nauq/core/Log.hpp"
 
 namespace nauq {
 

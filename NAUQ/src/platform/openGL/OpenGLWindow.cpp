@@ -4,7 +4,7 @@
 
 #include "nauq/platform/openGL/OpenGLWindow.hpp"
 
-#include "nauq/Log.hpp"
+#include "nauq/core/Log.hpp"
 #include "nauq/events/ApplicationEvent.hpp"
 #include "nauq/events/KeyEvent.hpp"
 #include "nauq/events/MouseEvent.hpp"
@@ -29,15 +29,7 @@ namespace nauq {
         NQ_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
     }
 
-    /**
-     *
-     * @param props
-     * @return
-     */
-    Scope<Window> Window::create(const WindowProps& props)
-    {
-        return createScope<OpenGLWindow>(props);
-    }
+
 
     /**
      *

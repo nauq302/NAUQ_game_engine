@@ -5,7 +5,7 @@
 #include "nauq/platform/openGL/OpenGLContext.hpp"
 
 #include "nauq/debug/Instrumentor.hpp"
-#include "nauq/Log.hpp"
+#include "nauq/core/Log.hpp"
 
 namespace nauq {
 
